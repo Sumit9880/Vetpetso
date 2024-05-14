@@ -51,7 +51,7 @@ function MemberPdf({ open, setOpen, data }) {
                                     स्वखुषीने माझ्या व आमच्या संवर्गाच्या शैक्षणिक विकासार्थ, सर्वागीण कल्याणार्थ, आर्थिक विकासार्थ आणि व्यवसायिक
                                     हक्काच्या संरक्षणार्थ संघाची वर्गणी वेळोवेळी निश्चित केलेला संघटीत - सर्वंकष - सक्षम कायदेशीर प्रयत्नासाठी
                                     इतर निधी मी वेळोवेळी न चुकता संघास देत राहीन.</Text>
-                                <Text style={{ fontSize: 14 }}>&emsp;&emsp;या अर्जासोबत संघाची प्रवेश शुल्क वार्षिक वर्गणी व नियतकालीक व इतर निधी पोटी एकूण रुपये <span className="font-semibold">{1888}/-</span>
+                                <Text style={{ fontSize: 14 }}>&emsp;&emsp;या अर्जासोबत संघाची प्रवेश शुल्क वार्षिक वर्गणी व नियतकालीक व इतर निधी पोटी एकूण रुपये {1888}/-
                                     फक्त अँप द्वारे पाठवीत आहे.</Text>
                                 <Text style={{ fontSize: 14 }}>&emsp;&emsp;माझी वैयक्तिक माहिती खालीलप्रमाणे सादर करीत आहे.
                                 </Text>
@@ -85,15 +85,15 @@ function MemberPdf({ open, setOpen, data }) {
                                 <Text style={{ fontSize: 14 }}>आपला विश्वासु,</Text>
                                 <Text style={{ fontSize: 14, marginTop: 20 }}>( डॉ./श्री/श्रीमती {data.NAME})</Text>
                                 {/* </p> */}
-                                <p className="text-base leading-7 font-medium text-justify ">
+                                <Text style={{ fontSize: 14 }}>
                                     स्थळ : {data.ADDRESS} तारीख : {data.DATEOFBIRTH} <br />
                                     सभासदत्य प्रवेश अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} <br />
                                     पत्ता / दूरध्वनी क्रमांक : {data.CONCENTERS_ADDRESS} {data.CONCENTERS_PHONE_NUMBER}  <br />
-                                </p>
+                                </Text>
                                 <div className='flex justify-end items-right text-right'>
                                     <img src="./sign.jpg" alt="Member Profile" className="h-20" />
                                 </div>
-                                <p className='text-base leading-7 font-medium text-right mr-16'>सही</p>
+                                <Text className='text-base leading-7 font-medium text-right mr-16'>सही</Text>
                                 <br />
                             </View>
                         </Page>

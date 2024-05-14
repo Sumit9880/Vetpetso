@@ -3,6 +3,7 @@ import { apiPost } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import MemberDrawer from '../components/MemberDrawer';
 import Pagination from '../components/Pagination';
+import MemberPreview from '../components/MemberPreview';
 import { IoEyeOutline } from "react-icons/io5";
 
 function Members() {
@@ -14,6 +15,7 @@ function Members() {
         current: 1,
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [previwe, setPreviwe] = useState(false);
     const [member, setMember] = useState([]);
 
     useEffect(() => {
@@ -51,9 +53,14 @@ function Members() {
         setSearchTerm(searchTerm);
         setPageIndex({ pages: 1, current: 1 });
     }, []);
+
     const handleOpenDrawer = (data) => {
         setMember(data);
         setIsDrawerOpen(true);
+    };
+    const handleOpenPreview = (data) => {
+        setMember(data);
+        setPreviwe(true);
     };
 
     const handleCloseDrawer = () => {
@@ -80,6 +87,7 @@ function Members() {
                         Add Member
                     </button>
                     <MemberDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={member} />
+                    <MemberPreview isOpen={previwe} onClose={() => setPreviwe(false)} data={member} />
                 </div>
             </div>
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
@@ -103,7 +111,7 @@ function Members() {
                                 <td className="px-2 border border-gray-200 text-center">{member.EMAIL}</td>
                                 <td className={`px-2 border border-gray-200 text-center${member.IS_ACTIVE ? " text-green-500" : " text-red-500"}`}>{member.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">
-                                    <button className="py-2 text-center" onClick={() => handleOpenDrawer(member)}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                    <button className="py-2 text-center" onClick={() => handleOpenPreview(member)}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
                                 </td>
                                 <td className="px-2 border border-gray-200 text-center">
                                     <button className="py-2 text-center" onClick={() => handleOpenDrawer(member)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>

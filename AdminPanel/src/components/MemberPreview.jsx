@@ -116,7 +116,7 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
                                 </p>
                                 <p className="text-base leading-7 font-medium text-justify ">
                                     स्थळ : {data.ADDRESS} तारीख : {data.APPLICATION_DATE_TIME} <br />
-                                    सभासदत्य प्रवेश अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} <br />
+                                    सभासदत्य अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} <br />
                                     पत्ता / दूरध्वनी क्रमांक : {data.CONCENTERS_ADDRESS} {data.CONCENTERS_PHONE_NUMBER}  <br />
                                 </p>
                                 <div className='flex justify-end items-right text-right'>
