@@ -176,7 +176,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('experienceLetter/' + userData.EXPERIENCE_LETTER, 'upload/experienceLetter', 'EXPERIENCE_LETTER') }}
+                                    onPress={() => { handleModelOpen('ExperienceLetter/' + userData.EXPERIENCE_LETTER, 'upload/experienceLetter', 'EXPERIENCE_LETTER') }}
                                 />
                             </View>
                         </View>
@@ -188,7 +188,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('leavingCretificate/' + userData.LEAVING_CERTIFICATE, 'upload/leavingCretificate', 'LEAVING_CERTIFICATE') }}
+                                    onPress={() => { handleModelOpen('LeavingCretificate/' + userData.LEAVING_CERTIFICATE, 'upload/leavingCretificate', 'LEAVING_CERTIFICATE') }}
                                 />
                             </View>
                         </View>
@@ -200,7 +200,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('educationalCretificate/' + userData.EDUCATIONAL_CERTIFICATE, 'upload/educationalCretificate', 'EDUCATIONAL_CERTIFICATE') }}
+                                    onPress={() => { handleModelOpen('EducationalCretificate/' + userData.EDUCATIONAL_CERTIFICATE, 'upload/educationalCretificate', 'EDUCATIONAL_CERTIFICATE') }}
                                 />
                             </View>
                         </View>

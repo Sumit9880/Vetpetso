@@ -45,7 +45,7 @@ const Banners = () => {
         <div className="container mx-auto p-3 pb-8 bg-gray-100 rounded">
             <h1 className="text-2xl font-bold mb-8 text-start">Banner Master</h1>
             <div className="flex flex-wrap justify-center gap-6">
-                {banners.map(data => (
+                {banners?.map(data => (
                     <BannerCard key={data.ID} data={data} fetchData={fetchData} />
                 ))}
                 {banners.length < MAX_BANNERS &&

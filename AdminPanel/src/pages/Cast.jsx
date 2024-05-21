@@ -94,7 +94,7 @@ function Cast() {
                             </tr>
                         </thead>
                         <tbody>
-                            {casts.map(cast => (
+                            {casts?.map(cast => (
                                 <tr key={cast.ID} className="bg-white">
                                     <td className="px-2 border border-gray-200">{cast.ID}</td>
                                     <td className="px-2 border border-gray-200">{cast.NAME}</td>

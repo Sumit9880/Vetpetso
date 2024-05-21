@@ -161,7 +161,7 @@ const RegistrationScreen = () => {
         let errors = await validate()
         if (!errors) {
             try {
-                const res = await apiPost("api/member/create", userData);
+                const res = await apiPost("api/member/register", userData);
                 if (res && res.code === 200) {
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     const updatedUserData = { ...userData, STEP_NO: 4 };
@@ -295,7 +295,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('profilePhoto/' + userData.PROFILE_PHOTO, 'upload/profilePhoto', 'PROFILE_PHOTO') }}
+                                                onPress={() => { handleModelOpen('ProfilePhoto/' + userData.PROFILE_PHOTO, 'upload/profilePhoto', 'PROFILE_PHOTO') }}
                                             />
                                         }
                                     </View>
@@ -315,7 +315,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('adharCard/' + userData.ADHAR_CARD, 'upload/adharCard', 'ADHAR_CARD') }}
+                                                onPress={() => { handleModelOpen('AdharCard/' + userData.ADHAR_CARD, 'upload/adharCard', 'ADHAR_CARD') }}
                                             />
                                         }
                                     </View>
@@ -335,7 +335,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('panCard/' + userData.PAN_CARD, 'upload/panCard', 'PAN_CARD') }}
+                                                onPress={() => { handleModelOpen('PanCard/' + userData.PAN_CARD, 'upload/panCard', 'PAN_CARD') }}
                                             />
                                         }
                                     </View>
@@ -409,7 +409,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('experienceLetter/' + userData.EXPERIENCE_LETTER, 'upload/experienceLetter', 'EXPERIENCE_LETTER') }}
+                                                onPress={() => { handleModelOpen('ExperienceLetter/' + userData.EXPERIENCE_LETTER, 'upload/experienceLetter', 'EXPERIENCE_LETTER') }}
                                             />
                                         }
                                     </View>
@@ -429,7 +429,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('leavingCretificate/' + userData.LEAVING_CERTIFICATE, 'upload/leavingCretificate', 'LEAVING_CERTIFICATE') }}
+                                                onPress={() => { handleModelOpen('LeavingCretificate/' + userData.LEAVING_CERTIFICATE, 'upload/leavingCretificate', 'LEAVING_CERTIFICATE') }}
                                             />
                                         }
                                     </View>
@@ -449,7 +449,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('educationalCretificate/' + userData.EDUCATIONAL_CERTIFICATE, 'upload/educationalCretificate', 'EDUCATIONAL_CERTIFICATE') }}
+                                                onPress={() => { handleModelOpen('EducationalCretificate/' + userData.EDUCATIONAL_CERTIFICATE, 'upload/educationalCretificate', 'EDUCATIONAL_CERTIFICATE') }}
                                             />
                                         }
                                     </View>
@@ -569,7 +569,7 @@ const RegistrationScreen = () => {
                                                 type="Feather"
                                                 size={24}
                                                 color={'#1E90FF'}
-                                                onPress={() => { handleModelOpen('memberSign/' + userData.MEMBER_SIGN, '/upload/memberSign', 'MEMBER_SIGN') }}
+                                                onPress={() => { handleModelOpen('MemberSign/' + userData.MEMBER_SIGN, '/upload/memberSign', 'MEMBER_SIGN') }}
                                             />}
                                     </View>
                                 </View>

@@ -54,7 +54,8 @@ function reqData(req) {
         IS_ACTIVE: req.body.IS_ACTIVE ? '1' : '0',
         APPROVED_DATE: req.body.APPROVED_DATE,
         PASSWORD: req.body.PASSWORD,
-        MEMBER_SIGN: req.body.MEMBER_SIGN
+        MEMBER_SIGN: req.body.MEMBER_SIGN,
+        MEMBER_REGISTRATION_NO: req.body.MEMBER_REGISTRATION_NO
 
     }
     return data;
@@ -261,6 +262,7 @@ exports.approveReject = (req, res) => {
     var data = reqData(req);
     var ID = req.body.ID
     var systemDate = bm.getSystemDate();
+    data.APPROVED_DATE = systemDate
     var setData = "";
     var recordData = [];
     Object.keys(data).forEach(key => {
@@ -561,3 +563,101 @@ exports.changePassword = (req, res) => {
         });
     }
 }
+
+exports.register = (req, res) => {
+
+    var data = reqData(req);
+    const errors = validationResult(req);
+    data.APPLICATION_DATE_TIME = data.APPLICATION_DATE_TIME ? data.APPLICATION_DATE_TIME : bm.getSystemDate();
+    data.IS_ACTIVE = 1;
+    data.STATUS = data.STATUS ? data.STATUS : 'P';
+    if (!errors.isEmpty()) {
+        console.error(errors);
+        res.send({
+            "code": 422,
+            "message": errors.errors
+        });
+    }
+    else {
+        try {
+            dm.runDataQuery('SELECT EMAIL,MOBILE_NUMBER FROM member_master where MOBILE_NUMBER = ? or EMAIL = ?;SELECT APPLICATION_NO,MEMBER_REGISTRATION_NO FROM member_master order by APPLICATION_NO desc limit 1', [data.MOBILE_NUMBER, data.EMAIL], req, (error, results) => {
+                if (error) {
+                    console.error(error);
+                    res.send({
+                        "code": 400,
+                        "message": "Failed to save memberMaster information..."
+                    });
+                } else {
+                    if (results[0].length > 0 && results[0][0]?.ID != null) {
+                        let messange = ''
+                        if (results[0][0]?.MOBILE_NUMBER == data.MOBILE_NUMBER) {
+                            messange = 'Mobile Number already exist.'
+                        }
+                        if (results[0][0]?.EMAIL == data.EMAIL) {
+                            messange = 'Email already exist.'
+                        }
+                        res.send({
+                            "code": 300,
+                            "message": messange,
+                        });
+                    } else {
+                        data.MEMBER_REGISTRATION_NO = getNextMemberNo(results[1][0]?.MEMBER_REGISTRATION_NO ? results[1][0]?.MEMBER_REGISTRATION_NO : 'A0000');
+                        data.APPLICATION_NO = results[1][0]?.APPLICATION_NO ? results[1][0]?.APPLICATION_NO + 1 : 1;
+                        dm.runDataQuery('INSERT INTO member_master SET ?', data, req, (error, results) => {
+                            if (error) {
+                                console.error(error);
+                                res.send({
+                                    "code": 400,
+                                    "message": "Failed to save memberMaster information..."
+                                });
+                            } else {
+                                res.send({
+                                    "code": 200,
+                                    "message": "memberMaster information saved successfully...",
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            logError(req.method, req.originalUrl, error, '', '', "CatchError");
+            res.send({
+                "code": 500,
+                "message": "Something went wrong."
+            });
+        }
+    }
+}
+
+function getNextMemberNo(prevMemberNo) {
+    let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let [alphaPart, numPart] = prevMemberNo.match(/[A-Z]+|[0-9]+/g);
+
+    if (numPart === '9999') {
+        if (alphaPart === 'Z'.repeat(alphaPart.length)) {
+            alphaPart = 'A'.repeat(alphaPart.length + 1);
+        } else {
+            let carry = 1;
+            let alphaArr = alphaPart.split('').reverse();
+            alphaArr = alphaArr.map((char) => {
+                let idx = alphabet.indexOf(char) + carry;
+                if (idx === 26) {
+                    idx = 0;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+                return alphabet[idx];
+            });
+            alphaPart = alphaArr.reverse().join('');
+        }
+        numPart = '0001';
+    } else {
+        numPart = String(parseInt(numPart) + 1).padStart(4, '0');
+    }
+
+    return alphaPart + numPart;
+}
+

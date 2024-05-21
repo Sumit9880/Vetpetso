@@ -95,7 +95,7 @@ function Plan() {
                         </tr>
                     </thead>
                     <tbody>
-                        {plans.map(plan => (
+                        {plans?.map(plan => (
                             <tr key={plan.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{plan.NAME}</td>
                                 <td className="px-2 border border-gray-200">{plan.TYPE === "M" ? "Monthly" : plan.TYPE === "Y" ? "Yearly" : plan.TYPE === "LT" ? "Life Time" : ""}</td>

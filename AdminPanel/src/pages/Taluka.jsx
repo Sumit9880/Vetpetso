@@ -94,7 +94,7 @@ function Taluka() {
                         </tr>
                     </thead>
                     <tbody>
-                        {talukas.map(taluka => (
+                        {talukas?.map(taluka => (
                             <tr key={taluka.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{taluka.ID}</td>
                                 <td className="px-2 border border-gray-200">{taluka.NAME}</td>

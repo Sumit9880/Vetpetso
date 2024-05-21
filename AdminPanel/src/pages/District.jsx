@@ -94,7 +94,7 @@ function District() {
                             </tr>
                         </thead>
                         <tbody>
-                            {districts.map(district => (
+                            {districts?.map(district => (
                                 <tr key={district.ID} className="bg-white">
                                     <td className="px-2 border border-gray-200">{district.ID}</td>
                                     <td className="px-2 border border-gray-200">{district.NAME}</td>

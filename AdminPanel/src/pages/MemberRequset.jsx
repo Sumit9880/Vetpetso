@@ -88,7 +88,7 @@ function MemberRequsets() {
                         </tr>
                     </thead>
                     <tbody>
-                        {memberRequsets.map(memberRequset => (
+                        {memberRequsets?.map(memberRequset => (
                             <tr key={memberRequset.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200 text-center">
                                     <button className="py-2 text-center" onClick={() => handleOpenDrawer(memberRequset)}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>

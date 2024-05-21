@@ -369,7 +369,7 @@ const AIFormModal = () => {
                                 <TouchableOpacity onPress={openCamera}>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                         {aiData.PATIENT_IMAGE ?
-                                            <Image source={{ uri: `${STATIC_URL}patientImage/${aiData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :
+                                            <Image source={{ uri: `${STATIC_URL}PatientImage/${aiData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :
                                             <Image source={require('../assets/camera.png')} style={{ width: 60, height: 60 }} />
                                         }
                                     </View>
@@ -380,7 +380,7 @@ const AIFormModal = () => {
                                 <TouchableOpacity onPress={() => setSignPad(true)}>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                         {aiData.OWNER_SIGN ?
-                                            <Image source={{ uri: `${STATIC_URL}ownerSign/${aiData.OWNER_SIGN}` }} style={{ width: 120, height: 120 }} /> :
+                                            <Image source={{ uri: `${STATIC_URL}OwnerSign/${aiData.OWNER_SIGN}` }} style={{ width: 120, height: 120 }} /> :
                                             <Image source={require('../assets/signature1.png')} style={{ width: 60, height: 60 }} />
                                         }
                                     </View>

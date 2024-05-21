@@ -94,7 +94,7 @@ function University() {
                         </tr>
                     </thead>
                     <tbody>
-                        {universitys.map(university => (
+                        {universitys?.map(university => (
                             <tr key={university.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{university.NAME}</td>
                                 <td className="px-2 border border-gray-200">{university.NAME_MR}</td>

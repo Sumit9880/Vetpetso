@@ -313,7 +313,7 @@ const VaccinationFormModal = ({ showModal, setModal, data }) => {
                                 <TouchableOpacity onPress={openCamera}>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                         {vaccinationData.PATIENT_IMAGE ?
-                                            <Image source={{ uri: `${STATIC_URL}patientImage/${vaccinationData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :
+                                            <Image source={{ uri: `${STATIC_URL}PatientImage/${vaccinationData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :
                                             <Image source={require('../assets/camera.png')} style={{ width: 60, height: 60 }} />
                                         }
                                     </View>
@@ -324,7 +324,7 @@ const VaccinationFormModal = ({ showModal, setModal, data }) => {
                                 <TouchableOpacity onPress={() => setSignPad(true)}>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                         {vaccinationData.OWNER_SIGN ?
-                                            <Image source={{ uri: `${STATIC_URL}ownerSign/${vaccinationData.OWNER_SIGN}` }} style={{ width: 120, height: 120 }} /> :
+                                            <Image source={{ uri: `${STATIC_URL}OwnerSign/${vaccinationData.OWNER_SIGN}` }} style={{ width: 120, height: 120 }} /> :
                                             <Image source={require('../assets/signature1.png')} style={{ width: 60, height: 60 }} />
                                         }
                                     </View>

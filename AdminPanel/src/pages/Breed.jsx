@@ -95,7 +95,7 @@ function Breed() {
                         </tr>
                     </thead>
                     <tbody>
-                        {breeds.map(breed => (
+                        {breeds?.map(breed => (
                             <tr key={breed.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{breed.ANIMAL_TYPE}</td>
                                 <td className="px-2 border border-gray-200">{breed.NAME}</td>

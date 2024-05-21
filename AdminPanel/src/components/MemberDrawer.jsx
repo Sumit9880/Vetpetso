@@ -4,7 +4,8 @@ import { LiaToggleOnSolid, LiaToggleOffSolid } from 'react-icons/lia';
 import { apiUpload, apiPost, apiPut, STATIC_URL } from '../utils/api';
 import { Transition } from '@headlessui/react';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MemberDrawer = ({ isOpen, onClose, data }) => {
     const initialFormData = {
@@ -99,12 +100,12 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
 
     let workTluka = taluka
     if (formData.WORKING_DISTRICT !== null && formData.WORKING_DISTRICT !== 0 && formData.WORKING_DISTRICT !== undefined) {
-        workTluka = taluka.filter(item => item.DISTRICT_ID == formData.WORKING_DISTRICT)
+        workTluka = taluka?.filter(item => item.DISTRICT_ID == formData.WORKING_DISTRICT)
     }
 
     let talukaData = taluka
     if (formData.DISTRICT !== null && formData.DISTRICT !== 0 && formData.DISTRICT !== undefined) {
-        talukaData = taluka.filter(item => item.DISTRICT_ID == formData.DISTRICT)
+        talukaData = taluka?.filter(item => item.DISTRICT_ID == formData.DISTRICT)
     }
 
     const getDropDownData = async () => {
@@ -147,19 +148,17 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                 const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
                 if (res.code === 200) {
                     const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
-                    // alert(successMessage);
                     toast.success(successMessage);
                     resetForm();
                 } else {
                     toast.error('Failed');
-                    // alert('Failed');
                     console.error('Failed to fetch member:', res.message);
                 }
             } catch (error) {
                 console.error('API call failed:', error);
             }
         } else {
-            toast.error('Please fill all required fields');
+            toast.warn('Please fill all required fields');
             console.log('validation error')
         }
     };
@@ -207,6 +206,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                     <section className="absolute inset-y-0 right-0 pl-10 max-w-full flex">
                         <div className="relative w-screen" style={{ maxWidth: 'calc(100vw - 15rem)' }}>
                             <div className="h-full rounded-l-xl flex flex-col bg-white shadow-xl">
+                                <ToastContainer />
                                 <div className="px-4 sm:px-6">
                                     <div className="flex h-16 items-center border-b justify-between sticky top-0 bg-white z-10">
                                         <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Member' : 'Add Member'}</h2>
@@ -250,7 +250,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="CAST" name="CAST" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CAST} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        cast.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        cast?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -285,7 +285,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="DISTRICT" name="DISTRICT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DISTRICT} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        district.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -294,7 +294,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="TALUKA" name="TALUKA" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TALUKA} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        talukaData.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        talukaData?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -313,7 +313,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="VET_STOCKMAN_TRANING_COURSE" name="VET_STOCKMAN_TRANING_COURSE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.VET_STOCKMAN_TRANING_COURSE} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        course.filter(item => item.TYPE === 'A').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        course?.filter(item => item.TYPE === 'A')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -324,7 +324,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="LIVESTOCK_SUPERVISOR_COURSE" name="LIVESTOCK_SUPERVISOR_COURSE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.LIVESTOCK_SUPERVISOR_COURSE} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        course.filter(item => item.TYPE === 'B').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        course?.filter(item => item.TYPE === 'B')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -333,7 +333,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="DAIRY_BUSSINES_MANAGEMENT" name="DAIRY_BUSSINES_MANAGEMENT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DAIRY_BUSSINES_MANAGEMENT} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        course.filter(item => item.TYPE === 'C').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        course?.filter(item => item.TYPE === 'C').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -342,7 +342,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="DIPLOMA_IN_VETERINARY_MEDICINE" name="DIPLOMA_IN_VETERINARY_MEDICINE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DIPLOMA_IN_VETERINARY_MEDICINE} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        course.filter(item => item.TYPE === 'D').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        course?.filter(item => item.TYPE === 'D')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -362,7 +362,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="WORKING_DISTRICT" name="WORKING_DISTRICT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_DISTRICT} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200">Select</option>
                                                     {
-                                                        district.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                        district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>
@@ -371,7 +371,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                                 <select id="WORKING_TALUKA" name="WORKING_TALUKA" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_TALUKA} onChange={handleChange}>
                                                     <option value="0" className="bg-blue-200" style={{ padding: '10px' }}>Select</option>
                                                     {
-                                                        workTluka.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-100 ">{d.NAME}</option>)
+                                                        workTluka?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-100 ">{d.NAME}</option>)
                                                     }
                                                 </select>
                                             </div>

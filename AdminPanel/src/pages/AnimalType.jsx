@@ -95,7 +95,7 @@ function AnimalType() {
                         </tr>
                     </thead>
                     <tbody>
-                        {animalTypes.map(animalType => (
+                        {animalTypes?.map(animalType => (
                             <tr key={animalType.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">
                                     <img src={STATIC_URL + "AnimalType/" + animalType.IMAGE} alt={animalType.NAME} className="w-10 h-10 rounded-full" />

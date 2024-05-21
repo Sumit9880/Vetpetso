@@ -101,7 +101,7 @@ const TalukaDrawer = ({ isOpen, onClose, data }) => {
                                             <select id="DISTRICT_ID" name="DISTRICT_ID" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DISTRICT_ID} onChange={handleChange}>
                                                 <option value="" className="bg-blue-200">Select</option>
                                                 {
-                                                    district.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
                                                 }
                                             </select>
                                         </div>

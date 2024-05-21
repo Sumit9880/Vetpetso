@@ -7,5 +7,6 @@ router
     .post('/create',  memberService.create)
     .put('/update', memberService.update)
     .post('/approveReject', memberService.approveReject)
+    .post('/register',  memberService.register)
 
 module.exports = router;

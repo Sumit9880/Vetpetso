@@ -3,6 +3,8 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import { LiaToggleOnSolid, LiaToggleOffSolid } from 'react-icons/lia';
 import { apiPost, apiPut } from '../utils/api';
 import { Transition } from '@headlessui/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
     const initialFormData = {
@@ -33,14 +35,16 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
                 const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
-                alert(successMessage);
+                toast.success(successMessage)
                 resetForm();
                 onClose();
             } else {
-                alert('Failed');
-                console.error('Failed to Create');
+                const failMessage = formData.ID ? 'Failed to Update' : 'Failed to Create';
+                toast.error(failMessage)
+                console.error(res.message);
             }
         } catch (error) {
+            toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
         }
     };
@@ -68,6 +72,7 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
                     <section className="absolute inset-y-0 right-0 pl-10 max-w-full flex">
                         <div className="relative w-screen max-w-md">
                             <div className="h-full rounded-l-xl flex flex-col bg-white shadow-xl">
+                                <ToastContainer />
                                 <div className="px-4 sm:px-6">
                                     <div className="flex h-16 items-center border-b justify-between sticky top-0 bg-white z-10">
                                         <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Animal Sample' : 'Add Animal Sample'}</h2>

@@ -30,7 +30,7 @@ const NoticeCard = ({ data }) => {
                                 size={15}
                                 color="white"
                             />
-                            <Text style={styles.date}>{formatDate(data.EVENT_DATE)}</Text>
+                            <Text style={styles.date}>{formatDate(data.DATE)}</Text>
                         </LinearGradient>
                         <Text style={styles.summary}>{data.SUMMARY}</Text>
                     </View>

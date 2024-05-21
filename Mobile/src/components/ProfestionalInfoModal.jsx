@@ -200,7 +200,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('memberSign/' + userData.MEMBER_SIGN, 'upload/memberSign', 'MEMBER_SIGN') }}
+                                    onPress={() => { handleModelOpen('MemberSign/' + userData.MEMBER_SIGN, 'upload/memberSign', 'MEMBER_SIGN') }}
                                 />
                             </View>
                         </View>

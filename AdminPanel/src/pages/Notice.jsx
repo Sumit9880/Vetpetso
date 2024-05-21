@@ -95,7 +95,7 @@ function Notice() {
                             </tr>
                         </thead>
                         <tbody>
-                            {notices.map(notice => (
+                            {notices?.map(notice => (
                                 <tr key={notice.ID} className="bg-white">
                                     <td className="px-2 border border-gray-200">{notice.TITLE}</td>
                                     <td className="px-2 border border-gray-200">{notice.SUMMARY.substring(0, 60)}...</td>

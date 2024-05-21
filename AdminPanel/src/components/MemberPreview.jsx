@@ -4,6 +4,7 @@ import ConfirmationDialog from './ConfirmationDialog'
 import MemberPdf from './MemberPdf';
 import ImagePreview from './ImagePreview';
 import { STATIC_URL } from '../utils/api';
+import html2pdf from 'html2pdf.js';
 
 const MemberPreview = ({ isOpen, onClose, data }) => {
     const [showDilog, setShowDilog] = useState(false)
@@ -33,6 +34,19 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
     const handlePdf = () => {
         setPdf(true)
     }
+
+    const generatePDF = () => {
+        const element = document.getElementById('pdf');
+        var opt = {
+            margin: 1,
+            filename: 'myfile.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        }
+        html2pdf().from(element).set(opt).save();
+    }
+
     return (
         <>
             <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'block' : 'hidden'}`}>
@@ -43,7 +57,7 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
                                 <IoCloseCircleOutline className="h-7 w-7 hover:text-red-500 text-gray-500" />
                             </button>
                         </div>
-                        <div className="items-center m-16 mt-10">
+                        <div id="pdf" className="items-center m-16 mt-10">
                             <div className="text-center">
                                 <h1 className="text-2xl font-bold mb-4">संघटना सभासदाचा अर्ज - क्रमांक : {data.ID}</h1>
                             </div>
@@ -91,11 +105,11 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
                                 <p className="text-base leading-7 font-medium">(अ) संपूर्ण पत्ता : <span className="font-medium">{data.ADDRESS}</span></p>
                                 <p className="text-base leading-7 font-medium">(ब) दूरध्वनी (एसटीडी कोडसह) : <span className="font-medium">{data.MOBILE_NUMBER}</span></p>
                                 <p className="text-base leading-7 font-medium">(क) ई-मेल आयडी : <span className="font-medium">{data.EMAIL}</span></p>
-                                <p className="text-base leading-7 font-medium">(ड) जन्मतारीख : <span className="font-medium">{data.DATE_OF_BIRTH}</span></p>
+                                <p className="text-base leading-7 font-medium">(ड) जन्मतारीख : <span className="font-medium">{new Date(data.DATE_OF_BIRTH).toLocaleDateString('en-IN')}</span></p>
                                 <p className="text-base leading-7 font-medium">(ई) पीनकोड : <span className="font-medium">{data.PIN_CODE}</span></p>
                                 <p className="text-base leading-7 font-medium">(२) अर्जदाराच्या वडीलांचे संपूर्ण नांव : <span className="font-medium">{data.FATHER_NAME}</span></p>
-                                <p className="text-base leading-7 font-medium">(३) संपूर्ण पत्ता गांव : <span className="font-medium">{data.VILLAGE}</span></p>
-                                <p className="text-base leading-7 font-medium">(४) आरक्षित वर्गासाठी : जात : <span className="font-medium">{data.CAST}</span></p>
+                                <p className="text-base leading-7 font-medium">(३) संपूर्ण पत्ता गांव : <span className="font-medium">{data.ADDRESS + ',' + data.VILLAGE}</span></p>
+                                <p className="text-base leading-7 font-medium">(४) आरक्षित वर्गासाठी : जात : <span className="font-medium">{data.CAST_NAME}</span></p>
                                 <p className="text-base leading-7 font-medium">(५) उपरोक्त ठिकाणी वास्तव्याचा कालावधी : <span className="font-medium">{data.DURATION_OF_CURRENT_ADDRESS}</span></p>
                                 <p className="text-base leading-7 font-medium">(६) शैक्षणिक अर्हता : <span className="font-medium">{data.EDUCATIONAL_QUALIFICATION}</span></p>
                                 <p className="text-base leading-7 font-medium">(७) व्यावसायिक शैक्षणिक अर्हता : <span className="font-medium">{data.PROF_EDUCATION_QUALIFICATION}</span></p>
@@ -115,14 +129,14 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
                                     <span className="font-medium">( डॉ./श्री/श्रीमती {data.NAME})</span>
                                 </p>
                                 <p className="text-base leading-7 font-medium text-justify ">
-                                    स्थळ : {data.ADDRESS} तारीख : {data.APPLICATION_DATE_TIME} <br />
-                                    सभासदत्य अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} <br />
+                                    स्थळ : {data.ADDRESS} तारीख : {new Date(data.APPLICATION_DATE_TIME).toLocaleDateString('en-IN')} <br />
+                                    सभासदत्य प्रवेश अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} <br />
                                     पत्ता / दूरध्वनी क्रमांक : {data.CONCENTERS_ADDRESS} {data.CONCENTERS_PHONE_NUMBER}  <br />
                                 </p>
                                 <div className='flex justify-end items-right text-right'>
-                                    <img src="./sign.jpg" alt="Member Profile" className="h-20" />
+                                    <img src={STATIC_URL + "MemberSign/" + data.MEMBER_SIGN} alt="Member Profile" style={{ width: "100px", height: "60px" }} />
                                 </div>
-                                <p className='text-base leading-7 font-medium text-right mr-16'>सही</p>
+                                <p className='text-base leading-7 font-medium text-right mr-10'>सही</p>
                                 <br />
                                 <p className="text-base leading-7 font-medium text-justify flex-row">
                                     संघटना सदस्यत्वासाठी सादर केलेली सत्यप्रती मधील कागदपत्रे -

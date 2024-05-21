@@ -1,0 +1,9 @@
+
+------------------------------------------
+Requested Time :2024-05-17 00:09:18
+Requested Method :POST
+Requested Url :/api/member/register
+Query: SLECT EMAIL,MOBILE_NUMBER FROM member_master where MOBILE_NUMBER = ? or EMAIL = ?;SLECT APPLICATION_NO,MEMBER_REGISTRATION_NO FROM member_master order by APPLICATION_NO desc limit 1
+Data: 6798899595,sumitghatage4@gmail.com
+Type: QueryData
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SLECT EMAIL,MOBILE_NUMBER FROM member_master where MOBILE_NUMBER = '6798899595' ' at line 1

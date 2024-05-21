@@ -238,7 +238,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('profilePhoto/' + userData.PROFILE_PHOTO, 'upload/profilePhoto', 'PROFILE_PHOTO') }}
+                                    onPress={() => { handleModelOpen('ProfilePhoto/' + userData.PROFILE_PHOTO, 'upload/profilePhoto', 'PROFILE_PHOTO') }}
                                 />
                             </View>
                         </View>
@@ -250,7 +250,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('adharCard/' + userData.ADHAR_CARD, 'upload/adharCard', 'ADHAR_CARD') }}
+                                    onPress={() => { handleModelOpen('AdharCard/' + userData.ADHAR_CARD, 'upload/adharCard', 'ADHAR_CARD') }}
                                 />
                             </View>
                         </View>
@@ -262,7 +262,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                                     type="Feather"
                                     size={24}
                                     color={'#1E90FF'}
-                                    onPress={() => { handleModelOpen('panCard/' + userData.PAN_CARD, 'upload/panCard', 'PAN_CARD') }}
+                                    onPress={() => { handleModelOpen('PanCard/' + userData.PAN_CARD, 'upload/panCard', 'PAN_CARD') }}
                                 />
                             </View>
                         </View>

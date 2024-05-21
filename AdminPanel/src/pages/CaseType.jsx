@@ -97,7 +97,7 @@ function CaseType() {
                         </tr>
                     </thead>
                     <tbody>
-                        {caseTypes.map(caseType => (
+                        {caseTypes?.map(caseType => (
                             <tr key={caseType.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{caseType.NAME}</td>
                                 <td className="px-2 border border-gray-200">{caseType.NAME_MR}</td>

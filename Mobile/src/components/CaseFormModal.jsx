@@ -251,7 +251,7 @@ const CaseFormModal = () => {
             ]
         );
     }
-    
+
     const ObservationItem = ({ item }) => {
         return (
             <TouchableOpacity onPress={caseData.PATIENT_ID !== undefined ? () => openForm(item) : () => remove(checkupDetails.indexOf(item))}>
@@ -384,7 +384,7 @@ const CaseFormModal = () => {
                                         <TouchableOpacity disabled={caseData.ID ? true : false} onPress={openCamera}>
                                             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                                 {caseData.PATIENT_IMAGE ?
-                                                    <Image source={{ uri: `${STATIC_URL}patientImage/${caseData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :
+                                                    <Image source={{ uri: `${STATIC_URL}PatientImage/${caseData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :
                                                     <Image source={require('../assets/camera.png')} style={{ width: 60, height: 60 }} />
                                                 }
                                             </View>
@@ -395,7 +395,7 @@ const CaseFormModal = () => {
                                         <TouchableOpacity disabled={caseData.ID ? true : false} onPress={() => setSignPad(true)}>
                                             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                                 {caseData.OWNER_SIGN ?
-                                                    <Image source={{ uri: `${STATIC_URL}ownerSign/${caseData.OWNER_SIGN}` }} style={{ width: 120, height: 120 }} /> :
+                                                    <Image source={{ uri: `${STATIC_URL}OwnerSign/${caseData.OWNER_SIGN}` }} style={{ width: 120, height: 120 }} /> :
                                                     <Image source={require('../assets/signature1.png')} style={{ width: 60, height: 60 }} />
                                                 }
                                             </View>
@@ -594,7 +594,7 @@ const CaseFormModal = () => {
                 visible={signPad}
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ height: '95%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 15 }}>
+                    <View style={{ height: '84%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 15 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingBottom: 10, paddingRight: 10 }}>
                             <VectorIcon
                                 name="closecircleo"
@@ -622,6 +622,10 @@ const CaseFormModal = () => {
                             confirmText="Save"
                             color="#4B1AFF"
                             webStyle={`
+                                .m-signature-pad { 
+                                    height: 80%;
+                                    width: 100%;
+                                }
                                 .m-signature-pad--footer
                                 .button {
                                     background-color: #20daff;

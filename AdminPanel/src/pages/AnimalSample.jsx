@@ -94,7 +94,7 @@ function AnimalSample() {
                             </tr>
                         </thead>
                         <tbody>
-                            {animalSamples.map(animalSample => (
+                            {animalSamples?.map(animalSample => (
                                 <tr key={animalSample.ID} className="bg-white">
                                     <td className="px-2 border border-gray-200">{animalSample.ID}</td>
                                     <td className="px-2 border border-gray-200">{animalSample.NAME}</td>

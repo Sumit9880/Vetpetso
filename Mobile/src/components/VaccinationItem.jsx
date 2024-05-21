@@ -34,7 +34,7 @@ const VaccinationItem = ({ item }) => {
             <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress(item)}>
                 <View style={styles.itemCard}>
                     <View style={styles.image}>
-                        <Image source={{ uri: `${STATIC_URL}animalType/${item.ANIMAL_TYPE_IMAGE}` }} style={{ width: 40, height: 40 }} />
+                        <Image source={{ uri: `${STATIC_URL}AnimalType/${item.ANIMAL_TYPE_IMAGE}` }} style={{ width: 40, height: 40 }} />
                     </View>
                     <View style={{ flex: 1 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, alignItems: 'center' }}>

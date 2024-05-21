@@ -95,7 +95,7 @@ function Events() {
                             </tr>
                         </thead>
                         <tbody>
-                            {events.map(event => (
+                            {events?.map(event => (
                                 <tr key={event.ID} className="bg-white">
                                     <td className="px-2 border border-gray-200">{event.TITLE}</td>
                                     <td className="px-2 border border-gray-200">{event.SUMMARY.substring(0, 60)}...</td>

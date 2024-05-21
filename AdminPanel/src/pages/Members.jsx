@@ -15,8 +15,8 @@ function Members() {
         current: 1,
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [previwe, setPreviwe] = useState(false);
-    const [member, setMember] = useState([]);
+    const [preview, setPreview] = useState(false);
+    const [member, setMember] = useState({});
 
     useEffect(() => {
         getData();
@@ -60,7 +60,7 @@ function Members() {
     };
     const handleOpenPreview = (data) => {
         setMember(data);
-        setPreviwe(true);
+        setPreview(true);
     };
 
     const handleCloseDrawer = () => {
@@ -82,12 +82,12 @@ function Members() {
                     />
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
-                        onClick={() => handleOpenDrawer(null)}
+                        onClick={() => handleOpenDrawer({})}
                     >
                         Add Member
                     </button>
                     <MemberDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={member} />
-                    <MemberPreview isOpen={previwe} onClose={() => setPreviwe(false)} data={member} />
+                    <MemberPreview isOpen={preview} onClose={() => setPreview(false)} data={member} />
                 </div>
             </div>
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
@@ -104,7 +104,7 @@ function Members() {
                         </tr>
                     </thead>
                     <tbody>
-                        {members.map(member => (
+                        {members?.map(member => (
                             <tr key={member.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{member.NAME}</td>
                                 <td className="px-2 border border-gray-200">{member.ADDRESS}</td>
