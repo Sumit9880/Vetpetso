@@ -24,7 +24,7 @@ const ConfirmationDialog = ({ open, setOpen, fetchData }) => {
         toast.success("Approved Successfully!")
         setOpen(false);
       } else {
-        toast.error("Failed to Approve")
+        toast.error(res.message)
         console.error('API call failed:', res.message);
       }
     } catch (error) {

@@ -41,15 +41,13 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
             const method = formData.ID ? 'api/notice/update' : 'api/notice/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
-                const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
-                toast.success(successMessage)
+                toast.success(res.message)
                 if (!formData.ID) {
                     setFormData(initialFormData);
                 }
                 setLoader(false);
             } else {
-                const failMessage = formData.ID ? 'Failed to Update' : 'Failed to Create';
-                toast.error(failMessage)
+                toast.error(res.message)
                 console.error(res.message);
                 setLoader(false);
             }
@@ -75,11 +73,11 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
             const res = await apiUpload('upload/notice', file);
             if (res.code === 200) {
                 setFormData({ ...formData, URL: res.name });
-                toast.success('Uploaded Successfully');
+                toast.success(res.message);
                 setLoader(false);
             } else {
                 console.error('Failed to upload:', res.message);
-                toast.error('Failed to upload:')
+                toast.error(res.message)
                 setLoader(false);
             }
         } catch (error) {
@@ -118,34 +116,34 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
                                 </div>
                                 <div className="relative flex-1 overflow-y-auto px-4 sm:px-6">
                                     {
-                                        loader ? <Loader /> :
-                                            <form onSubmit={handleSubmit}>
-                                                <div className="mt-4">
-                                                    <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
-                                                    <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
-                                                </div>
-                                                <div className="mt-1 flex justify-between">
-                                                    <div>
-                                                        <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
-                                                        <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
-                                                    </div>
-                                                    <div>
-                                                        <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
-                                                        <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
-                                                            {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div className="mt-1">
-                                                    <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
-                                                    <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
-                                                </div>
-                                                <div className="mt-1">
-                                                    <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
-                                                    <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
-                                                </div>
-                                            </form>
+                                        loader && <Loader />
                                     }
+                                    <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
+                                        <div className="mt-4">
+                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
+                                            <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
+                                        </div>
+                                        <div className="mt-1 flex justify-between">
+                                            <div>
+                                                <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
+                                                <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                                <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
+                                                    {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="mt-1">
+                                            <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
+                                            <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
+                                        </div>
+                                        <div className="mt-1">
+                                            <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
+                                            <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
+                                        </div>
+                                    </form>
                                 </div>
                                 <div className="flex justify-end px-4 sm:px-6 sticky bottom-0 h-14 items-center border-t  bg-white z-10">
                                     <button type="button" className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal px-4 py-1.5 rounded" onClick={resetForm}>Cancel</button>

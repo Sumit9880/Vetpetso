@@ -40,15 +40,13 @@ const AnimalTypeDrawer = ({ isOpen, onClose, data }) => {
             const method = formData.ID ? 'api/animalType/update' : 'api/animalType/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
-                const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
-                toast.success(successMessage)
+                toast.success(res.message)
                 if (!formData.ID) {
                     setFormData(initialFormData);
                 }
                 setLoader(false);
             } else {
-                const failMessage = formData.ID ? 'Failed to Update' : 'Failed to Create';
-                toast.error(failMessage)
+                toast.error(res.message)
                 console.error(res.message);
                 setLoader(false);
             }
@@ -66,11 +64,11 @@ const AnimalTypeDrawer = ({ isOpen, onClose, data }) => {
             const res = await apiUpload('upload/animalType', file);
             if (res.code === 200) {
                 setFormData({ ...formData, IMAGE: res.name });
-                toast.success('Uploaded Successfully');
+                toast.success(res.message);
                 setLoader(false);
             } else {
                 console.error('Failed to upload:', res.message);
-                toast.error('Failed to upload:')
+                toast.error(res.message)
                 setLoader(false);
             }
         } catch (error) {
@@ -114,31 +112,31 @@ const AnimalTypeDrawer = ({ isOpen, onClose, data }) => {
                                 </div>
                                 <div className="relative flex-1 overflow-y-auto px-4 sm:px-6">
                                     {
-                                        loader ? <Loader /> :
-                                            <form onSubmit={handleSubmit}>
-                                                <div className="mt-1">
-                                                    <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
-                                                    <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
-                                                </div>
-                                                <div className="mt-1">
-                                                    <label htmlFor="NAME_MR" className="block text-sm font-medium text-gray-700">Name in Marathi</label>
-                                                    <textarea name="NAME_MR" id="NAME_MR" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME_MR} onChange={handleChange} />
-                                                </div>
-                                                <div>
-                                                    <label htmlFor="IS_ACTIVE" className="block text-sm font-medium text-gray-700">Status</label>
-                                                    <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, IS_ACTIVE: !formData.IS_ACTIVE })}>
-                                                        {formData.IS_ACTIVE ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
-                                                    </button>
-                                                </div>
-                                                <div className="mt-1">
-                                                    <label className="block text-sm font-medium text-gray-700">Upload Photo</label>
-                                                    {
-                                                        formData.IMAGE ? <img src={STATIC_URL + "AnimalType/" + formData.IMAGE} className="w-20 h-20 m-1" /> : null
-                                                    }
-                                                    <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
-                                                </div>
-                                            </form>
+                                        loader && <Loader />
                                     }
+                                    <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
+                                        <div className="mt-1">
+                                            <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
+                                            <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
+                                        </div>
+                                        <div className="mt-1">
+                                            <label htmlFor="NAME_MR" className="block text-sm font-medium text-gray-700">Name in Marathi</label>
+                                            <textarea name="NAME_MR" id="NAME_MR" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME_MR} onChange={handleChange} />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="IS_ACTIVE" className="block text-sm font-medium text-gray-700">Status</label>
+                                            <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, IS_ACTIVE: !formData.IS_ACTIVE })}>
+                                                {formData.IS_ACTIVE ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
+                                            </button>
+                                        </div>
+                                        <div className="mt-1">
+                                            <label className="block text-sm font-medium text-gray-700">Upload Photo</label>
+                                            {
+                                                formData.IMAGE ? <img src={STATIC_URL + "AnimalType/" + formData.IMAGE} className="w-20 h-20 m-1" /> : null
+                                            }
+                                            <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
+                                        </div>
+                                    </form>
                                 </div>
                                 <div className="flex justify-end px-4 sm:px-6 sticky bottom-0 h-14 items-center border-t  bg-white z-10">
                                     <button type="button" className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal px-4 py-1.5 rounded" onClick={resetForm}>Cancel</button>

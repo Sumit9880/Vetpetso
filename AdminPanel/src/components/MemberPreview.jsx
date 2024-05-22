@@ -4,7 +4,7 @@ import ConfirmationDialog from './ConfirmationDialog'
 import MemberPdf from './MemberPdf';
 import ImagePreview from './ImagePreview';
 import { STATIC_URL } from '../utils/api';
-import html2pdf from 'html2pdf.js';
+// import html2pdf from 'html2pdf.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -37,17 +37,17 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
         setPdf(true)
     }
 
-    const generatePDF = () => {
-        const element = document.getElementById('pdf');
-        var opt = {
-            margin: 1,
-            filename: 'myfile.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        }
-        html2pdf().from(element).set(opt).save();
-    }
+    // const generatePDF = () => {
+    //     const element = document.getElementById('pdf');
+    //     var opt = {
+    //         margin: 1,
+    //         filename: 'myfile.pdf',
+    //         image: { type: 'jpeg', quality: 0.98 },
+    //         html2canvas: { scale: 2 },
+    //         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    //     }
+    //     html2pdf().from(element).set(opt).save();
+    // }
 
     return (
         <>

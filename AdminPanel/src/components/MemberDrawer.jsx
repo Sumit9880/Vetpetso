@@ -150,15 +150,13 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                 const method = formData.ID ? 'api/member/update' : 'api/member/register';
                 const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
                 if (res.code === 200) {
-                    const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
-                    toast.success(successMessage)
+                    toast.success(res.message)
                     if (!formData.ID) {
                         setFormData(initialFormData);
                     }
                     setLoader(false);
                 } else {
-                    const failMessage = formData.ID ? 'Failed to Update' : 'Failed to Create';
-                    toast.error(failMessage)
+                    toast.error(res.message)
                     console.error(res.message);
                     setLoader(false);
                 }
@@ -189,11 +187,11 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
             const res = await apiUpload(url, file);
             if (res.code === 200) {
                 setFormData({ ...formData, [name]: res.name });
-                toast.success('Uploaded Successfully');
+                toast.success(res.message);
                 setLoader(false);
             } else {
                 console.error('Failed to upload:', res.message);
-                toast.error('Failed to upload:')
+                toast.error(res.message)
                 setLoader(false);
             }
         } catch (error) {
@@ -232,242 +230,242 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                 </div>
                                 <div className="relative flex-1 overflow-y-auto px-4 sm:px-6 bg-gray-100">
                                     {
-                                        loader ? <Loader /> :
-                                            <form onSubmit={handleSubmit} className='py-6'>
-                                                <div className="flex gap-4">
-                                                    <div className='w-1/2'>
-                                                        <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Member Name <span className='text-red-500'>*</span></label>
-                                                        <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
-                                                        {validation.NAME && <span className='text-red-500 text-sm'>{validation.NAME}</span>}
-                                                    </div>
-                                                    <div className='w-1/4'>
-                                                        <label htmlFor="MOBILE_NUMBER" className="block text-sm font-medium text-gray-700">Momible Number <span className='text-red-500'>*</span></label>
-                                                        <input type="Number" name="MOBILE_NUMBER" id="MOBILE_NUMBER" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.MOBILE_NUMBER} onChange={handleChange} />
-                                                        {validation.MOBILE_NUMBER && <span className='text-red-500 text-sm'>{validation.MOBILE_NUMBER}</span>}
-                                                    </div>
-                                                    <div className='w-1/2'>
-                                                        <label htmlFor="EMAIL" className="block text-sm font-medium text-gray-700">Email <span className='text-red-500'>*</span></label>
-                                                        <input type="email" name="EMAIL" id="EMAIL" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.EMAIL} onChange={handleChange} />
-                                                        {validation.EMAIL && <span className='text-red-500 text-sm'>{validation.EMAIL}</span>}
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/2'>
-                                                        <label htmlFor="FATHER_NAME" className="block text-sm font-medium text-gray-700">Father Name</label>
-                                                        <input type="text" name="FATHER_NAME" id="FATHER_NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.FATHER_NAME} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/4'>
-                                                        <label htmlFor="DATE_OF_BIRTH" className="block text-sm font-medium text-gray-700">Date of Birth</label>
-                                                        <input type="date" name="DATE_OF_BIRTH" id="DATE_OF_BIRTH" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE_OF_BIRTH} onChange={handleChange} />
-                                                    </div>
-                                                    <div className="w-1/4">
-                                                        <label htmlFor="CAST" className="block text-sm font-medium text-gray-700">Cast</label>
-                                                        <select id="CAST" name="CAST" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CAST} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                cast?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                    <div style={{ width: '23%' }}>
-                                                        <label htmlFor="IS_ACTIVE" className="block text-sm font-medium text-gray-700">Status</label>
-                                                        <button type="button" id="IS_ACTIVE" name="IS_ACTIVE" className=" w-full" onClick={() => setFormData({ ...formData, IS_ACTIVE: !formData.IS_ACTIVE })}>
-                                                            {formData.IS_ACTIVE ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/2'>
-                                                        <label htmlFor="ADDRESS" className="block text-sm font-medium text-gray-700">Address</label>
-                                                        <input type="text" name="ADDRESS" id="ADDRESS" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.ADDRESS} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/4'>
-                                                        <label htmlFor="DURATION_OF_CURRENT_ADDRESS" className="block text-sm font-medium text-gray-700">Duration of Current Address</label>
-                                                        <input type="text" name="DURATION_OF_CURRENT_ADDRESS" id="DURATION_OF_CURRENT_ADDRESS" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DURATION_OF_CURRENT_ADDRESS} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/4'>
-                                                        <label htmlFor="PIN_CODE" className="block text-sm font-medium text-gray-700">Pin Code</label>
-                                                        <input type="Number" name="PIN_CODE" id="PIN_CODE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.PIN_CODE} onChange={handleChange} />
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="VILLAGE" className="block text-sm font-medium text-gray-700">Village</label>
-                                                        <input type="text" name="VILLAGE" id="VILLAGE" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.VILLAGE} onChange={handleChange} />
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="DISTRICT" className="block text-sm font-medium text-gray-700">District</label>
-                                                        <select id="DISTRICT" name="DISTRICT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DISTRICT} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="TALUKA" className="block text-sm font-medium text-gray-700">Taluka</label>
-                                                        <select id="TALUKA" name="TALUKA" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TALUKA} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                talukaData?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="EDUCATIONAL_QUALIFICATION" className="block text-sm font-medium text-gray-700">Educational Qualification</label>
-                                                        <input type="text" name="EDUCATIONAL_QUALIFICATION" id="EDUCATIONAL_QUALIFICATION" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.EDUCATIONAL_QUALIFICATION} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="PROF_EDUCATION_QUALIFICATION" className="block text-sm font-medium text-gray-700">Prof. Educational Qualification</label>
-                                                        <input type="text" name="PROF_EDUCATION_QUALIFICATION" id="PROF_EDUCATION_QUALIFICATION" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.PROF_EDUCATION_QUALIFICATION} onChange={handleChange} />
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="VET_STOCKMAN_TRANING_COURSE" className="block text-sm font-medium text-gray-700">Vet. Stockman Training Course</label>
-                                                        <select id="VET_STOCKMAN_TRANING_COURSE" name="VET_STOCKMAN_TRANING_COURSE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.VET_STOCKMAN_TRANING_COURSE} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                course?.filter(item => item.TYPE === 'A')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="LIVESTOCK_SUPERVISOR_COURSE" className="block text-sm font-medium text-gray-700">Livestock Supervisor Course</label>
-                                                        <select id="LIVESTOCK_SUPERVISOR_COURSE" name="LIVESTOCK_SUPERVISOR_COURSE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.LIVESTOCK_SUPERVISOR_COURSE} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                course?.filter(item => item.TYPE === 'B')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="DAIRY_BUSSINES_MANAGEMENT" className="block text-sm font-medium text-gray-700">Dairy Business Management</label>
-                                                        <select id="DAIRY_BUSSINES_MANAGEMENT" name="DAIRY_BUSSINES_MANAGEMENT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DAIRY_BUSSINES_MANAGEMENT} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                course?.filter(item => item.TYPE === 'C').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="DIPLOMA_IN_VETERINARY_MEDICINE" className="block text-sm font-medium text-gray-700">Diploma in Veterinaryinary Medicine</label>
-                                                        <select id="DIPLOMA_IN_VETERINARY_MEDICINE" name="DIPLOMA_IN_VETERINARY_MEDICINE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DIPLOMA_IN_VETERINARY_MEDICINE} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                course?.filter(item => item.TYPE === 'D')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="WORKING_CITY" className="block text-sm font-medium text-gray-700">Working City</label>
-                                                        <input type="text" name="WORKING_CITY" id="WORKING_CITY" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_CITY} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="WORKING_CITY_PINCODE" className="block text-sm font-medium text-gray-700">Working City Pincode</label>
-                                                        <input type="Number" name="WORKING_CITY_PINCODE" id="WORKING_CITY_PINCODE" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_CITY_PINCODE} onChange={handleChange} />
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="WORKING_DISTRICT" className="block text-sm font-medium text-gray-700">Working District</label>
-                                                        <select id="WORKING_DISTRICT" name="WORKING_DISTRICT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_DISTRICT} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200">Select</option>
-                                                            {
-                                                                district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                    <div className="w-1/3">
-                                                        <label htmlFor="WORKING_TALUKA" className="block text-sm font-medium text-gray-700">Working Taluka</label>
-                                                        <select id="WORKING_TALUKA" name="WORKING_TALUKA" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_TALUKA} onChange={handleChange}>
-                                                            <option value="0" className="bg-blue-200" style={{ padding: '10px' }}>Select</option>
-                                                            {
-                                                                workTluka?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-100 ">{d.NAME}</option>)
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="WORK_MOBILE_NUMBER" className="block text-sm font-medium text-gray-700">Work Mobile Number</label>
-                                                        <input type="Number" name="WORK_MOBILE_NUMBER" id="WORK_MOBILE_NUMBER" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORK_MOBILE_NUMBER} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="WORK_EMAIL_ID" className="block text-sm font-medium text-gray-700">Work Email</label>
-                                                        <input type="e" name="WORK_EMAIL_ID" id="WORK_EMAIL_ID" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORK_EMAIL_ID} onChange={handleChange} />
-                                                        {validation.WORK_EMAIL_ID && <span className='text-red-500 text-sm'>{validation.WORK_EMAIL_ID}</span>}
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="WORK_DURATION" className="block text-sm font-medium text-gray-700">Work Duration</label>
-                                                        <input type="text" name="WORK_DURATION" id="WORK_DURATION" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORK_DURATION} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="INTERESTED_PLACES_TO_WORK" className="block text-sm font-medium text-gray-700">Interested Palce to Work</label>
-                                                        <input type="text" name="INTERESTED_PLACES_TO_WORK" id="INTERESTED_PLACES_TO_WORK" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.INTERESTED_PLACES_TO_WORK} onChange={handleChange} />
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="CONCENTERS_NAME" className="block text-sm font-medium text-gray-700">Concenters Name</label>
-                                                        <input type="text" disabled={formData.ID} name="CONCENTERS_NAME" id="CONCENTERS_NAME" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CONCENTERS_NAME} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="CONCENTERS_ADDRESS" className="block text-sm font-medium text-gray-700">Concenters Address</label>
-                                                        <input type="text" disabled={formData.ID} name="CONCENTERS_ADDRESS" id="CONCENTERS_ADDRESS" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CONCENTERS_ADDRESS} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="CONCENTERS_MOBILE_NUMBER" className="block text-sm font-medium text-gray-700">Concenters Mobile Number</label>
-                                                        <input type="Number" disabled={formData.ID} name="CONCENTERS_MOBILE_NUMBER" id="CONCENTERS_MOBILE_NUMBER" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CONCENTERS_MOBILE_NUMBER} onChange={handleChange} />
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="APPLICATION_PLACE" className="block text-sm font-medium text-gray-700">Application Place</label>
-                                                        <input type="text" disabled={formData.ID} name="APPLICATION_PLACE" id="APPLICATION_PLACE" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.APPLICATION_PLACE} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="APPLICATION_DATE_TIME" className="block text-sm font-medium text-gray-700">Application Date</label>
-                                                        <input type="date" disabled={formData.ID} name="APPLICATION_DATE_TIME" id="APPLICATION_DATE_TIME" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.APPLICATION_DATE_TIME} onChange={handleChange} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="MEMBER_SIGN" className="block text-sm font-medium text-gray-700">Member Sign</label>
-                                                        <input ref={fileInputRef} disabled={formData.ID} type="file" name="MEMBER_SIGN" id="MEMBER_SIGN" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'MEMBER_SIGN', 'upload/memberSign')} />
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor='PROFILE_PHOTO' className="block text-sm font-medium text-gray-700">Profile Photo</label>
-                                                        <input ref={fileInputRef} type="file" name="PROFILE_PHOTO" id="PROFILE_PHOTO" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'PROFILE_PHOTO', 'upload/profilePhoto')} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="ADHAR_CARD" className="block text-sm font-medium text-gray-700">Adhar Card</label>
-                                                        <input ref={fileInputRef} type="file" name="ADHAR_CARD" id="ADHAR_CARD" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'ADHAR_CARD', 'upload/adharCard')} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor='PAN_CARD' className="block text-sm font-medium text-gray-700">PAN Card</label>
-                                                        <input ref={fileInputRef} type="file" name="PAN_CARD" id="PAN_CARD" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'PAN_CARD', 'upload/panCard')} />
-                                                    </div>
-                                                </div>
-                                                <div className="mt-2 flex gap-4">
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="LEAVING_CERTIFICATE" className="block text-sm font-medium text-gray-700">School Leaving Certificate</label>
-                                                        <input ref={fileInputRef} type="file" name="LEAVING_CERTIFICATE" id="LEAVING_CERTIFICATE" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'LEAVING_CERTIFICATE', 'upload/leavingCretificate')} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="EDUCATIONAL_CERTIFICATE" className="block text-sm font-medium text-gray-700">Educational Certificate</label>
-                                                        <input ref={fileInputRef} type="file" name="EDUCATIONAL_CERTIFICATE" id="EDUCATIONAL_CERTIFICATE" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'EDUCATIONAL_CERTIFICATE', 'upload/educationalCretificate')} />
-                                                    </div>
-                                                    <div className='w-1/3'>
-                                                        <label htmlFor="EXPERIENCE_LETTER" className="block text-sm font-medium text-gray-700">Experience Letter</label>
-                                                        <input ref={fileInputRef} type="file" name="EXPERIENCE_LETTER" id="EXPERIENCE_LETTER" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'EXPERIENCE_LETTER', 'upload/experienceLetter')} />
-                                                    </div>
-                                                </div>
-                                            </form>
+                                        loader && <Loader />
                                     }
+                                    <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
+                                        <div className="flex gap-4">
+                                            <div className='w-1/2'>
+                                                <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Member Name <span className='text-red-500'>*</span></label>
+                                                <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
+                                                {validation.NAME && <span className='text-red-500 text-sm'>{validation.NAME}</span>}
+                                            </div>
+                                            <div className='w-1/4'>
+                                                <label htmlFor="MOBILE_NUMBER" className="block text-sm font-medium text-gray-700">Momible Number <span className='text-red-500'>*</span></label>
+                                                <input type="Number" name="MOBILE_NUMBER" id="MOBILE_NUMBER" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.MOBILE_NUMBER} onChange={handleChange} />
+                                                {validation.MOBILE_NUMBER && <span className='text-red-500 text-sm'>{validation.MOBILE_NUMBER}</span>}
+                                            </div>
+                                            <div className='w-1/2'>
+                                                <label htmlFor="EMAIL" className="block text-sm font-medium text-gray-700">Email <span className='text-red-500'>*</span></label>
+                                                <input type="email" name="EMAIL" id="EMAIL" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.EMAIL} onChange={handleChange} />
+                                                {validation.EMAIL && <span className='text-red-500 text-sm'>{validation.EMAIL}</span>}
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/2'>
+                                                <label htmlFor="FATHER_NAME" className="block text-sm font-medium text-gray-700">Father Name</label>
+                                                <input type="text" name="FATHER_NAME" id="FATHER_NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.FATHER_NAME} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/4'>
+                                                <label htmlFor="DATE_OF_BIRTH" className="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                                <input type="date" name="DATE_OF_BIRTH" id="DATE_OF_BIRTH" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE_OF_BIRTH} onChange={handleChange} />
+                                            </div>
+                                            <div className="w-1/4">
+                                                <label htmlFor="CAST" className="block text-sm font-medium text-gray-700">Cast</label>
+                                                <select id="CAST" name="CAST" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CAST} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        cast?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div style={{ width: '23%' }}>
+                                                <label htmlFor="IS_ACTIVE" className="block text-sm font-medium text-gray-700">Status</label>
+                                                <button type="button" id="IS_ACTIVE" name="IS_ACTIVE" className=" w-full" onClick={() => setFormData({ ...formData, IS_ACTIVE: !formData.IS_ACTIVE })}>
+                                                    {formData.IS_ACTIVE ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/2'>
+                                                <label htmlFor="ADDRESS" className="block text-sm font-medium text-gray-700">Address</label>
+                                                <input type="text" name="ADDRESS" id="ADDRESS" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.ADDRESS} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/4'>
+                                                <label htmlFor="DURATION_OF_CURRENT_ADDRESS" className="block text-sm font-medium text-gray-700">Duration of Current Address</label>
+                                                <input type="text" name="DURATION_OF_CURRENT_ADDRESS" id="DURATION_OF_CURRENT_ADDRESS" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DURATION_OF_CURRENT_ADDRESS} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/4'>
+                                                <label htmlFor="PIN_CODE" className="block text-sm font-medium text-gray-700">Pin Code</label>
+                                                <input type="Number" name="PIN_CODE" id="PIN_CODE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.PIN_CODE} onChange={handleChange} />
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="VILLAGE" className="block text-sm font-medium text-gray-700">Village</label>
+                                                <input type="text" name="VILLAGE" id="VILLAGE" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.VILLAGE} onChange={handleChange} />
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="DISTRICT" className="block text-sm font-medium text-gray-700">District</label>
+                                                <select id="DISTRICT" name="DISTRICT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DISTRICT} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="TALUKA" className="block text-sm font-medium text-gray-700">Taluka</label>
+                                                <select id="TALUKA" name="TALUKA" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TALUKA} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        talukaData?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="EDUCATIONAL_QUALIFICATION" className="block text-sm font-medium text-gray-700">Educational Qualification</label>
+                                                <input type="text" name="EDUCATIONAL_QUALIFICATION" id="EDUCATIONAL_QUALIFICATION" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.EDUCATIONAL_QUALIFICATION} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="PROF_EDUCATION_QUALIFICATION" className="block text-sm font-medium text-gray-700">Prof. Educational Qualification</label>
+                                                <input type="text" name="PROF_EDUCATION_QUALIFICATION" id="PROF_EDUCATION_QUALIFICATION" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.PROF_EDUCATION_QUALIFICATION} onChange={handleChange} />
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="VET_STOCKMAN_TRANING_COURSE" className="block text-sm font-medium text-gray-700">Vet. Stockman Training Course</label>
+                                                <select id="VET_STOCKMAN_TRANING_COURSE" name="VET_STOCKMAN_TRANING_COURSE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.VET_STOCKMAN_TRANING_COURSE} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        course?.filter(item => item.TYPE === 'A')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className="w-1/3">
+                                                <label htmlFor="LIVESTOCK_SUPERVISOR_COURSE" className="block text-sm font-medium text-gray-700">Livestock Supervisor Course</label>
+                                                <select id="LIVESTOCK_SUPERVISOR_COURSE" name="LIVESTOCK_SUPERVISOR_COURSE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.LIVESTOCK_SUPERVISOR_COURSE} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        course?.filter(item => item.TYPE === 'B')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="DAIRY_BUSSINES_MANAGEMENT" className="block text-sm font-medium text-gray-700">Dairy Business Management</label>
+                                                <select id="DAIRY_BUSSINES_MANAGEMENT" name="DAIRY_BUSSINES_MANAGEMENT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DAIRY_BUSSINES_MANAGEMENT} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        course?.filter(item => item.TYPE === 'C').map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="DIPLOMA_IN_VETERINARY_MEDICINE" className="block text-sm font-medium text-gray-700">Diploma in Veterinaryinary Medicine</label>
+                                                <select id="DIPLOMA_IN_VETERINARY_MEDICINE" name="DIPLOMA_IN_VETERINARY_MEDICINE" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DIPLOMA_IN_VETERINARY_MEDICINE} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        course?.filter(item => item.TYPE === 'D')?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="WORKING_CITY" className="block text-sm font-medium text-gray-700">Working City</label>
+                                                <input type="text" name="WORKING_CITY" id="WORKING_CITY" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_CITY} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="WORKING_CITY_PINCODE" className="block text-sm font-medium text-gray-700">Working City Pincode</label>
+                                                <input type="Number" name="WORKING_CITY_PINCODE" id="WORKING_CITY_PINCODE" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_CITY_PINCODE} onChange={handleChange} />
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="WORKING_DISTRICT" className="block text-sm font-medium text-gray-700">Working District</label>
+                                                <select id="WORKING_DISTRICT" name="WORKING_DISTRICT" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_DISTRICT} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200">Select</option>
+                                                    {
+                                                        district?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-200">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div className="w-1/3">
+                                                <label htmlFor="WORKING_TALUKA" className="block text-sm font-medium text-gray-700">Working Taluka</label>
+                                                <select id="WORKING_TALUKA" name="WORKING_TALUKA" className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORKING_TALUKA} onChange={handleChange}>
+                                                    <option value="0" className="bg-blue-200" style={{ padding: '10px' }}>Select</option>
+                                                    {
+                                                        workTluka?.map((d) => <option key={d.ID} value={d.ID} className="bg-blue-100 ">{d.NAME}</option>)
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="WORK_MOBILE_NUMBER" className="block text-sm font-medium text-gray-700">Work Mobile Number</label>
+                                                <input type="Number" name="WORK_MOBILE_NUMBER" id="WORK_MOBILE_NUMBER" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORK_MOBILE_NUMBER} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="WORK_EMAIL_ID" className="block text-sm font-medium text-gray-700">Work Email</label>
+                                                <input type="e" name="WORK_EMAIL_ID" id="WORK_EMAIL_ID" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORK_EMAIL_ID} onChange={handleChange} />
+                                                {validation.WORK_EMAIL_ID && <span className='text-red-500 text-sm'>{validation.WORK_EMAIL_ID}</span>}
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="WORK_DURATION" className="block text-sm font-medium text-gray-700">Work Duration</label>
+                                                <input type="text" name="WORK_DURATION" id="WORK_DURATION" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.WORK_DURATION} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="INTERESTED_PLACES_TO_WORK" className="block text-sm font-medium text-gray-700">Interested Palce to Work</label>
+                                                <input type="text" name="INTERESTED_PLACES_TO_WORK" id="INTERESTED_PLACES_TO_WORK" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.INTERESTED_PLACES_TO_WORK} onChange={handleChange} />
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="CONCENTERS_NAME" className="block text-sm font-medium text-gray-700">Concenters Name</label>
+                                                <input type="text" disabled={formData.ID} name="CONCENTERS_NAME" id="CONCENTERS_NAME" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CONCENTERS_NAME} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="CONCENTERS_ADDRESS" className="block text-sm font-medium text-gray-700">Concenters Address</label>
+                                                <input type="text" disabled={formData.ID} name="CONCENTERS_ADDRESS" id="CONCENTERS_ADDRESS" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CONCENTERS_ADDRESS} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="CONCENTERS_MOBILE_NUMBER" className="block text-sm font-medium text-gray-700">Concenters Mobile Number</label>
+                                                <input type="Number" disabled={formData.ID} name="CONCENTERS_MOBILE_NUMBER" id="CONCENTERS_MOBILE_NUMBER" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.CONCENTERS_MOBILE_NUMBER} onChange={handleChange} />
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="APPLICATION_PLACE" className="block text-sm font-medium text-gray-700">Application Place</label>
+                                                <input type="text" disabled={formData.ID} name="APPLICATION_PLACE" id="APPLICATION_PLACE" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.APPLICATION_PLACE} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="APPLICATION_DATE_TIME" className="block text-sm font-medium text-gray-700">Application Date</label>
+                                                <input type="date" disabled={formData.ID} name="APPLICATION_DATE_TIME" id="APPLICATION_DATE_TIME" style={{ padding: '5px' }} className="mt-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.APPLICATION_DATE_TIME} onChange={handleChange} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="MEMBER_SIGN" className="block text-sm font-medium text-gray-700">Member Sign</label>
+                                                <input ref={fileInputRef} disabled={formData.ID} type="file" name="MEMBER_SIGN" id="MEMBER_SIGN" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'MEMBER_SIGN', 'upload/memberSign')} />
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor='PROFILE_PHOTO' className="block text-sm font-medium text-gray-700">Profile Photo</label>
+                                                <input ref={fileInputRef} type="file" name="PROFILE_PHOTO" id="PROFILE_PHOTO" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'PROFILE_PHOTO', 'upload/profilePhoto')} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="ADHAR_CARD" className="block text-sm font-medium text-gray-700">Adhar Card</label>
+                                                <input ref={fileInputRef} type="file" name="ADHAR_CARD" id="ADHAR_CARD" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'ADHAR_CARD', 'upload/adharCard')} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor='PAN_CARD' className="block text-sm font-medium text-gray-700">PAN Card</label>
+                                                <input ref={fileInputRef} type="file" name="PAN_CARD" id="PAN_CARD" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'PAN_CARD', 'upload/panCard')} />
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex gap-4">
+                                            <div className='w-1/3'>
+                                                <label htmlFor="LEAVING_CERTIFICATE" className="block text-sm font-medium text-gray-700">School Leaving Certificate</label>
+                                                <input ref={fileInputRef} type="file" name="LEAVING_CERTIFICATE" id="LEAVING_CERTIFICATE" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'LEAVING_CERTIFICATE', 'upload/leavingCretificate')} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="EDUCATIONAL_CERTIFICATE" className="block text-sm font-medium text-gray-700">Educational Certificate</label>
+                                                <input ref={fileInputRef} type="file" name="EDUCATIONAL_CERTIFICATE" id="EDUCATIONAL_CERTIFICATE" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'EDUCATIONAL_CERTIFICATE', 'upload/educationalCretificate')} />
+                                            </div>
+                                            <div className='w-1/3'>
+                                                <label htmlFor="EXPERIENCE_LETTER" className="block text-sm font-medium text-gray-700">Experience Letter</label>
+                                                <input ref={fileInputRef} type="file" name="EXPERIENCE_LETTER" id="EXPERIENCE_LETTER" className="mt-1 p-1 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={(e) => handleUpload(e, 'EXPERIENCE_LETTER', 'upload/experienceLetter')} />
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div className="flex justify-end px-4 sm:px-6 sticky bottom-0 h-14 items-center border-t  bg-white z-10">
                                     <button type="button" className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal px-4 py-1.5 rounded" onClick={resetForm}>Cancel</button>

@@ -90,7 +90,7 @@ const Sidebar = () => {
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    {/* <li>
                         <div className={`px-4 py-2 hover:bg-gray-700 cursor-pointer flex justify-between ${isSmall ? 'text-sm' : ''}`} onClick={() => toggle('case')}>
                             <span>{isSmall ? <FaFileMedical className='w-6 h-6' /> : <span className='flex items-center'><FaFileMedical className='w-5 h-5 mr-2' />Case Paper</span>}</span>
                             {!isSmall && <button className="focus:outline-none">
@@ -105,7 +105,7 @@ const Sidebar = () => {
                                 <Link to="/banners/sidebar" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/sidebar' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/sidebar')}>Sidebar Banners</Link>
                             </li>
                         </ul>
-                    </li>
+                    </li> */}
                     <li>
                         <div className={`px-4 py-2 hover:bg-gray-700 cursor-pointer flex justify-between ${isSmall ? 'text-sm' : ''}`} onClick={() => toggle('master')}>
                             <span>{isSmall ? <SiGoogleforms className='w-6 h-6' /> : <span className='flex items-center'><SiGoogleforms className='w-5 h-5 mr-2' />Master Forms</span>}</span>
@@ -144,7 +144,7 @@ const Sidebar = () => {
 
                         </ul>
                     </li>
-                    <li>
+                    {/* <li>
                         <div className={`px-4 py-2 hover:bg-gray-700 cursor-pointer flex justify-between ${isSmall ? 'text-sm' : ''}`} onClick={() => toggle('report')}>
                             <span>{isSmall ? <VscGraph className='w-6 h-6' /> : <span className='flex items-center'><VscGraph className='w-5 h-5 mr-2' />Reports</span>}</span>
                             {!isSmall && <button className="focus:outline-none">
@@ -159,7 +159,7 @@ const Sidebar = () => {
                                 <Link to="/banners/sidebar" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/sidebar' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/sidebar')}>Sidebar Banners</Link>
                             </li>
                         </ul>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </div>

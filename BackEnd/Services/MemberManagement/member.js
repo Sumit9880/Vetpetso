@@ -232,7 +232,7 @@ exports.update = (req, res) => {
     }
     else {
         try {
-            dm.runDataQuery(`UPDATE member_master SET ${setData} LASTUPDATED = ? where ID = ?;`, recordData, req, (error, results) => {
+            dm.runDataQuery(`SELECT ID,MOBILE_NUMBER,EMAIL FROM member_master where (MOBILE_NUMBER = ? OR EMAIL = ?) AND ID != ?;`, [data.MOBILE_NUMBER, data.EMAIL, ID], req, (error, results) => {
                 if (error) {
                     console.error(error);
                     res.send({
@@ -240,10 +240,35 @@ exports.update = (req, res) => {
                         "message": "Failed to update memberMaster information."
                     });
                 } else {
-                    res.send({
-                        "code": 200,
-                        "message": "memberMaster information updated successfully...",
-                    });
+                    if (results.length > 0 && results[0].ID != null) {
+                        let message = ''
+                        if (results[0].MOBILE_NUMBER == data.MOBILE_NUMBER) {
+                            message = 'Mobile No. already exists.'
+                        }
+                        if (results[0].EMAIL == data.EMAIL) {
+                            message = 'Email already exists.'
+                        }
+                        res.send({
+                            "code": 300,
+                            "message": message
+                        });
+                    }
+                    else {
+                        dm.runDataQuery(`UPDATE member_master SET ${setData} LASTUPDATED = ? where ID = ?;`, recordData, req, (error, results) => {
+                            if (error) {
+                                console.error(error);
+                                res.send({
+                                    "code": 400,
+                                    "message": "Failed to update memberMaster information."
+                                });
+                            } else {
+                                res.send({
+                                    "code": 200,
+                                    "message": "memberMaster information updated successfully...",
+                                });
+                            }
+                        });
+                    }
                 }
             });
         } catch (error) {

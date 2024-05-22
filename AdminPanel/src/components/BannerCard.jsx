@@ -23,10 +23,10 @@ const BannerCard = ({ data, fetchData }) => {
                 });
 
                 if (res.code === 200) {
-                    toast.success("Banner Deleted Successfully!")
+                    toast.success(res.message)
                     fetchData();
                 } else {
-                    toast.error("Failed to Delete Banner. Please try again.")
+                    toast.error(res.message)
                     console.error("Failed to Delete Banner:", res.message);
                 }
             } catch (error) {

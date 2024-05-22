@@ -28,7 +28,7 @@ function MemberPdf({ open, setOpen, data }) {
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>दूरध्वनी क्रमांक : {data.MOBILE_NUMBER}</Text>
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>पिन कोड : {data.PIN_CODE}</Text>
                                         </View>
-                                        <Image src={""} style={{ width: 100, height: 100, borderRadius: 50 }} />
+                                        <Image src={"./profile.png"} style={{ width: 100, height: 100, borderRadius: 50 }} />
                                     </View>
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20 }}>प्रति, </Text>
                                     <Text style={{ fontSize: 12, fontWeight: 'bold' }}>मा. अध्यक्ष/कार्यवाह</Text>
@@ -89,8 +89,8 @@ function MemberPdf({ open, setOpen, data }) {
                                     <Text style={{ fontSize: 12 }}>सभासदत्य प्रवेश अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} </Text>
                                     <Text style={{ fontSize: 12 }}>पत्ता / दूरध्वनी क्रमांक : {data.CONCENTERS_ADDRESS} {data.CONCENTERS_PHONE_NUMBER} </Text>
                                     <View style={{ justifyContent: 'flex-end' }}>
-                                        <Image src={"./sign.jpg"} style={{ width: 100, height: 100, borderRadius: 50 }} />
-                                        <Text style={{ fontSize: 12, textAlign: 'right' }}>सही</Text>
+                                        <Image src={"./sign.jpg"} style={{ width: 80, height: 45, alignSelf: 'flex-end' }} />
+                                        <Text style={{ fontSize: 12, textAlign: 'right', marginRight: 20, marginTop: 10 }}>सही</Text>
                                     </View>
                                 </View>
                             </View>
