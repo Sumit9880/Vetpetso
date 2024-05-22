@@ -580,7 +580,7 @@ exports.register = (req, res) => {
     }
     else {
         try {
-            dm.runDataQuery('SELECT EMAIL,MOBILE_NUMBER FROM member_master where MOBILE_NUMBER = ? or EMAIL = ?;SELECT APPLICATION_NO,MEMBER_REGISTRATION_NO FROM member_master order by APPLICATION_NO desc limit 1', [data.MOBILE_NUMBER, data.EMAIL], req, (error, results) => {
+            dm.runDataQuery('SELECT ID,EMAIL,MOBILE_NUMBER FROM member_master where MOBILE_NUMBER = ? or EMAIL = ?;SELECT APPLICATION_NO,MEMBER_REGISTRATION_NO FROM member_master order by APPLICATION_NO desc limit 1', [data.MOBILE_NUMBER, data.EMAIL], req, (error, results) => {
                 if (error) {
                     console.error(error);
                     res.send({

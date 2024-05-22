@@ -5,6 +5,8 @@ import MemberPdf from './MemberPdf';
 import ImagePreview from './ImagePreview';
 import { STATIC_URL } from '../utils/api';
 import html2pdf from 'html2pdf.js';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MemberPreview = ({ isOpen, onClose, data }) => {
     const [showDilog, setShowDilog] = useState(false)
@@ -52,6 +54,7 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
             <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'block' : 'hidden'}`}>
                 <div className="absolute inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
                     <div className="w-8/12  rounded-md overflow-y-auto bg-white p-4 mx-auto max-h-screen ">
+                        <ToastContainer />
                         <div className='flex justify-end'>
                             <button className="items-right text-right mr-4 mt-4" onClick={onClose}>
                                 <IoCloseCircleOutline className="h-7 w-7 hover:text-red-500 text-gray-500" />

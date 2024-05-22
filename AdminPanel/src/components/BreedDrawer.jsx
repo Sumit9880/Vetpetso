@@ -103,9 +103,9 @@ const BreedDrawer = ({ isOpen, onClose, data }) => {
                                         </div>
                                     </div>
                                 </div>
-                                {
-                                    loader ? <Loader /> :
-                                        <div className="relative flex-1 overflow-y-auto px-4 sm:px-6">
+                                <div className="relative flex-1 overflow-y-auto px-4 sm:px-6">
+                                    {
+                                        loader ? <Loader /> :
                                             <form onSubmit={handleSubmit}>
                                                 <div className="mt-4">
                                                     <label htmlFor="ANIMAL_TYPE_ID" className="block text-sm font-medium text-gray-700">Animal Type</label>
@@ -131,8 +131,8 @@ const BreedDrawer = ({ isOpen, onClose, data }) => {
                                                     </button>
                                                 </div>
                                             </form>
-                                        </div>
-                                }
+                                    }
+                                </div>
                                 <div className="flex justify-end px-4 sm:px-6 sticky bottom-0 h-14 items-center border-t  bg-white z-10">
                                     <button type="button" className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal px-4 py-1.5 rounded" onClick={resetForm}>Cancel</button>
                                     <button disabled={loader} type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-normal px-4 py-1.5 rounded" onClick={handleSubmit}>Submit</button>

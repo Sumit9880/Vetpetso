@@ -3,6 +3,9 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import { LiaToggleOnSolid, LiaToggleOffSolid } from 'react-icons/lia';
 import { apiUpload, apiPost, apiPut, STATIC_URL } from '../utils/api';
 import { Transition } from '@headlessui/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader from './Loader';
 
 const NoticeDrawer = ({ isOpen, onClose, data }) => {
     const initialFormData = {
@@ -16,6 +19,7 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [loader, setLoader] = useState(false);
     const fileInputRef = useRef(null);
 
     useEffect(() => {
@@ -33,18 +37,24 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoader(true);
             const method = formData.ID ? 'api/notice/update' : 'api/notice/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
                 const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
-                alert(successMessage);
-                resetForm();
-                onClose();
+                toast.success(successMessage)
+                if (!formData.ID) {
+                    setFormData(initialFormData);
+                }
+                setLoader(false);
             } else {
-                alert('Failed');
-                console.error('Failed to fetch notice:', res.message);
+                const failMessage = formData.ID ? 'Failed to Update' : 'Failed to Create';
+                toast.error(failMessage)
+                console.error(res.message);
+                setLoader(false);
             }
         } catch (error) {
+            toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
         }
     };
@@ -59,18 +69,22 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
 
     const handleUpload = async (e) => {
         try {
+            setLoader(true);
             e.preventDefault();
             const file = e.target.files[0];
             const res = await apiUpload('upload/notice', file);
             if (res.code === 200) {
                 setFormData({ ...formData, URL: res.name });
-                alert('Uploaded Successfully');
+                toast.success('Uploaded Successfully');
+                setLoader(false);
             } else {
                 console.error('Failed to upload:', res.message);
-                alert('Failed');
+                toast.error('Failed to upload:')
+                setLoader(false);
             }
         } catch (error) {
-            console.error('Upload failed:', error);
+            toast.error('Somthing Went Wrong')
+            console.error('API call failed:', error);
         }
     };
 
@@ -91,6 +105,7 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
                     <section className="absolute inset-y-0 right-0 pl-10 max-w-full flex">
                         <div className="relative w-screen max-w-md">
                             <div className="h-full rounded-l-xl flex flex-col bg-white shadow-xl">
+                                <ToastContainer />
                                 <div className="px-4 sm:px-6">
                                     <div className="flex h-16 items-center border-b justify-between sticky top-0 bg-white z-10">
                                         <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Notice' : 'Add Notice'}</h2>
@@ -102,36 +117,39 @@ const NoticeDrawer = ({ isOpen, onClose, data }) => {
                                     </div>
                                 </div>
                                 <div className="relative flex-1 overflow-y-auto px-4 sm:px-6">
-                                    <form onSubmit={handleSubmit}>
-                                        <div className="mt-4">
-                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
-                                            <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
-                                        </div>
-                                        <div className="mt-1 flex justify-between">
-                                            <div>
-                                                <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
-                                                <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
-                                                <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
-                                                    {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="mt-1">
-                                            <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
-                                            <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
-                                        </div>
-                                        <div className="mt-1">
-                                            <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
-                                            <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
-                                        </div>
-                                    </form>
+                                    {
+                                        loader ? <Loader /> :
+                                            <form onSubmit={handleSubmit}>
+                                                <div className="mt-4">
+                                                    <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
+                                                    <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
+                                                </div>
+                                                <div className="mt-1 flex justify-between">
+                                                    <div>
+                                                        <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
+                                                        <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
+                                                    </div>
+                                                    <div>
+                                                        <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                                        <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
+                                                            {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-1">
+                                                    <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
+                                                    <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
+                                                </div>
+                                                <div className="mt-1">
+                                                    <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
+                                                    <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
+                                                </div>
+                                            </form>
+                                    }
                                 </div>
                                 <div className="flex justify-end px-4 sm:px-6 sticky bottom-0 h-14 items-center border-t  bg-white z-10">
                                     <button type="button" className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal px-4 py-1.5 rounded" onClick={resetForm}>Cancel</button>
-                                    <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-normal px-4 py-1.5 rounded" onClick={handleSubmit}>Submit</button>
+                                    <button disabled={loader} type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-normal px-4 py-1.5 rounded" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,8 @@ import { apiPost } from '../utils/api';
 import BannerCard from '../components/BannerCard';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import BannerPopup from '../components/BannerPopup';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Banners = () => {
     const [banners, setBanners] = useState([]);
@@ -43,6 +45,7 @@ const Banners = () => {
 
     return (
         <div className="container mx-auto p-3 pb-8 bg-gray-100 rounded">
+            <ToastContainer />
             <h1 className="text-2xl font-bold mb-8 text-start">Banner Master</h1>
             <div className="flex flex-wrap justify-center gap-6">
                 {banners?.map(data => (

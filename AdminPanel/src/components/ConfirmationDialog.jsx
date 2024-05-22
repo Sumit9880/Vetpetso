@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CiCircleCheck } from 'react-icons/ci';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { apiPost } from '../utils/api';
+import { toast } from 'react-toastify';
 
 const ConfirmationDialog = ({ open, setOpen, fetchData }) => {
   const [updateData, setUpdateData] = useState(fetchData);
@@ -20,13 +21,14 @@ const ConfirmationDialog = ({ open, setOpen, fetchData }) => {
     try {
       const res = await apiPost('api/member/approveReject', updateData);
       if (res.code === 200) {
-        alert('Approved Successfully');
+        toast.success("Approved Successfully!")
         setOpen(false);
       } else {
-        alert('Failed');
-        console.error('Failed to fetch banners:', res.message);
+        toast.error("Failed to Approve")
+        console.error('API call failed:', res.message);
       }
     } catch (error) {
+      toast.error('Somthing Went Wrong')
       console.error('API call failed:', error);
     }
   };

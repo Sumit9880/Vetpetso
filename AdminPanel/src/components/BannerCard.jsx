@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { STATIC_URL } from "../utils/api";
 import { MdDeleteOutline } from "react-icons/md";
 import { apiPost } from "../utils/api";
+import { toast } from 'react-toastify';
 
 const BannerCard = ({ data, fetchData }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -22,13 +23,14 @@ const BannerCard = ({ data, fetchData }) => {
                 });
 
                 if (res.code === 200) {
-                    alert("Banner Deleted Successfully!");
+                    toast.success("Banner Deleted Successfully!")
                     fetchData();
                 } else {
-                    alert("Failed to Delete Banner. Please try again.");
-                    console.error("Failed to Delete Banner:");
+                    toast.error("Failed to Delete Banner. Please try again.")
+                    console.error("Failed to Delete Banner:", res.message);
                 }
             } catch (error) {
+                toast.error("Something went wrong. Please try again.");
                 console.error("API call failed:", error);
             }
         }

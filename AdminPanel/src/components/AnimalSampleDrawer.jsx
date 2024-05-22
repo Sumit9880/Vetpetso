@@ -5,6 +5,7 @@ import { apiPost, apiPut } from '../utils/api';
 import { Transition } from '@headlessui/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from './Loader';
 
 const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
     const initialFormData = {
@@ -15,6 +16,7 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         if (data?.ID !== undefined) {
@@ -31,17 +33,21 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoader(true);
             const method = formData.ID ? 'api/animalSample/update' : 'api/animalSample/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
                 const successMessage = formData.ID ? 'Updated Successfully' : 'Created Successfully';
                 toast.success(successMessage)
-                resetForm();
-                onClose();
+                if (!formData.ID) {
+                    setFormData(initialFormData);
+                }
+                setLoader(false);
             } else {
                 const failMessage = formData.ID ? 'Failed to Update' : 'Failed to Create';
                 toast.error(failMessage)
                 console.error(res.message);
+                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
@@ -84,22 +90,25 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
                                     </div>
                                 </div>
                                 <div className="relative flex-1 overflow-y-auto px-4 sm:px-6">
-                                    <form onSubmit={handleSubmit}>
-                                        <div className="mt-4">
-                                            <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
-                                            <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
-                                        </div>
-                                        <div>
-                                            <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
-                                            <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
-                                                {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
-                                            </button>
-                                        </div>
-                                    </form>
+                                    {
+                                        loader ? <Loader /> :
+                                            <form onSubmit={handleSubmit}>
+                                                <div className="mt-4">
+                                                    <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
+                                                    <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                                    <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
+                                                        {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                    }
                                 </div>
                                 <div className="flex justify-end px-4 sm:px-6 sticky bottom-0 h-14 items-center border-t  bg-white z-10">
                                     <button type="button" className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal px-4 py-1.5 rounded" onClick={resetForm}>Cancel</button>
-                                    <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-normal px-4 py-1.5 rounded" onClick={handleSubmit}>Submit</button>
+                                    <button disabled={loader} type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-normal px-4 py-1.5 rounded" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
                         </div>

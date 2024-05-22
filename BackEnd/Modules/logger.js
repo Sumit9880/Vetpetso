@@ -1,12 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const bm = require('./basicModules');
-
+let systemDate = new Date().toLocaleString();
 
 exports.logError = (method, url, error, query, data, type) => {
-    var systemDate = bm.getSystemDate();
     const breakLine = "------------------------------------------";
-    var file = systemDate.split(' ')[0].replace(/-/g, '');
+    var file = systemDate.split(',')[0].replace(/\//g, '');
     const logFilePath = path.join('./Loggs', `${file}Error.txt`);
     const logMessage = `\n${breakLine}\nRequested Time :${systemDate}\nRequested Method :${method}\nRequested Url :${url}\nQuery: ${query}\nData: ${data}\nType: ${type}\nError: ${error}`;
 
@@ -24,7 +22,6 @@ exports.logError = (method, url, error, query, data, type) => {
 }
 
 exports.logInfo = (method, url, query, data, type) => {
-    var systemDate = bm.getSystemDate();
     const breakLine = "---------------------------";
     var file = systemDate.split(' ')[0].replace(/-/g, '');
     const logFilePath = path.join('./Loggs', `${file}Info.txt`);
