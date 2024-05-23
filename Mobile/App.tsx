@@ -1,7 +1,7 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {  StyleSheet,  Text,  useColorScheme,} from 'react-native';
-import {  Colors} from 'react-native/Libraries/NewAppScreen';
+import type { PropsWithChildren } from 'react';
+import { StyleSheet, Text, useColorScheme, } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Router from './src/navigation/Router';
 import { Provider } from 'react-redux'
 import store from './src/reduxStore/store.js'
@@ -15,7 +15,7 @@ function App(): React.JSX.Element {
 
   return (
     <Provider store={store} >
-      <Router/>
+      <Router />
     </Provider>
   );
 }
