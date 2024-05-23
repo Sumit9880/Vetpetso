@@ -13,6 +13,7 @@ const Prescription = ({ item, showModal, setModal }) => {
     const [pdf, setPDF] = useState(null)
     const [loader, setLoader] = useState(false)
     const generatePDF = async () => {
+        setLoader(true);
         const options = {
             html: `<!DOCTYPE html>
             <html lang="en">
@@ -176,7 +177,6 @@ const Prescription = ({ item, showModal, setModal }) => {
             directory: 'Documents'
         }
         try {
-            setLoader(true);
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 {
@@ -190,15 +190,15 @@ const Prescription = ({ item, showModal, setModal }) => {
                 await RNFS.moveFile(pdf.filePath, `${downloadDirectory}/${item.caseData.CASE_NO}.pdf`);
                 setPDF(`${downloadDirectory}/${item.caseData.CASE_NO}.pdf`);
                 setIsGenerated(true);
-                setLoader(false);
                 ToastAndroid.show('PDF created successfully', ToastAndroid.SHORT);
             } else {
-                setLoader(false);
                 ToastAndroid.show("Permission Denied", ToastAndroid.SHORT);
             }
         } catch (error) {
             console.error('Error moving file:', error);
             ToastAndroid.show('Error creating PDF', ToastAndroid.SHORT);
+        } finally {
+            setLoader(false);
         }
     }
 

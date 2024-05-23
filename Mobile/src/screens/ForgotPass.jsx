@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, ToastAndroid, Imag
 import { useNavigation } from '@react-navigation/native';
 import { apiPost } from '../utils/api';
 import VectorIcon from '../utils/VectorIcon';
+import Loader from '../components/Loader';
 
 const ForgotPass = () => {
 
@@ -11,11 +12,11 @@ const ForgotPass = () => {
     const [stepNo, setStepNo] = useState(1);
     const [otp, setOtp] = useState('');
     const [matched, setMatched] = useState(false);
-    console.log("userData", userData);
-
+    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
 
     const sendOtp = async () => {
+        setIsLoading(true);
         try {
 
             if (!mobliNo) {
@@ -38,10 +39,13 @@ const ForgotPass = () => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const Verify = async () => {
+        setIsLoading(true);
         try {
             if (!otp) {
                 ToastAndroid.show('Please enter otp', ToastAndroid.SHORT);
@@ -60,10 +64,13 @@ const ForgotPass = () => {
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const submit = async () => {
+        setIsLoading(true);
         try {
             if (userData.NEW_PASSWORD != userData.PASSWORD) {
                 setMatched(true);
@@ -80,6 +87,8 @@ const ForgotPass = () => {
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -206,6 +215,7 @@ const ForgotPass = () => {
                         </TouchableOpacity>
                 }
             </View>
+            <Loader isLoading={isLoading} />
         </>
     );
 };

@@ -5,19 +5,20 @@ import { useDispatch } from 'react-redux';
 import { setLogin } from '../reduxStore/userSlice';
 import { apiPost } from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../components/Loader';
 
 const OtpVerification = () => {
 
     const [mobliNo, setMobliNo] = useState('');
     const [isOtpSent, setIsOtpSent] = useState(false);
     const [otp, setOtp] = useState('');
-
+    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
     const sendOtp = async () => {
+        setIsLoading(true);
         try {
-
             if (!mobliNo) {
                 ToastAndroid.show('Please enter mobile number', ToastAndroid.SHORT);
             } else {
@@ -37,10 +38,13 @@ const OtpVerification = () => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const Verify = async () => {
+        setIsLoading(true);
         try {
             if (!otp) {
                 ToastAndroid.show('Please enter otp', ToastAndroid.SHORT);
@@ -60,6 +64,8 @@ const OtpVerification = () => {
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -110,6 +116,7 @@ const OtpVerification = () => {
                 <Text style={{ color: "#5a5a5a", }} >Already have an account ? </Text>
                 <Text style={styles.register} onPress={() => navigation.navigate('Login')}>LogIn</Text>
             </View>
+            <Loader isLoading={isLoading} />
         </View>
     );
 };

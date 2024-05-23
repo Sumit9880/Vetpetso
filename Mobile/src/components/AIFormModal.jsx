@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid, PermissionsAndroid } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid, PermissionsAndroid } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import VectorIcon from '../utils/VectorIcon';
@@ -199,7 +199,7 @@ const AIFormModal = () => {
                     uri: signature,
                     type: 'image/png',
                     name: 'signature.jpg'
-                }
+                };
                 const apiResponse = await apiUpload('upload/ownerSign', data, 0);
                 if (apiResponse.code === 200) {
                     setAiData({ ...aiData, OWNER_SIGN: apiResponse.name });
@@ -412,7 +412,7 @@ const AIFormModal = () => {
                 visible={signPad}
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ height: '84%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 10 }}>
+                    <View style={{ height: '90%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingBottom: 10, paddingRight: 10 }}>
                             <VectorIcon
                                 name="closecircleo"
@@ -432,7 +432,6 @@ const AIFormModal = () => {
                                 (संदर्भ पान क्र. ५४३, मॅन्युअल ऑफ ऑफिस प्रोसिजर पशुसंवर्धन खाते १९६७) मधील तरतुदीनुसार रुग्णावर योग्य ती काळजी घेऊनसुद्धा रुग्णास इजा, अपाय किंवा रुग्ण दगावल्यास झालेल्या नुकसानीबद्दल संबंधीत लघु पशुवैद्यकीय व्यावसायीक किंवा त्यांचा कर्मचारी यास जबाबदार धरले जाणार नाही याची जाणीव मला स्पष्टपणे करून देण्यात आली आहे.
                             </Text>
                         </View>
-                        {isLoading && <ActivityIndicator size="large" color="#4B1AFF" />}
                         <Signature
                             ref={signatureRef}
                             onOK={handleSignatureSaved}

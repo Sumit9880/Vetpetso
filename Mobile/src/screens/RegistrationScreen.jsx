@@ -11,7 +11,7 @@ import InputBox from '../components/InputBox';
 import DatePick from '../components/DatePick';
 import DropdownComponent from '../components/DropdownComponent';
 import * as Yup from 'yup';
-
+import Loader from '../components/Loader';
 
 const RegistrationScreen = () => {
 
@@ -24,6 +24,7 @@ const RegistrationScreen = () => {
     const [taluka, setTaluka] = useState([]);
     const [cast, setCast] = useState([]);
     const [validation, setValidation] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     const validationSchema = Yup.object().shape({
         NAME: Yup.string().required('Name is required'),
@@ -136,6 +137,7 @@ const RegistrationScreen = () => {
 
     const pickFile = async (api, key) => {
         try {
+            setIsLoading(true)
             const file = await DocumentPicker.pick({
                 type: [DocumentPicker.types.allFiles],
             });
@@ -154,12 +156,15 @@ const RegistrationScreen = () => {
             } else {
                 console.error('Error picking file:', err);
             }
+        } finally {
+            setIsLoading(false)
         }
     };
 
     const handleSubmit = async () => {
         let errors = await validate()
         if (!errors) {
+            setIsLoading(true);
             try {
                 const res = await apiPost("api/member/register", userData);
                 if (res && res.code === 200) {
@@ -173,6 +178,8 @@ const RegistrationScreen = () => {
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            } finally {
+                setIsLoading(false)
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
@@ -681,6 +688,7 @@ const RegistrationScreen = () => {
                     </View>
                 </View>
             </Modal>
+            <Loader isLoading={isLoading} />
         </View >
     );
 };

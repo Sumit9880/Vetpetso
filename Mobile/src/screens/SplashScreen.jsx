@@ -31,6 +31,7 @@ const SplashScreen = () => {
 
         dispatch(setSplashscreen(false))
     }
+    
     return (<>
         <View style={styles.mainContainer}>
             <Image

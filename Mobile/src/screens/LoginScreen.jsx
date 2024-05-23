@@ -5,13 +5,16 @@ import { useDispatch } from 'react-redux';
 import { setSplashscreen } from '../reduxStore/userSlice';
 import { apiPost } from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../components/Loader';
 
 const LoginScreen = () => {
     const [userCredentials, setUserCredentials] = useState({});
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
 
     const Login = async () => {
+        setIsLoading(true)
         try {
             if (!userCredentials.username || !userCredentials.password) {
                 ToastAndroid.show('Please enter username and password', ToastAndroid.SHORT);
@@ -26,9 +29,11 @@ const LoginScreen = () => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false)
         }
     };
-    
+
     const Register = () => {
         navigation.navigate('OtpVerification');
     };
@@ -77,6 +82,7 @@ const LoginScreen = () => {
                 <Text style={{ color: "#5a5a5a", }} >Don't have an account ? </Text>
                 <Text style={styles.register} onPress={Register}>Register Here</Text>
             </View>
+            <Loader isLoading={isLoading} />
         </View>
     );
 };

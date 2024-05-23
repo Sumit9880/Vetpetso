@@ -21,17 +21,18 @@ const ProfileScreen = () => {
   const user = useSelector(state => state.user.userInfo)
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  
   const LogOut = () => {
     // route.params.login("NO")
     AsyncStorage.removeItem("LOGININFO")
     // AsyncStorage.removeItem("USER")
     dispatch(setLogin(false))
     dispatch(setUser({}))
-
     setTimeout(() => {
       navigation.navigate('Login')
     }, 1000);
   }
+
   return (
 
     <View style={styles.container}>

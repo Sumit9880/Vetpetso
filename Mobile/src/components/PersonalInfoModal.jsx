@@ -81,29 +81,30 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
     }, []);
 
     const handleUpdate = async () => {
-        let errors = await validate()
+        let errors = await validate();
         if (!errors) {
-            setIsLoading(true)
+            setIsLoading(true);
             try {
-                apiPut('api/member/update', userData).then((response) => {
-                    if (response.code === 200) {
-                        ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                        dispatch(setUser(userData))
-                        setModal()
-                    } else {
-                        ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                    }
-                })
+                const response = await apiPut('api/member/update', userData);
+                if (response.code === 200) {
+                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                    dispatch(setUser(userData));
+                    setModal();
+                    setValidation({});
+                } else {
+                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                }
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
             } finally {
-                setIsLoading(false)
+                setIsLoading(false);
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
         }
-    }
+    };
+    
 
     const handleModelOpen = (file, api, key) => {
         let uri = STATIC_URL + file
