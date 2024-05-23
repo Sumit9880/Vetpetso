@@ -10,6 +10,7 @@ import { STATIC_URL, apiUpload, apiPut, apiPost } from '../utils/api';
 import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
 import * as Yup from 'yup';
+import Loader from './Loader';
 
 const EducationalInfoModal = ({ showModal, setModal }) => {
 
@@ -25,6 +26,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
     const [course, setCourse] = useState([]);
 
     const [validation, setValidation] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const validationSchema = Yup.object().shape({
         NAME: Yup.string().required('Name is required'),
         DISTRICT: Yup.string().required('District is required'),
@@ -67,15 +69,23 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
     const handleUpdate = async () => {
         let errors = await validate()
         if (!errors) {
-            apiPut('api/member/update', userData).then((response) => {
-                if (response.code === 200) {
-                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                    dispatch(setUser(userData))
-                    setModal()
-                } else {
-                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                }
-            })
+            setIsLoading(true)
+            try {
+                apiPut('api/member/update', userData).then((response) => {
+                    if (response.code === 200) {
+                        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                        dispatch(setUser(userData))
+                        setModal()
+                    } else {
+                        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                    }
+                })
+            } catch (error) {
+                console.error(error);
+                ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            } finally {
+                setIsLoading(false)
+            }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
         }
@@ -92,6 +102,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
     }
 
     const pickFile = async () => {
+        setIsLoading(true)
         try {
             const file = await DocumentPicker.pick({
                 type: [DocumentPicker.types.allFiles],
@@ -112,6 +123,8 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
             } else {
                 console.error('Error picking file:', err);
             }
+        }finally {
+            setIsLoading(false)
         }
     };
 
@@ -247,6 +260,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                     </View>
                 </View>
             </Modal>
+            <Loader isLoading={isLoading} />
         </Modal>
     );
 };

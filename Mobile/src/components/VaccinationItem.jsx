@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TextInput, Toas
 import { STATIC_URL, apiPut } from '../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import VectorIcon from '../utils/VectorIcon';
-
+import Loader from './Loader';
 
 const VaccinationItem = ({ item }) => {
 
@@ -13,7 +13,10 @@ const VaccinationItem = ({ item }) => {
     };
     const [remark, setRemark] = useState('')
     const [visible, setVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const closeCase = async () => {
+        setIsLoading(true);
         try {
             const res = await apiPut("api/patient/update", { ...item, DISCHARGE_REMARK: remark });
             if (res && res.code === 200) {
@@ -27,8 +30,11 @@ const VaccinationItem = ({ item }) => {
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        }finally{
+            setIsLoading(false);
         }
     }
+    
     return (
         <>
             <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress(item)}>
@@ -120,6 +126,7 @@ const VaccinationItem = ({ item }) => {
                     </View>
                 </TouchableOpacity>
             </Modal>
+            <Loader isLoading={isLoading} />
         </>
     )
 }

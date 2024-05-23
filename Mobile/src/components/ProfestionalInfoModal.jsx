@@ -10,6 +10,7 @@ import { STATIC_URL, apiUpload, apiPut, apiPost } from '../utils/api';
 import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
 import * as Yup from 'yup';
+import Loader from './Loader';
 
 const ProfestionalInfoModal = ({ showModal, setModal }) => {
 
@@ -22,7 +23,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
         key: ''
     })
     const dispatch = useDispatch();
-
+    const [isLoading, setIsLoading] = useState(false);
     const [district, setDistrict] = useState([]);
     const [taluka, setTaluka] = useState([]);
 
@@ -34,8 +35,8 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
     const validationSchema = Yup.object().shape({
         WORK_MOBILE_NUMBER: Yup.string().required('Phone is required'),
         WORKING_DISTRICT: Yup.number().required('District is required'),
-        WORKING_TALUKA: Yup.number().required('Taluka is required'), 
-        WORKING_CITY_PINCODE: Yup.number().required('Pincode is required'),   
+        WORKING_TALUKA: Yup.number().required('Taluka is required'),
+        WORKING_CITY_PINCODE: Yup.number().required('Pincode is required'),
     });
 
     const validate = async () => {
@@ -72,16 +73,24 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
     const handleUpdate = async () => {
         let errors = await validate()
         if (!errors) {
-            apiPut('api/member/update', userData).then((response) => {
-                if (response.code === 200) {
-                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                    dispatch(setUser(userData))
-                    setModal()
-                    setValidation({})
-                } else {
-                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                }
-            })
+            setIsLoading(true)
+            try {
+                apiPut('api/member/update', userData).then((response) => {
+                    if (response.code === 200) {
+                        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                        dispatch(setUser(userData))
+                        setModal()
+                        setValidation({})
+                    } else {
+                        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                    }
+                })
+            } catch (error) {
+                console.error(error);
+                ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            } finally {
+                setIsLoading(false)
+            }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
         }
@@ -98,6 +107,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
     }
 
     const pickFile = async () => {
+        setIsLoading(true)
         try {
             const file = await DocumentPicker.pick({
                 type: [DocumentPicker.types.allFiles],
@@ -118,6 +128,8 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
             } else {
                 console.error('Error picking file:', err);
             }
+        } finally {
+            setIsLoading(false)
         }
     };
 
@@ -254,6 +266,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                     </View>
                 </View>
             </Modal>
+            <Loader isLoading={isLoading} />
         </Modal>
     );
 };

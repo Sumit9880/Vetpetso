@@ -10,7 +10,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
 import * as Yup from 'yup';
-
+import Loader from './Loader';
 
 const VaccinationFormModal = () => {
     const route = useRoute();
@@ -92,6 +92,7 @@ const VaccinationFormModal = () => {
     const handleSave = async () => {
         let errors = await validate()
         if (!errors) {
+            setIsLoading(true)
             try {
                 vaccinationData.MEMBER_ID = user.ID
                 vaccinationData.CASE_TYPE = 3
@@ -105,6 +106,8 @@ const VaccinationFormModal = () => {
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            } finally {
+                setIsLoading(false)
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
@@ -112,6 +115,7 @@ const VaccinationFormModal = () => {
     };
 
     const handleUpdate = async () => {
+        setIsLoading(true);
         try {
             const res = await apiPut("api/vaccinationDetails/update", vaccinationData);
             if (res && res.code === 200) {
@@ -123,6 +127,8 @@ const VaccinationFormModal = () => {
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false)
         }
     };
 
@@ -159,6 +165,7 @@ const VaccinationFormModal = () => {
                         return;
                     }
                     try {
+                        setIsLoading(true);
                         const apiResponse = await apiUpload('upload/patientImage', response.assets[0], vaccinationData.ID);
                         if (apiResponse.code === 200) {
                             ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
@@ -170,6 +177,8 @@ const VaccinationFormModal = () => {
                     } catch (error) {
                         console.error('Error uploading image:', error);
                         ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+                    } finally {
+                        setIsLoading(false)
                     }
                 });
             } else {
@@ -182,6 +191,7 @@ const VaccinationFormModal = () => {
     };
 
     const handleSignatureSaved = async (signature) => {
+        setIsLoading(true);
         try {
             if (signature !== null) {
                 let data = {
@@ -202,6 +212,8 @@ const VaccinationFormModal = () => {
             }
         } catch (error) {
             ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false)
         }
     };
 
@@ -410,6 +422,7 @@ const VaccinationFormModal = () => {
                                 (संदर्भ पान क्र. ५४३, मॅन्युअल ऑफ ऑफिस प्रोसिजर पशुसंवर्धन खाते १९६७) मधील तरतुदीनुसार रुग्णावर योग्य ती काळजी घेऊनसुद्धा रुग्णास इजा, अपाय किंवा रुग्ण दगावल्यास झालेल्या नुकसानीबद्दल संबंधीत लघु पशुवैद्यकीय व्यावसायीक किंवा त्यांचा कर्मचारी यास जबाबदार धरले जाणार नाही याची जाणीव मला स्पष्टपणे करून देण्यात आली आहे.
                             </Text>
                         </View>
+                        {isLoading && <ActivityIndicator size="large" color="#4B1AFF" />}
                         <Signature
                             ref={signatureRef}
                             onOK={handleSignatureSaved}
@@ -455,6 +468,7 @@ const VaccinationFormModal = () => {
                 </View>
                 {/* </TouchableOpacity> */}
             </Modal>
+            <Loader isLoading={isLoading} />
         </>
     );
 };

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, ToastAndroid, ScrollVi
 import InputBox from './InputBox';
 import * as Yup from 'yup';
 import { apiPut, apiPost } from '../utils/api';
+import Loader from './Loader';
 
 const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
 
@@ -11,6 +12,8 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
         setDailyData(item)
     }, [item])
     const [validation, setValidation] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+
     const validationSchema = Yup.object().shape({
         OBSERVATION_AND_FINDINGS: Yup.string().required('Observation and findings is required'),
         REMARKS: Yup.string().required('Remarks is required'),
@@ -35,6 +38,7 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
     const handleUpdate = async () => {
         let errors = await validate()
         if (!errors) {
+            setIsLoading(true)
             try {
                 dailyData.PRESCRIPTION = dailyData.PRESCRIPTION.replace(/\./g, "<br>");
                 const res = await apiPut("api/patientDailyCheckup/update", dailyData);
@@ -47,6 +51,8 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            } finally {
+                setIsLoading(false)
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
@@ -56,6 +62,7 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
     const handleSave = async () => {
         let errors = await validate()
         if (!errors) {
+            setIsLoading(true)
             try {
                 dailyData.PRESCRIPTION = dailyData.PRESCRIPTION.replace(/\./g, "<br>");
                 if (dailyData.PATIENT_ID !== undefined && dailyData.PATIENT_ID !== 0 && dailyData.PATIENT_ID !== null) {
@@ -74,6 +81,8 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            } finally {
+                setIsLoading(false)
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
@@ -111,9 +120,9 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
                             <InputBox
                                 label={{ visible: dailyData.PRESCRIPTION ? true : false, text: 'Prescription' }}
                                 value={dailyData?.PRESCRIPTION?.replace(/<br>/g, ".")}
-                            validation={validation.PRESCRIPTION}
-                            onChangeText={e => setDailyData({ ...dailyData, PRESCRIPTION: e })}
-                            options={{ multiline: true }}
+                                validation={validation.PRESCRIPTION}
+                                onChangeText={e => setDailyData({ ...dailyData, PRESCRIPTION: e })}
+                                options={{ multiline: true }}
                             />
                             <InputBox
                                 label={{ visible: dailyData.REMARKS ? true : false, text: 'Remarks' }}
@@ -148,6 +157,7 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
                     </View>
                 </View>
             </View>
+            <Loader isLoading={isLoading} />
         </Modal>
     )
 }
