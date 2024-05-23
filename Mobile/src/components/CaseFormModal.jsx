@@ -13,7 +13,7 @@ import MultiSelectComponent from './MultiSelectComponent';
 import DailyCheckupDetails from './DailyCheckupDetails';
 import * as Yup from 'yup';
 import Prescription from './Prescription';
-
+import Loader from './Loader';
 
 const CaseFormModal = () => {
     const route = useRoute();
@@ -110,6 +110,7 @@ const CaseFormModal = () => {
     const handleSave = async () => {
         let errors = await validate()
         if (!errors) {
+            setIsLoading(true)
             try {
                 caseData.MEMBER_ID = user.ID
                 caseData.CASE_TYPE = 1
@@ -123,6 +124,8 @@ const CaseFormModal = () => {
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            }finally{
+                setIsLoading(false)
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
@@ -132,6 +135,7 @@ const CaseFormModal = () => {
     const handleUpdate = async () => {
         let errors = await validate()
         if (!errors) {
+            setIsLoading(true)
             try {
                 const res = await apiPut("api/patientHistory/update", caseData);
                 if (res && res.code === 200) {
@@ -143,6 +147,8 @@ const CaseFormModal = () => {
             } catch (error) {
                 console.error(error);
                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
+            }finally{
+                setIsLoading(false)
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
@@ -182,6 +188,7 @@ const CaseFormModal = () => {
                         return;
                     }
                     try {
+                        setIsLoading(true)
                         const apiResponse = await apiUpload('upload/patientImage', response.assets[0], caseData.ID);
                         if (apiResponse.code === 200) {
                             ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
@@ -193,6 +200,8 @@ const CaseFormModal = () => {
                     } catch (error) {
                         console.error('Error uploading image:', error);
                         ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+                    }finally{
+                        setIsLoading(false)
                     }
                 });
             } else {
@@ -205,6 +214,7 @@ const CaseFormModal = () => {
     };
 
     const handleSignatureSaved = async (signature) => {
+        setIsLoading(true);
         try {
             if (signature !== null) {
                 let data = {
@@ -214,9 +224,9 @@ const CaseFormModal = () => {
                 }
                 const apiResponse = await apiUpload('upload/ownerSign', data, 0);
                 if (apiResponse.code === 200) {
-                    ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
                     setCaseData({ ...caseData, OWNER_SIGN: apiResponse.name });
                     setSignPad(false);
+                    ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
                 } else {
                     ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
                 }
@@ -225,6 +235,8 @@ const CaseFormModal = () => {
             }
         } catch (error) {
             ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+        }finally{
+            setIsLoading(false)
         }
     };
 
@@ -614,6 +626,7 @@ const CaseFormModal = () => {
                                 (संदर्भ पान क्र. ५४३, मॅन्युअल ऑफ ऑफिस प्रोसिजर पशुसंवर्धन खाते १९६७) मधील तरतुदीनुसार रुग्णावर योग्य ती काळजी घेऊनसुद्धा रुग्णास इजा, अपाय किंवा रुग्ण दगावल्यास झालेल्या नुकसानीबद्दल संबंधीत लघु पशुवैद्यकीय व्यावसायीक किंवा त्यांचा कर्मचारी यास जबाबदार धरले जाणार नाही याची जाणीव मला स्पष्टपणे करून देण्यात आली आहे.
                             </Text>
                         </View>
+                        {isLoading && <ActivityIndicator size="large" color="#4B1AFF" />}
                         <Signature
                             ref={signatureRef}
                             onOK={handleSignatureSaved}
@@ -641,6 +654,7 @@ const CaseFormModal = () => {
                     </View>
                 </View>
             </Modal>
+            <Loader isLoading={isLoading} />
         </>
     );
 };

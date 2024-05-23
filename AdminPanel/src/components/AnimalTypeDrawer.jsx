@@ -76,6 +76,7 @@ const AnimalTypeDrawer = ({ isOpen, onClose, data }) => {
             console.error('API call failed:', error);
         }
     };
+    
     const resetForm = () => {
         setFormData(initialFormData);
         onClose();

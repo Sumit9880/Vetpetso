@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TextInput, Toas
 import { STATIC_URL, apiPut } from '../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import VectorIcon from '../utils/VectorIcon';
+import Loader from './Loader';
 
 const AIItem = ({ item }) => {
     const navigation = useNavigation();
@@ -12,13 +13,16 @@ const AIItem = ({ item }) => {
 
     const [remark, setRemark] = useState('')
     const [visible, setVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const closeCase = async () => {
+        setIsLoading(true);
         try {
             const res = await apiPut("api/patient/update", { ...item, DISCHARGE_REMARK: remark });
             if (res && res.code === 200) {
                 ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 setVisible(false);
-                navigation.goBack();
+                // navigation.goBack();
             } else {
                 ToastAndroid.show('Failed to create Registration', ToastAndroid.SHORT);
                 setVisible(false);
@@ -26,6 +30,8 @@ const AIItem = ({ item }) => {
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        }finally{
+            setIsLoading(false);
         }
     }
 
@@ -120,6 +126,7 @@ const AIItem = ({ item }) => {
                     </View>
                 </TouchableOpacity>
             </Modal>
+            <Loader isLoading={isLoading} />
         </>
     )
 }

@@ -4,14 +4,14 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNFS from 'react-native-fs';
 import Pdf from 'react-native-pdf';
 import Share from 'react-native-share';
-
+import { STATIC_URL } from '../utils/api';
+import Loader from './Loader';
 
 const Prescription = ({ item, showModal, setModal }) => {
 
     const [isGenerated, setIsGenerated] = useState(false)
     const [pdf, setPDF] = useState(null)
-    console.log("item", item.MEMBER_SIGN);
-
+    const [loader, setLoader] = useState(false)
     const generatePDF = async () => {
         const options = {
             html: `<!DOCTYPE html>
@@ -71,12 +71,12 @@ const Prescription = ({ item, showModal, setModal }) => {
             <body>
                     <div class="prescription-details">
                     <div style="display: flex; align-items: center; padding: 10px 40px">
-                    <img src="http://192.168.10.9:2003/static/Others/vetpetso.png" style="width: 100px; height: 100px;" alt="Logo"/>
+                    <img src="${STATIC_URL}/jOthers/vetpetso.png" style="width: 100px; height: 100px;" alt="Logo"/>
                     <div style="align-items: center; width : 100%;">
                     <h2>MAHARASHTRA MODEL</h2>
                     <h3>PRESCRIPTION</h3>
                     </div>
-                    <img src="http://192.168.10.9:2003/static/Others/rx.png" style="width: 80px; height: 80px;" alt="Logo"/>
+                    <img src="${STATIC_URL}Others/rx.png" style="width: 80px; height: 80px;" alt="Logo"/>
                     </div>
                             <p style=" font-weight: 500;">&emsp;&emsp;&emsp;[Prescribed by the veterinary, Animal husbandry and Dairy farm management
                                     services organisation on
@@ -165,7 +165,7 @@ const Prescription = ({ item, showModal, setModal }) => {
                                         <span class="details-label" style="text-align: center;">Veterinary Person under I. V. C. Act 1984</span>
                                     </div>
                                     <div class="label" style="width: 50%; display: flex; flex-direction: column; align-items: center;">
-                                        <img src="http://192.168.10.9:2003/static/memberSign/${item.MEMBER_SIGN}" style="width: 130px; height: 80px;" alt="Sign"/>
+                                        <img src="${STATIC_URL}memberSign/${item.MEMBER_SIGN}" style="width: 130px; height: 80px;" alt="Sign"/>
                                         <span style="margin-top: 5px;">Sign of Prescriber</span>
                                     </div>
                             </div>
@@ -176,6 +176,7 @@ const Prescription = ({ item, showModal, setModal }) => {
             directory: 'Documents'
         }
         try {
+            setLoader(true);
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 {
@@ -189,8 +190,10 @@ const Prescription = ({ item, showModal, setModal }) => {
                 await RNFS.moveFile(pdf.filePath, `${downloadDirectory}/${item.caseData.CASE_NO}.pdf`);
                 setPDF(`${downloadDirectory}/${item.caseData.CASE_NO}.pdf`);
                 setIsGenerated(true);
+                setLoader(false);
                 ToastAndroid.show('PDF created successfully', ToastAndroid.SHORT);
             } else {
+                setLoader(false);
                 ToastAndroid.show("Permission Denied", ToastAndroid.SHORT);
             }
         } catch (error) {
@@ -228,6 +231,7 @@ const Prescription = ({ item, showModal, setModal }) => {
         >
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                 <View style={{ backgroundColor: 'white', borderRadius: 10, width: '95%', padding: 10 }}>
+                    <Loader isLoading={loader} />
                     {
                         isGenerated ? (
                             <Pdf
