@@ -467,9 +467,9 @@ exports.profilePhoto = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.PROFILE_PHOTO != null && results[0]?.PROFILE_PHOTO != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/ProfilePhoto/') + results[0]?.PROFILE_PHOTO);
-                                            }
+                                            // if (results && results[0]?.PROFILE_PHOTO != null && results[0]?.PROFILE_PHOTO != '') {
+                                            //     fs.unlinkSync(path.join(__dirname, '../Uploads/ProfilePhoto/') + results[0]?.PROFILE_PHOTO);
+                                            // }
                                             res.send({
                                                 "code": 200,
                                                 "message": "success",

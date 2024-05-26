@@ -2,12 +2,12 @@
 // import DeviceInfo from 'react-native-device-info';
 
 import axios from 'axios';
-export const BASE_URL = 'http://192.168.110.30:2003/';
+export const BASE_URL = 'http://192.168.10.9:2003/';
 // export const BASE_URL = 'http://192.168.29.217:2003/';
 
 export const API_KEY = 'ZNnLXmOzdd8skG4u1KzceYG7eLzgYIWF';
 
-export const STATIC_URL = 'http://192.168.110.30:2003/static/';
+export const STATIC_URL = 'http://192.168.10.9:2003/static/';
 // export const STATIC_URL = 'http://192.168.29.217:2003/static/';
 
 

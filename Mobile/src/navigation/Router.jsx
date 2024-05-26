@@ -20,13 +20,15 @@ import VaccinationFormModal from '../components/VaccinationFormModal';
 import AIFormModal from '../components/AIFormModal';
 import CaseFormModal from '../components/CaseFormModal';
 import ForgotPass from '../screens/ForgotPass';
+import Subscription from '../screens/Subscription';
 
 const AppRouter = () => {
   const Tab = createBottomTabNavigator();
   const Stack = createStackNavigator();
+  const { statusBar } = useSelector(state => state.user);
   return (
     <>
-      <StatusBar backgroundColor="#4B1AFF" barStyle="light-content" />
+      <StatusBar backgroundColor={statusBar.backgroundColor} barStyle={statusBar.barStyle} />
       <Stack.Navigator
         screenOptions={() => ({
           headerShown: false,
@@ -134,6 +136,7 @@ const AppRouter = () => {
         <Stack.Screen name="VaccinationFormModal" component={VaccinationFormModal} />
         <Stack.Screen name="AIFormModal" component={AIFormModal} />
         <Stack.Screen name="CaseFormModal" component={CaseFormModal} />
+        <Stack.Screen name="Subscription" component={Subscription} />
       </Stack.Navigator>
     </>
   )
@@ -141,10 +144,10 @@ const AppRouter = () => {
 
 const LoginRoute = () => {
   const Stack2 = createStackNavigator();
-  const { loginInfo } = useSelector(state => state.user);
+  const { loginInfo, statusBar } = useSelector(state => state.user);
   return (
     <>
-      <StatusBar backgroundColor="#E6F4FE" barStyle="dark-content" />
+      <StatusBar backgroundColor={statusBar.backgroundColor} barStyle={statusBar.barStyle} />
       <Stack2.Navigator
         screenOptions={() => ({
           headerShown: false,

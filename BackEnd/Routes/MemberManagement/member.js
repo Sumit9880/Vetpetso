@@ -4,6 +4,7 @@ const memberService = require('../../Services/MemberManagement/member');
 
 router
     .post('/get', memberService.get)
+    .post('/getData', memberService.getData)
     .post('/create',  memberService.create)
     .put('/update', memberService.update)
     .post('/approveReject', memberService.approveReject)

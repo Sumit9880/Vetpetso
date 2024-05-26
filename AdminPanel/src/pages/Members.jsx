@@ -24,7 +24,7 @@ function Members() {
 
     const getData = useCallback(async () => {
         try {
-            const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : '';
+            const filter = searchTerm ? ` AND STATUS != "P" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS != "P"';
             const res = await apiPost("api/member/get", {
                 filter,
                 pageSize,

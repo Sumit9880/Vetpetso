@@ -1,16 +1,16 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { setLogin, setUser } from '../reduxStore/userSlice';
+import { setLogin, setUser, setStatusBar } from '../reduxStore/userSlice';
 import VectorIcon from '../utils/VectorIcon';
 import Header from '../components/Header';
 import PersonalInfoModal from '../components/PersonalInfoModal';
 import ProfestionalInfoModal from '../components/ProfestionalInfoModal';
 import EducationalInfoModal from '../components/EducationalInfoModal';
 import { STATIC_URL } from '../utils/api';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ProfileScreen = () => {
   const [showModal, setShowModal] = useState({
@@ -18,10 +18,15 @@ const ProfileScreen = () => {
     educational: false,
     professional: false
   });
+  
   const user = useSelector(state => state.user.userInfo)
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
+
+  useEffect(() => {
+    dispatch(setStatusBar({ backgroundColor: "#4B1AFF", barStyle: "light-content" }))
+  }, [])
+
   const LogOut = () => {
     // route.params.login("NO")
     AsyncStorage.removeItem("LOGININFO")
@@ -33,6 +38,11 @@ const ProfileScreen = () => {
     }, 1000);
   }
 
+  const subscription = () => {
+    navigation.navigate('Subscription')
+    dispatch(setStatusBar({ backgroundColor: "#E6F4FE", barStyle: "dark-content" }))
+  }
+
   return (
 
     <View style={styles.container}>
@@ -40,7 +50,7 @@ const ProfileScreen = () => {
       <View style={styles.profileImageMain}>
         <View style={styles.profileImageContainer}>
           <Image
-            source={{ uri: STATIC_URL + 'ProfilePhoto/' + user.PROFILE_PHOTO}}
+            source={{ uri: STATIC_URL + 'ProfilePhoto/' + user.PROFILE_PHOTO }}
             style={styles.profileImage}
           />
         </View>
@@ -51,6 +61,51 @@ const ProfileScreen = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.mainContainer}>
+          <View style={styles.subscriptionContainer}>
+            <TouchableOpacity activeOpacity={0.7} onPress={subscription}>
+              <LinearGradient
+                colors={[`${user.PLAN_DETAILS?.COLOR_1 || '#b7a3ff'}`, `${user.PLAN_DETAILS?.COLOR_2 || '#c9baff'}`, `${user.PLAN_DETAILS?.COLOR_3 || '#dbd1ff'}`]}
+                start={{ x: 0.1, y: 0.7 }}
+                end={{ x: 0.3, y: 0 }}
+                style={[styles.subscription, { shadowColor: `${user.PLAN_DETAILS?.COLOR_3 || '#dbd1ff'}` }]}
+              >
+                {
+                  user.PLAN_DETAILS.ID ? (
+                    <View style={{ width: '70%' }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000', width: 85 }}>Active Plan</Text>
+                        <Text style={{ fontSize: 15, color: '#000' }}>: {user.PLAN_DETAILS.NAME}</Text>
+                      </View>
+                      <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 5 }}>
+                        <Text style={{ fontSize: 13, color: '#000', fontWeight: 'bold', width: 85 }}>Price</Text>
+                        <Text style={{ fontSize: 13, color: '#000' }}>: ₹ {user.PLAN_DETAILS.AMOUNT}</Text>
+                      </View>
+                      <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <Text style={{ fontSize: 13, color: '#000', fontWeight: 'bold', width: 85 }}>Validity</Text>
+                        <Text style={{ fontSize: 13, color: '#000' }}>: {user.PLAN_DETAILS.END_DATE ? new Date(user.PLAN_DETAILS.END_DATE).toLocaleDateString() : 'Lifetime'}</Text>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{ width: '70%' }}>
+                      <Text style={{ fontSize: 16, fontWeight: '500', color: '#000', textAlign: 'center' }}> Currently You Dont Have Any Active Plan</Text>
+                    </View>
+                  )
+                }
+                <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderRadius: 40 }}>
+                  {
+                    user.PLAN_DETAILS.ID ? (
+                      <Image source={{ uri: STATIC_URL + 'PlanImage/' + user.PLAN_DETAILS.IMAGE }} style={{ width: 60, height: 60 }} />
+                    ) : (
+                      <>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#5a5a5a' }}>Buy</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#5a5a5a' }}>Now</Text>
+                      </>
+                    )
+                  }
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
           <View style={styles.profileContent}>
             <View style={styles.section}>
               <Text style={styles.sectionHeader}>Mobile       : </Text>
@@ -145,16 +200,37 @@ const ProfileScreen = () => {
           <Text style={{ color: "#7a7a7a", fontSize: 12, fontWeight: 'bold', paddingTop: 10 }}>Version 1.0.0</Text>
           <Text style={{ color: "#7a7a7a", fontSize: 10, fontWeight: 'bold', paddingTop: 10 }}>Developed By</Text>
           <Text style={{ fontWeight: 'bold', color: '#5a5a5a', paddingTop: 1 }}>Sumit Ghatage</Text>
-        </View>
-      </ScrollView>
+        </View >
+      </ScrollView >
       <PersonalInfoModal showModal={showModal.personal} setModal={() => setShowModal(prev => ({ ...prev, personal: false }))} />
       <ProfestionalInfoModal showModal={showModal.professional} setModal={() => setShowModal(prev => ({ ...prev, professional: false }))} />
       <EducationalInfoModal showModal={showModal.educational} setModal={() => setShowModal(prev => ({ ...prev, educational: false }))} />
-    </View>
+    </View >
   );
 };
 
 const styles = StyleSheet.create({
+  subscription: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 30,
+    width: '95%',
+    height: 100,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  subscriptionContainer: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    paddingTop: 5,
+    paddingBottom: 10,
+  },
   profileImageMain: {
     backgroundColor: '#4B1AFF',
     width: '100%',
@@ -186,7 +262,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
-    marginTop: 20,
+    marginTop: 10,
+    paddingTop: 10,
     padding: 15,
   },
   mainContainer: {
@@ -209,7 +286,6 @@ const styles = StyleSheet.create({
   profileHeader: {
     alignItems: 'center',
     margin: 10,
-    marginBottom: 20,
   },
   profileImage: {
     width: 100,
@@ -217,25 +293,24 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileName: {
-    fontSize: 24,
+    fontSize: 22,
     color: '#1e1a2a',
     fontWeight: 'bold',
     marginBottom: 5,
   },
   profileBio: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#fff',
     backgroundColor: '#03B11D',
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 2,
     textAlign: 'center',
-    marginBottom: 10,
   },
   profileContent: {
     backgroundColor: '#fff',
     paddingHorizontal: 15,
-    width: '90%',
+    width: '95%',
     borderRadius: 10,
     shadowColor: '#4B1AFF',
     shadowOffset: { width: 0, height: 2 },
@@ -245,14 +320,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   sectionHeader: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
     // marginBottom: 10,
     alignItems: 'center',
     color: '#3e3a3a',
   },
   sectionContent: {
-    fontSize: 16,
+    fontSize: 14,
     // marginBottom: 10,
     alignItems: 'center',
     maxWidth: '80%',
@@ -263,7 +338,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-between',
     // backgroundColor:'red',
     gap: 10,
-    padding: 15,
+    padding: 10,
     alignItems: 'center',
     borderColor: '#ccc',
     borderBottomWidth: 0.6,
@@ -291,7 +366,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   buttonIcon: {
-    borderRadius: 18.5,
+    borderRadius: 16.5,
     width: 37,
     height: 37,
     padding: 5,

@@ -20,7 +20,6 @@ const HomeScreen = () => {
   useEffect(() => {
     getData();
   }, []);
-
   const getData = async () => {
     try {
       const resEvents = await apiPost("api/notice/get", {
@@ -41,7 +40,7 @@ const HomeScreen = () => {
       console.error(error);
     }
   };
-   
+
 
 
   return (
@@ -55,14 +54,14 @@ const HomeScreen = () => {
               <View>
                 <Text style={styles.greetingText}>Welcome,</Text>
                 <Text style={[styles.greetingText, { fontSize: 20 }]}>{user.NAME}</Text>
-                <Text style={[styles.greetingText, { fontSize: 14, fontWeight: '400' }]}>Member ID : ABC{user.ID}</Text>
+                <Text style={[styles.greetingText, { fontSize: 14, fontWeight: '400' }]}>Member ID : {user.MEMBER_REGISTRATION_NO}</Text>
                 <View style={styles.greetingStat}>
                   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }]}>{memberCounts?.ACTIVE}00</Text>
+                    <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }]}>{memberCounts?.ACTIVE?.toString().padStart(3, '0')}</Text>
                     <Text style={styles.statsText}>Active</Text>
                   </View>
                   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }]}>{memberCounts?.CLOSED}00</Text>
+                    <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }]}>{memberCounts?.CLOSED?.toString().padStart(3, '0')}</Text>
                     <Text style={styles.statsText}>Closed</Text>
                   </View>
                 </View>
@@ -86,7 +85,7 @@ const HomeScreen = () => {
                       style={{ width: 40, height: 40 }}
                     />
                     <View style={styles.stat}>
-                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#3c65fc' }]}>{counts?.MEMBERS}00</Text>
+                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#3c65fc' }]}>{counts?.MEMBERS?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}> Members </Text>
                     </View>
                   </View>
@@ -96,7 +95,7 @@ const HomeScreen = () => {
                       style={{ width: 40, height: 40 }}
                     />
                     <View style={styles.stat}>
-                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#3c65fc' }]}>{counts?.CASES}00</Text>
+                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#3c65fc' }]}>{counts?.CASES?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>   Cases   </Text>
                     </View>
                   </View>
@@ -108,7 +107,7 @@ const HomeScreen = () => {
                       style={{ width: 40, height: 40 }}
                     />
                     <View style={styles.stat}>
-                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#ff0c6c' }]}>{counts?.AI}00</Text>
+                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#ff0c6c' }]}>{counts?.AI?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Inseminations</Text>
                     </View>
                   </View>
@@ -118,7 +117,7 @@ const HomeScreen = () => {
                       style={{ width: 40, height: 40 }}
                     />
                     <View style={styles.stat}>
-                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#ff0c6c' }]}>{counts?.VACCINATIONS}00</Text>
+                      <Text style={[styles.statsText, { fontWeight: 'bold', fontSize: 20, color: '#ff0c6c' }]}>{counts?.VACCINATIONS?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Vaccinations</Text>
                     </View>
                   </View>

@@ -105,7 +105,6 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
         }
     };
     
-
     const handleModelOpen = (file, api, key) => {
         let uri = STATIC_URL + file
         setPreview({
@@ -142,7 +141,6 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
             setIsLoading(false)
         }
     };
-
 
     return (
 

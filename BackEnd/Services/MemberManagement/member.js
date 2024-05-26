@@ -686,3 +686,43 @@ function getNextMemberNo(prevMemberNo) {
     return alphaPart + numPart;
 }
 
+exports.getData = (req, res) => {
+    let ID = req.body.ID;
+    try {
+        dm.runDataQuery('select * from view_member_master where ID = ?', [ID], req, (error, results) => {
+            if (error) {
+                console.error(error);
+                res.send({
+                    "code": 400,
+                    "message": "Failed to get memberMaster count.",
+                });
+            }
+            else {
+                dm.runDataQuery('select * from view_member_plan_mapping where MEMBER_ID = ? AND STATUS = 1 ORDER BY ID DESC LIMIT 1', [ID], req, (error, resultsPlan) => {
+                    if (error) {
+                        console.error(error);
+                        res.send({
+                            "code": 400,
+                            "message": "Failed to get memberPlan information."
+                        });
+                    }
+                    else {
+                        results[0].PLAN_DETAILS = resultsPlan.length > 0 ? resultsPlan[0] : {}
+                        res.send({
+                            "code": 200,
+                            "message": "success",
+                            "data": results,
+                        });
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        logError(req.method, req.originalUrl, error, '', '', "CatchError");
+        res.send({
+            "code": 500,
+            "message": "Something went wrong."
+        });
+    }
+}

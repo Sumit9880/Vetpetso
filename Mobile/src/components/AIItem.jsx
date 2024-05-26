@@ -85,7 +85,7 @@ const AIItem = ({ item }) => {
                 transparent={true}
                 visible={visible}
             >
-                <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => setVisible(false)}>
+                {/* <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => setVisible(false)}> */}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                         <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '94%' }}>
                             <View style={{ alignItems: 'left', paddingVertical: 10 }}>
@@ -124,7 +124,7 @@ const AIItem = ({ item }) => {
                             </View>
                         </View>
                     </View>
-                </TouchableOpacity>
+                {/* </TouchableOpacity> */}
             </Modal>
             <Loader isLoading={isLoading} />
         </>

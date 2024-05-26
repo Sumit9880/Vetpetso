@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setLogin, setSplashscreen, setUser } from '../reduxStore/userSlice';
+import { setLogin, setSplashscreen, setUser,setStatusBar } from '../reduxStore/userSlice';
 import { apiPost } from '../utils/api';
 
 const SplashScreen = () => {
@@ -19,19 +19,21 @@ const SplashScreen = () => {
         dispatch(setLogin(loginInfo))
 
         if (loginInfo?.isLoggedIn === true && loginInfo.UserId > 0) {
-            const res = await apiPost("api/member/get", {
-                filter: `AND ID = ${loginInfo.UserId}`
+            const res = await apiPost("api/member/getData", {
+                ID: loginInfo.UserId
             });
             if (res.code === 200) {
                 dispatch(setUser(res.data[0]))
+                dispatch(setStatusBar({ backgroundColor: "#4B1AFF", barStyle: "light-content" }))
             } else {
                 dispatch(setLogin({}))
+                dispatch(setStatusBar({ backgroundColor: "#E6F4FE", barStyle: "dark-content" }))
             }
         }
 
         dispatch(setSplashscreen(false))
     }
-    
+
     return (<>
         <View style={styles.mainContainer}>
             <Image

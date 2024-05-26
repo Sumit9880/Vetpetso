@@ -31,6 +31,7 @@ router
 
   // Member Forms
   .use('/api/member', require('./MemberManagement/member'))
+  .use('/api/memberPlanMapping', require('./MemberManagement/memberPlanMapping'))
   .post("/member/login", require("../Services/MemberManagement/member").login)
   .post("/member/sendRegistrationOtp", require("../Services/MemberManagement/member").sendRegistrationOtp)
   .post("/member/verifyRegistrationOtp", require("../Services/MemberManagement/member").verifyRegistrationOtp)

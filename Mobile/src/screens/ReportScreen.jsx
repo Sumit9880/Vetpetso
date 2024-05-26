@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import Header from '../components/Header';
 
 const ReportScreen = ({ route }) => {
 
@@ -13,6 +14,7 @@ const ReportScreen = ({ route }) => {
 
   return (
     <>
+    <Header name="Reports" />
       <Text>ReportScreen</Text>
     </>
   );
