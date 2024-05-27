@@ -109,10 +109,10 @@ const UniversityDrawer = ({ isOpen, onClose, data }) => {
                                             <label htmlFor="TYPE" className="block text-sm font-medium text-gray-700">University Type</label>
                                             <select id="TYPE" name="TYPE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TYPE} onChange={handleChange}>
                                                 <option value="" className="bg-blue-200">Select</option>
-                                                <option value="1" className="bg-blue-200">Vet Stockman Training Cource</option>
-                                                <option value="2" className="bg-blue-200">Livestok Supervidior Cource</option>
-                                                <option value="3" className="bg-blue-200">Dairy Bussiness Management</option>
-                                                <option value="4" className="bg-blue-200">Diploma in Veternary Medicine</option>
+                                                <option value="A" className="bg-blue-200">Vet Stockman Training Cource</option>
+                                                <option value="B" className="bg-blue-200">Livestok Supervidior Cource</option>
+                                                <option value="C" className="bg-blue-200">Dairy Bussiness Management</option>
+                                                <option value="D" className="bg-blue-200">Diploma in Veternary Medicine</option>
                                             </select>
                                         </div>
                                     </form>

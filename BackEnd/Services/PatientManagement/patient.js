@@ -25,7 +25,8 @@ function reqData(req) {
         OWNER_SIGN: req.body.OWNER_SIGN,
         DISCHARGE_DATE: req.body.DISCHARGE_DATE,
         DISCHARGE_REMARK: req.body.DISCHARGE_REMARK,
-        PATIENT_IMAGE: req.body.PATIENT_IMAGE
+        PATIENT_IMAGE: req.body.PATIENT_IMAGE,
+        IS_CLOSED: req.body.IS_CLOSED ? '1' : '0'
     }
     return data;
 }

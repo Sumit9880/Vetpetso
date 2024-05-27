@@ -96,10 +96,10 @@ const RegistrationScreen = () => {
 
     const getDropDownData = async () => {
         try {
-            const resDistrict = await apiPost("api/district/get", {});
-            const resCourse = await apiPost("api/university/get", {});
-            const resTaluka = await apiPost("api/taluka/get", {});
-            const resCast = await apiPost("api/cast/get", {});
+            const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
+            const resCourse = await apiPost("api/university/get", { filter: ` AND IS_ACTIVE = 1` });
+            const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
+            const resCast = await apiPost("api/cast/get", { filter: ` AND STATUS = 1` });
             setTaluka(resTaluka.data)
             setDistrict(resDistrict.data)
             setCourse(resCourse.data)
@@ -206,7 +206,7 @@ const RegistrationScreen = () => {
                                     value={userData.MOBILE_NUMBER}
                                     validation={validation.MOBILE_NUMBER}
                                     onChangeText={e => setUserData({ ...userData, MOBILE_NUMBER: e })}
-                                    options={{}}
+                                    options={{ isDisable: false }}
                                 />
                                 <InputBox
                                     label={{ visible: userData.EMAIL ? true : false, text: 'Email' }}

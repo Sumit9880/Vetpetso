@@ -18,7 +18,7 @@ const AIItem = ({ item }) => {
     const closeCase = async () => {
         setIsLoading(true);
         try {
-            const res = await apiPut("api/patient/update", { ...item, DISCHARGE_REMARK: remark });
+            const res = await apiPut("api/patient/update", { ...item, DISCHARGE_REMARK: remark ,IS_CLOSED:1});
             if (res && res.code === 200) {
                 ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 setVisible(false);

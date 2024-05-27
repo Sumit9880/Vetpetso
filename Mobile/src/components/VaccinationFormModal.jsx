@@ -49,10 +49,10 @@ const VaccinationFormModal = () => {
 
     const getDropDownData = async () => {
         try {
-            const resDistrict = await apiPost("api/district/get", {});
-            const resTaluka = await apiPost("api/taluka/get", {});
-            const resBreed = await apiPost("api/animalBreed/get", {});
-            const resAnimalType = await apiPost("api/animalType/get", {});
+            const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
+            const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
+            const resBreed = await apiPost("api/animalBreed/get", { filter: ` AND IS_ACTIVE = 1` });
+            const resAnimalType = await apiPost("api/animalType/get", { filter: ` AND IS_ACTIVE = 1` });
             setTaluka(resTaluka.data)
             setDistrict(resDistrict.data)
             setAnimalBreed(resBreed.data)

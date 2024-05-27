@@ -64,9 +64,9 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
 
     const getDropDownData = async () => {
         try {
-            const resDistrict = await apiPost("api/district/get", {});
-            const resTaluka = await apiPost("api/taluka/get", {});
-            const resCast = await apiPost("api/cast/get", {});
+            const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
+            const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
+            const resCast = await apiPost("api/cast/get", { filter: ` AND STATUS = 1` });
             setTaluka(resTaluka.data)
             setDistrict(resDistrict.data)
             setCast(resCast.data)
@@ -104,7 +104,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
         }
     };
-    
+
     const handleModelOpen = (file, api, key) => {
         let uri = STATIC_URL + file
         setPreview({
@@ -137,7 +137,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
             } else {
                 console.error('Error picking file:', err);
             }
-        }finally {
+        } finally {
             setIsLoading(false)
         }
     };
@@ -161,14 +161,14 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                             value={userData.MOBILE_NUMBER}
                             validation={validation.MOBILE_NUMBER}
                             onChangeText={e => setUserData({ ...userData, MOBILE_NUMBER: e })}
-                            options={{ isDisable: true }}
+                            options={{ isDisable: false }}
                         />
                         <InputBox
                             label={{ visible: userData.EMAIL ? true : false, text: 'Email' }}
                             value={userData.EMAIL}
                             validation={validation.EMAIL}
                             onChangeText={e => setUserData({ ...userData, EMAIL: e })}
-                            options={{}}
+                            options={{ isDisable: false }}
                         />
                         <InputBox
                             label={{ visible: userData.FATHER_NAME ? true : false, text: 'Father Name' }}

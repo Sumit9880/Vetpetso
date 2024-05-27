@@ -180,8 +180,7 @@ exports.mapPlan = (req, res) => {
 
     var data = reqData(req);
     const errors = validationResult(req);
-    data.TAKEN_DATETIME = bm.getSystemDate();
-    data.STATUS = '1';
+    let TYPE = req.body.TYPE
     if (!errors.isEmpty()) {
         console.error(errors);
         res.send({
@@ -191,6 +190,20 @@ exports.mapPlan = (req, res) => {
     }
     else {
         try {
+            data.TAKEN_DATETIME = bm.getSystemDate();
+            data.STATUS = '1';
+            if (TYPE == 'Y') {
+                let currentDate = new Date();
+                let month = currentDate.getMonth();
+                let year = currentDate.getFullYear();
+                if (month <= 2) {
+                    data.END_DATE = `${year}-03-31`;
+                } else {
+                    data.END_DATE = `${year + 1}-03-31`;
+                }
+            }
+
+            console.log(data.END_DATE);
             dm.runDataQuery('UPDATE member_plan_mapping SET STATUS = 0 WHERE MEMBER_ID = ?', [data.MEMBER_ID], req, (error, results) => {
                 if (error) {
                     console.error(error);

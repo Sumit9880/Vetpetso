@@ -55,7 +55,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
 
     const getDropDownData = async () => {
         try {
-            const resCourse = await apiPost("api/university/get", {});
+            const resCourse = await apiPost("api/university/get", { filter: ` AND IS_ACTIVE = 1` });
             setCourse(resCourse.data)
         } catch (error) {
             console.error(error);
@@ -90,7 +90,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
         }
     };
-    
+
 
     const handleModelOpen = (file, api, key) => {
         let uri = STATIC_URL + file
@@ -124,7 +124,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
             } else {
                 console.error('Error picking file:', err);
             }
-        }finally {
+        } finally {
             setIsLoading(false)
         }
     };

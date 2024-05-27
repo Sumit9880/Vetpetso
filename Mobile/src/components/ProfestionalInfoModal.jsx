@@ -57,8 +57,8 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
 
     const getDropDownData = async () => {
         try {
-            const resDistrict = await apiPost("api/district/get", {});
-            const resTaluka = await apiPost("api/taluka/get", {});
+            const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
+            const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
             setTaluka(resTaluka.data)
             setDistrict(resDistrict.data)
         } catch (error) {
