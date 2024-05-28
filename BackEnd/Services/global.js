@@ -167,8 +167,11 @@ exports.memberSign = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.MEMBER_SIGN != null && results[0]?.MEMBER_SIGN != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/MemberSign/') + results[0]?.MEMBER_SIGN);
+                                            if (results && results[0]?.MEMBER_SIGN) {
+                                                const imagepath = path.join(__dirname, '../Uploads/MemberSign/', results[0].MEMBER_SIGN);
+                                                if (fs.existsSync(imagepath)) {
+                                                    fs.unlinkSync(imagepath);
+                                                }
                                             }
                                             res.send({
                                                 "code": 200,
@@ -242,8 +245,11 @@ exports.experienceLetter = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.EXPERIENCE_LETTER != null && results[0]?.EXPERIENCE_LETTER != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/ExperienceLetter/') + results[0]?.EXPERIENCE_LETTER);
+                                            if (results && results[0]?.EXPERIENCE_LETTER) {
+                                                const imagepath = path.join(__dirname, '../Uploads/ExperienceLetter/', results[0].EXPERIENCE_LETTER);
+                                                if (fs.existsSync(imagepath)) {
+                                                    fs.unlinkSync(imagepath);
+                                                }
                                             }
                                             res.send({
                                                 "code": 200,
@@ -317,8 +323,11 @@ exports.leavingCretificate = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.LEAVING_CERTIFICATE != null && results[0]?.LEAVING_CERTIFICATE != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/LeavingCretificate/') + results[0]?.LEAVING_CERTIFICATE);
+                                            if (results && results[0]?.LEAVING_CERTIFICATE) {
+                                                const imagepath = path.join(__dirname, '../Uploads/LeavingCretificate/', results[0].LEAVING_CERTIFICATE);
+                                                if (fs.existsSync(imagepath)) {
+                                                    fs.unlinkSync(imagepath);
+                                                }
                                             }
                                             res.send({
                                                 "code": 200,
@@ -392,8 +401,11 @@ exports.educationalCretificate = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.EDUCATIONAL_CRETIFICATE != null && results[0]?.EDUCATIONAL_CRETIFICATE != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/EducationalCretificate/') + results[0]?.EDUCATIONAL_CRETIFICATE);
+                                            if (results && results[0]?.EDUCATIONAL_CRETIFICATE) {
+                                                const imagepath = path.join(__dirname, '../Uploads/EducationalCretificate/', results[0].EDUCATIONAL_CRETIFICATE);
+                                                if (fs.existsSync(imagepath)) {
+                                                    fs.unlinkSync(imagepath);
+                                                }
                                             }
                                             res.send({
                                                 "code": 200,
@@ -467,9 +479,12 @@ exports.profilePhoto = function (req, res) {
                                             });
                                         }
                                         else {
-                                            // if (results && results[0]?.PROFILE_PHOTO != null && results[0]?.PROFILE_PHOTO != '') {
-                                            //     fs.unlinkSync(path.join(__dirname, '../Uploads/ProfilePhoto/') + results[0]?.PROFILE_PHOTO);
-                                            // }
+                                            if (results && results[0]?.PROFILE_PHOTO) {
+                                                const imagepath = path.join(__dirname, '../Uploads/ProfilePhoto/', results[0].PROFILE_PHOTO);
+                                                if (fs.existsSync(imagepath)) {
+                                                    fs.unlinkSync(imagepath);
+                                                }
+                                            }
                                             res.send({
                                                 "code": 200,
                                                 "message": "success",
@@ -542,8 +557,11 @@ exports.adharCard = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.ADHAR_CARD != null && results[0]?.ADHAR_CARD != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/AdharCard/') + results[0]?.ADHAR_CARD);
+                                            if (results && results[0]?.ADHAR_CARD) {
+                                                const adharCardPath = path.join(__dirname, '../Uploads/AdharCard/', results[0].ADHAR_CARD);
+                                                if (fs.existsSync(adharCardPath)) {
+                                                    fs.unlinkSync(adharCardPath);
+                                                }
                                             }
                                             res.send({
                                                 "code": 200,
@@ -617,8 +635,11 @@ exports.panCard = function (req, res) {
                                             });
                                         }
                                         else {
-                                            if (results && results[0]?.PAN_CARD != null && results[0]?.PAN_CARD != '') {
-                                                fs.unlinkSync(path.join(__dirname, '../Uploads/PanCard/') + results[0]?.PAN_CARD);
+                                            if (results && results[0]?.PAN_CARD) {
+                                                const imagepath = path.join(__dirname, '../Uploads/PanCard/', results[0].PAN_CARD);
+                                                if (fs.existsSync(imagepath)) {
+                                                    fs.unlinkSync(imagepath);
+                                                }
                                             }
                                             res.send({
                                                 "code": 200,
@@ -660,7 +681,7 @@ exports.ownerSign = function (req, res) {
     try {
         const form = new formidable.IncomingForm({
             allowEmptyFiles: true,
-          });
+        });
         form.parse(req, function (err, fields, files) {
             if (err) {
                 console.error(err);

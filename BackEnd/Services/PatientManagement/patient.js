@@ -246,7 +246,7 @@ exports.addAi = async (req, res) => {
                         "message": "Failed to save patientMaster information..."
                     });
                 } else {
-                    if (results[0].CASE_NO > 0) {
+                    if (results[0]?.CASE_NO > 0) {
                         data.CASE_NO = (parseInt(results[0].CASE_NO) + 1)
                     } else {
                         data.CASE_NO = 1
@@ -317,7 +317,7 @@ exports.addVaccination = async (req, res) => {
                         "message": "Failed to save patientMaster information..."
                     });
                 } else {
-                    if (results[0].CASE_NO > 0) {
+                    if (results[0]?.CASE_NO > 0) {
                         data.CASE_NO = (parseInt(results[0].CASE_NO) + 1)
                     } else {
                         data.CASE_NO = 1
@@ -390,7 +390,7 @@ exports.add = async (req, res) => {
                         "message": "Failed to save patientMaster information..."
                     });
                 } else {
-                    if (results[0].CASE_NO > 0) {
+                    if (results[0]?.CASE_NO > 0) {
                         data.CASE_NO = (parseInt(results[0].CASE_NO) + 1)
                     } else {
                         data.CASE_NO = 1
