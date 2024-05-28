@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, Modal, Text } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { setStatusBar } from '../reduxStore/userSlice';
 import Header from '../components/Header';
 import VectorIcon from '../utils/VectorIcon';
 import { apiPost } from '../utils/api';
@@ -10,6 +11,8 @@ import Loader from '../components/Loader';
 
 const VaccinationList = () => {
   const user = useSelector(state => state.user.userInfo);
+  const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const navigation = useNavigation();
@@ -43,7 +46,7 @@ const VaccinationList = () => {
         sortKey: "ID",
         sortValue: "ASC",
         pageSize: 50,
-        filter: ` AND MEMBER_ID = ${user.ID} AND (ANIMAL_IDENTITY_NO LIKE '%${search.value}%' OR CASE_NO LIKE '%${search.value}%' OR OWNER_NAME LIKE '%${search.value}%' OR MOBILE_NUMBER LIKE '%${search.value}%')`
+        filter: ` AND IS_CLOSED = 0 AND MEMBER_ID = ${user.ID} AND (ANIMAL_IDENTITY_NO LIKE '%${search.value}%' OR CASE_NO LIKE '%${search.value}%' OR OWNER_NAME LIKE '%${search.value}%' OR MOBILE_NUMBER LIKE '%${search.value}%')`
       });
       let updatedData = [...dataSearch, ...res.data];
       setDataSearch(updatedData);
@@ -66,7 +69,7 @@ const VaccinationList = () => {
         sortKey: "ID",
         sortValue: "DESC",
         pageSize: 50,
-        filter: " AND MEMBER_ID = " + user.ID
+        filter: " AND IS_CLOSED = 0 AND MEMBER_ID = " + user.ID
       });
       let updatedData = [...data, ...res.data];
       setData(updatedData);
@@ -95,8 +98,20 @@ const VaccinationList = () => {
   }, [navigation]);
 
   const handlePress = () => {
-    navigation.navigate('VaccinationFormModal', { item: {} });
+    if (user.PLAN_DETAILS.PLAN_ID != null && (user.PLAN_DETAILS.END_DATE == null || new Date(user.PLAN_DETAILS.END_DATE) > new Date())) {
+      navigation.navigate('VaccinationFormModal', { item: {} });
+    }
+    else {
+      setModalVisible(true);
+    }
   };
+
+  const handleSubscription = () => {
+    setModalVisible(false);
+    dispatch(setStatusBar({ backgroundColor: "#E6F4FE", barStyle: "dark-content" }))
+    navigation.navigate('Subscription');
+  };
+
   return (
     <>
       <Header name="Vaccination" />
@@ -130,6 +145,36 @@ const VaccinationList = () => {
           <VectorIcon type="Feather" name="plus" size={40} color="#fff" />
         </TouchableOpacity>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '94%' }}>
+            <View style={{ margin: 15, alignItems: 'center' }}>
+              <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
+                <VectorIcon
+                  name="closecircleo"
+                  type="AntDesign"
+                  size={28}
+                  color="red"
+                  onPress={() => setModalVisible(false)}
+                  style={{ alignSelf: 'flex-end' }}
+                />
+              </View>
+              <Text style={{ fontWeight: 'bold', fontSize: 24, fontFamily: "Poppins-Regular", color: '#000', textAlign: 'center', marginBottom: 10 }}>No Active Plan</Text>
+              <Text style={{ textAlign: 'center', color: "#000", fontSize: 15, fontWeight: '500' }}>You currently do not have any active plan. Please purchase a plan to continue using our services.</Text>
+              <TouchableOpacity
+                style={{ height: 45, backgroundColor: "#4B1AFF", borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#4B1AFF", width: "80%", marginTop: 30 }}
+                onPress={handleSubscription}
+              >
+                <Text style={{ fontSize: 16, color: "#fff", fontFamily: "Poppins-Medium", }}>Buy a Plan</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal >
       <Loader isLoading={isLoading} />
     </>
   );

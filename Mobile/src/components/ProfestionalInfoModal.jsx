@@ -11,9 +11,10 @@ import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
 import * as Yup from 'yup';
 import Loader from './Loader';
+import { useNavigation } from '@react-navigation/native';
 
-const ProfestionalInfoModal = ({ showModal, setModal }) => {
-
+const ProfestionalInfoModal = () => {
+    const navigation = useNavigation();
     const user = useSelector(state => state.user.userInfo)
     const [userData, setUserData] = useState({ ...user })
     const [preview, setPreview] = useState({
@@ -79,7 +80,6 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                 if (response.code === 200) {
                     ToastAndroid.show(response.message, ToastAndroid.SHORT);
                     dispatch(setUser(userData));
-                    setModal();
                     setValidation({});
                 } else {
                     ToastAndroid.show(response.message, ToastAndroid.SHORT);
@@ -135,7 +135,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
 
     return (
 
-        <Modal style={styles.container} visible={showModal}>
+        <>
             <Header name="Professional Information" />
             <View style={styles.mainContainer}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -204,7 +204,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                                 data={workTluka}
                             />
                         </View>
-                        <View style={styles.upload}>
+                        {/* <View style={styles.upload}>
                             <Text style={styles.uploadText}>Upload Sign : </Text>
                             <View style={{ paddingRight: 20 }}>
                                 <VectorIcon
@@ -215,7 +215,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                                     onPress={() => { handleModelOpen('MemberSign/' + userData.MEMBER_SIGN, 'upload/memberSign', 'MEMBER_SIGN') }}
                                 />
                             </View>
-                        </View>
+                        </View> */}
                         {/* <InputBox
                             label={{ visible: userData.PASSWORD ? true : false, text: 'Password' }}
                             value={userData.PASSWORD}
@@ -226,7 +226,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                     </View>
                 </ScrollView>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={setModal}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <View style={styles.buttonContainer}>
                             <Text style={[styles.button, { backgroundColor: '#fff', color: "#4B1AFF", borderColor: '#4B1AFF', borderWidth: 1 }]} >Cancel</Text>
                         </View>
@@ -267,7 +267,7 @@ const ProfestionalInfoModal = ({ showModal, setModal }) => {
                 </View>
             </Modal>
             <Loader isLoading={isLoading} />
-        </Modal>
+        </>
     );
 };
 
@@ -321,13 +321,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         padding: 15,
         paddingTop: 0
-        // justifyContent: "center",
-        // alignItems: "center"
     },
     container: {
-        // padding: 5,
         margin: 5,
-        paddingBottom: 20,
+        marginTop: 0,
+        marginBottom: 20,
         flexDirection: 'col',
         alignItems: 'center',
         justifyContent: "center",

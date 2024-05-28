@@ -20,6 +20,7 @@ const HomeScreen = () => {
   useEffect(() => {
     getData();
   }, []);
+  
   const getData = async () => {
     try {
       const resEvents = await apiPost("api/notice/get", {
@@ -35,9 +36,10 @@ const HomeScreen = () => {
       setEvents(resEvents.data);
       setCounts(resCounts.data);
       setMemberCounts(resMemberCounts.data);
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,7 +55,7 @@ const HomeScreen = () => {
             <LinearGradient colors={['#7c97f9', '#4B1AFF']} style={styles.greetingContainer}>
               <View>
                 <Text style={styles.greetingText}>Welcome,</Text>
-                <Text style={[styles.greetingText, { fontSize: 20 }]}>{user.NAME}</Text>
+                <Text style={[styles.greetingText, { fontSize: 20, width: 180 }]}>{user.NAME}</Text>
                 <Text style={[styles.greetingText, { fontSize: 14, fontWeight: '400' }]}>Member ID : {user.MEMBER_REGISTRATION_NO}</Text>
                 <View style={styles.greetingStat}>
                   <View style={{ alignItems: 'center', justifyContent: 'center' }}>

@@ -70,7 +70,7 @@ const VaccinationFormModal = () => {
         MOBILE_NUMBER: Yup.number().required('Mobile is required'),
         OWNER_NAME: Yup.string().required('Owner Name is required'),
         DISTRICT: Yup.number().required('District is required'),
-        ANIMAL_IDENTITY_NO: Yup.number().required('Animal Identity is required'),
+        ANIMAL_IDENTITY_NO: Yup.string().required('Animal Identity is required'),
     });
 
     const validate = async () => {
@@ -101,7 +101,7 @@ const VaccinationFormModal = () => {
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     navigation.goBack()
                 } else {
-                    ToastAndroid.show('Failed to create Registration', ToastAndroid.SHORT);
+                    ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 }
             } catch (error) {
                 console.error(error);
@@ -122,7 +122,7 @@ const VaccinationFormModal = () => {
                 ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 navigation.goBack()
             } else {
-                ToastAndroid.show('Failed to update Registration', ToastAndroid.SHORT);
+                ToastAndroid.show(res.message, ToastAndroid.SHORT);
             }
         } catch (error) {
             console.error(error);
@@ -211,6 +211,7 @@ const VaccinationFormModal = () => {
                 ToastAndroid.show('Please select signature', ToastAndroid.SHORT);
             }
         } catch (error) {
+            console.log("error", error);
             ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
         } finally {
             setIsLoading(false)
@@ -402,7 +403,7 @@ const VaccinationFormModal = () => {
                 visible={signPad}
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ height: '90%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 10 }}>
+                    <View style={{ height: '90%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingBottom: 10, paddingRight: 10 }}>
                             <VectorIcon
                                 name="closecircleo"
@@ -435,7 +436,19 @@ const VaccinationFormModal = () => {
                                     width: 100%;
                                 }
                                 .m-signature-pad--footer
-                                .button {
+                                .clear {
+                                    background-color: #fff;
+                                    border-color: #20daff;
+                                    color: #8a8a8f;
+                                    width: 100px;
+                                    height: 35px;
+                                    font-size: 16px;
+                                    font-weight: 500;
+                                    border-radius: 50px;
+                                    border-width: 2px;
+                                }
+                                .m-signature-pad--footer
+                                .save {
                                     background-color: #20daff;
                                     color: #8a8a8f;
                                     width: 100px;
@@ -444,6 +457,13 @@ const VaccinationFormModal = () => {
                                     font-weight: 500;
                                     border-radius: 50px;
                                 }
+                                .m-signature-pad--footer{
+                                    padding: 5px;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                }
+                                
                             `}
                         />
                         {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

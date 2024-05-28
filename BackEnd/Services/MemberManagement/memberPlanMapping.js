@@ -98,7 +98,7 @@ exports.create = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
@@ -145,7 +145,7 @@ exports.update = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
@@ -176,7 +176,7 @@ exports.update = (req, res) => {
 }
 
 
-exports.mapPlan = (req, res) => {
+exports.mapPlan = async (req, res) => {
 
     var data = reqData(req);
     const errors = validationResult(req);
@@ -185,7 +185,7 @@ exports.mapPlan = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
@@ -202,27 +202,42 @@ exports.mapPlan = (req, res) => {
                     data.END_DATE = `${year + 1}-03-31`;
                 }
             }
-
-            console.log(data.END_DATE);
-            dm.runDataQuery('UPDATE member_plan_mapping SET STATUS = 0 WHERE MEMBER_ID = ?', [data.MEMBER_ID], req, (error, results) => {
+            const connection = await dm.getConnection();
+            dm.runDMLQuery('UPDATE member_plan_mapping SET STATUS = 0 WHERE MEMBER_ID = ?', [data.MEMBER_ID], connection, req, (error, results0) => {
                 if (error) {
                     console.error(error);
+                    dm.rollback(connection);
                     res.send({
                         "code": 400,
                         "message": "Failed to save Plan Mapping information..."
                     });
                 } else {
-                    dm.runDataQuery('INSERT INTO member_plan_mapping SET ?', data, req, (error, results) => {
+                    dm.runDMLQuery('INSERT INTO member_plan_mapping SET ?', data, connection, req, (error, results) => {
                         if (error) {
                             console.error(error);
+                            dm.rollback(connection);
                             res.send({
                                 "code": 400,
                                 "message": "Failed to save Plan Mapping information..."
                             });
                         } else {
-                            res.send({
-                                "code": 200,
-                                "message": "Plan Mapping information saved successfully...",
+                            dm.runDMLQuery('select * from view_member_plan_mapping where ID = ?', [results.insertId], connection, req, (error, resultsPlan) => {
+                                if (error) {
+                                    console.error(error);
+                                    dm.rollback(connection);
+                                    res.send({
+                                        "code": 400,
+                                        "message": "Failed to get memberPlan information."
+                                    });
+                                }
+                                else {
+                                    dm.commit(connection);
+                                    res.send({
+                                        "code": 200,
+                                        "message": "Plan Mapping information saved successfully...",
+                                        data: resultsPlan[0]
+                                    });
+                                }
                             });
                         }
                     });

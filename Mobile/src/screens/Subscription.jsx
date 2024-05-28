@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { setStatusBar } from '../reduxStore/userSlice';
+import { setStatusBar, setUser } from '../reduxStore/userSlice';
 import VectorIcon from '../utils/VectorIcon';
 import { apiPost, STATIC_URL } from '../utils/api';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,6 +26,7 @@ const Subscription = () => {
     }, []);
 
     const getData = async () => {
+        setIsLoading(true);
         try {
             const resPlanes = await apiPost("api/plan/get", { filter: " AND IS_ACTIVE = 1 " });
             setPlans(resPlanes.data);
@@ -39,6 +40,8 @@ const Subscription = () => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -55,14 +58,15 @@ const Subscription = () => {
         dispatch(setStatusBar({ backgroundColor: "#4B1AFF", barStyle: "light-content" }))
         return true;
     };
-
+    // console.log("user", user);
     const submit = async () => {
         setIsLoading(true);
         try {
-            const response = await apiPost('api/memberPlanMapping/mapPlan', { PLAN_ID: selectedPlan.ID, MEMBER_ID: user.ID });
+            const response = await apiPost('api/memberPlanMapping/mapPlan', { PLAN_ID: selectedPlan.ID, MEMBER_ID: user.ID, TYPE: selectedPlan.TYPE });
             if (response.code === 200) {
                 ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                // dispatch(setUser(userData));
+                const userData = { ...user, PLAN_DETAILS: response.data };
+                dispatch(setUser(userData));
                 setModalVisible(false)
             } else {
                 ToastAndroid.show(response.message, ToastAndroid.SHORT);
@@ -78,7 +82,7 @@ const Subscription = () => {
     const Plan = ({ item }) => {
         return (
             <TouchableOpacity style={{ margin: 5 }} onPress={() => setSelectedPlan(item)}>
-                <Text style={{ color: `${user.PLAN_DETAILS?.PLAN_ID === item.ID ? '#4B1AFF' : '#E6F4FE'}` }}>Current Plan</Text>
+                <Text style={{ fontSize: 15, fontWeight: '500', color: `${user.PLAN_DETAILS?.PLAN_ID === item.ID ? '#4B1AFF' : '#E6F4FE'}` }}>Current Plan</Text>
                 <View style={{ borderColor: `${selectedPlan.ID === item.ID ? '#6b71ff' : '#E6F4FE'}`, borderWidth: 2, borderRadius: 10 }}>
                     <LinearGradient
                         colors={[`${item.COLOR_1}`, `${item.COLOR_2}`, `${item.COLOR_3}`]}

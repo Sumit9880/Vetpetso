@@ -119,7 +119,7 @@ const CaseFormModal = () => {
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     navigation.goBack()
                 } else {
-                    ToastAndroid.show('Failed to create Registration', ToastAndroid.SHORT);
+                    ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 }
             } catch (error) {
                 console.error(error);
@@ -142,7 +142,7 @@ const CaseFormModal = () => {
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     navigation.goBack()
                 } else {
-                    ToastAndroid.show('Failed to update Registration', ToastAndroid.SHORT);
+                    ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 }
             } catch (error) {
                 console.error(error);
@@ -234,6 +234,7 @@ const CaseFormModal = () => {
                 ToastAndroid.show('Please select signature', ToastAndroid.SHORT);
             }
         } catch (error) {
+            console.log("error", error);
             ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
         } finally {
             setIsLoading(false)
@@ -639,7 +640,19 @@ const CaseFormModal = () => {
                                     width: 100%;
                                 }
                                 .m-signature-pad--footer
-                                .button {
+                                .clear {
+                                    background-color: #fff;
+                                    border-color: #20daff;
+                                    color: #8a8a8f;
+                                    width: 100px;
+                                    height: 35px;
+                                    font-size: 16px;
+                                    font-weight: 500;
+                                    border-radius: 50px;
+                                    border-width: 2px;
+                                }
+                                .m-signature-pad--footer
+                                .save {
                                     background-color: #20daff;
                                     color: #8a8a8f;
                                     width: 100px;
@@ -648,6 +661,13 @@ const CaseFormModal = () => {
                                     font-weight: 500;
                                     border-radius: 50px;
                                 }
+                                .m-signature-pad--footer{
+                                    padding: 5px;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                }
+                                
                             `}
                         />
                     </View>

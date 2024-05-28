@@ -21,6 +21,9 @@ import AIFormModal from '../components/AIFormModal';
 import CaseFormModal from '../components/CaseFormModal';
 import ForgotPass from '../screens/ForgotPass';
 import Subscription from '../screens/Subscription';
+import PersonalInfoModal from '../components/PersonalInfoModal';
+import EducationalInfoModal from '../components/EducationalInfoModal';
+import ProfestionalInfoModal from '../components/ProfestionalInfoModal';
 
 const AppRouter = () => {
   const Tab = createBottomTabNavigator();
@@ -137,6 +140,10 @@ const AppRouter = () => {
         <Stack.Screen name="AIFormModal" component={AIFormModal} />
         <Stack.Screen name="CaseFormModal" component={CaseFormModal} />
         <Stack.Screen name="Subscription" component={Subscription} />
+        <Stack.Screen name="PersonalInfoModal" component={PersonalInfoModal} />
+        <Stack.Screen name="EducationalInfoModal" component={EducationalInfoModal} />
+        <Stack.Screen name="ProfestionalInfoModal" component={ProfestionalInfoModal} />
+
       </Stack.Navigator>
     </>
   )

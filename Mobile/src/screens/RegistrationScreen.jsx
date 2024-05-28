@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AppState, View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid, ScrollView, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setSplashscreen } from '../reduxStore/userSlice';
@@ -12,10 +12,12 @@ import DatePick from '../components/DatePick';
 import DropdownComponent from '../components/DropdownComponent';
 import * as Yup from 'yup';
 import Loader from '../components/Loader';
+import Signature from "react-native-signature-canvas";
 
 const RegistrationScreen = () => {
 
     const data = useSelector(state => state.user.loginInfo)
+    let signatureRef = useRef(null);
     const [userData, setUserData] = useState({});
     const [showModal, setShowModal] = useState({ isVisible: false, uri: '', api: '', key: '' });
     const dispatch = useDispatch();
@@ -25,6 +27,8 @@ const RegistrationScreen = () => {
     const [cast, setCast] = useState([]);
     const [validation, setValidation] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [agreed, setAgreed] = useState(false)
 
     const validationSchema = Yup.object().shape({
         NAME: Yup.string().required('Name is required'),
@@ -34,6 +38,7 @@ const RegistrationScreen = () => {
         EMAIL: Yup.string().email('Invalid email address').required('Email is required'),
         MOBILE_NUMBER: Yup.string().required('Phone is required'),
         DATE_OF_BIRTH: Yup.string().required('Date of birth is required'),
+        PASSWORD: Yup.string().required('Password is required'),
     });
 
     const validate = async () => {
@@ -172,8 +177,9 @@ const RegistrationScreen = () => {
                     const updatedUserData = { ...userData, STEP_NO: 4 };
                     await AsyncStorage.setItem("LOGININFO", JSON.stringify(updatedUserData));
                     setUserData(updatedUserData);
+                    setModalVisible(false)
                 } else {
-                    ToastAndroid.show(res && res.message || 'Failed to create member', ToastAndroid.SHORT);
+                    ToastAndroid.show(res && res.message || res.message, ToastAndroid.SHORT);
                 }
             } catch (error) {
                 console.error(error);
@@ -183,6 +189,43 @@ const RegistrationScreen = () => {
             }
         } else {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
+        }
+    };
+
+    const handleSave = async () => {
+        let errors = await validate()
+        if (!errors) {
+            setModalVisible(true)
+        } else {
+            ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
+        }
+    }
+    const handleSignatureSaved = async (signature) => {
+        setIsLoading(true);
+        try {
+            if (signature !== null) {
+                let data = {
+                    uri: signature,
+                    type: 'image/png',
+                    name: 'signature.jpg'
+                }
+                const apiResponse = await apiUpload('upload/memberSign', data, 0);
+                if (apiResponse.code === 200) {
+                    const updatedUserData = { ...userData, "MEMBER_SIGN": apiResponse.name };
+                    setUserData(updatedUserData);
+                    dispatch(setLogin(updatedUserData));
+                    ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+                } else {
+                    ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+                }
+            } else {
+                ToastAndroid.show('Please select signature', ToastAndroid.SHORT);
+            }
+        } catch (error) {
+            console.log("error", error);
+            ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false)
         }
     };
 
@@ -561,7 +604,7 @@ const RegistrationScreen = () => {
                                     onChangeText={e => setUserData({ ...userData, CONCENTERS_MOBILE_NUMBER: e })}
                                     options={{ maxlength: 10, inputType: 'numeric' }}
                                 />
-                                <View style={styles.upload}>
+                                {/* <View style={styles.upload}>
                                     <Text style={styles.uploadText}>Upload Sign : </Text>
                                     <View style={{ paddingRight: 20 }}>
                                         {userData?.MEMBER_SIGN == null ? <VectorIcon
@@ -579,7 +622,7 @@ const RegistrationScreen = () => {
                                                 onPress={() => { handleModelOpen('MemberSign/' + userData.MEMBER_SIGN, '/upload/memberSign', 'MEMBER_SIGN') }}
                                             />}
                                     </View>
-                                </View>
+                                </View> */}
                                 <InputBox
                                     label={{ visible: userData.PASSWORD ? true : false, text: 'Password' }}
                                     value={userData.PASSWORD}
@@ -647,9 +690,9 @@ const RegistrationScreen = () => {
                 }
                 {
                     userData?.STEP_NO === 3 ?
-                        <TouchableOpacity onPress={handleSubmit}  >
+                        <TouchableOpacity onPress={handleSave}  >
                             <View style={styles.buttonContainer}>
-                                <Text style={[styles.button, { backgroundColor: '#ff0c6c' }]} >Submit</Text>
+                                <Text style={[styles.button, { backgroundColor: '#ff0c6c' }]} >Save</Text>
                             </View>
                         </TouchableOpacity> :
                         userData?.STEP_NO < 3 ?
@@ -688,6 +731,118 @@ const RegistrationScreen = () => {
                     </View>
                 </View>
             </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, borderRadius: 10, margin: 8, marginVertical: 20 }}>
+                        <Text style={[styles.heading, { fontWeight: 'bold', fontSize: 24, fontFamily: "Poppins-Regular", color: '#4B1AFF' }]}>Terms and Conditions</Text>
+                        <View style={{ margin: 10, marginVertical: 5 }}>
+                            <Text style={{ color: "#003", fontSize: 13, fontWeight: '600' }}>    महाराष्ट्र राज्यातील खाजगी क्षेत्रात कार्यरत असलेल्या पशु वैद्यकीय पशु संवर्धन व दुग्ध व्यवस्थापन पदवि -
+                                पदविका प्रमाणपत्रधारक च्या आर्थिक, शैक्षणिक, व्यावसायिक आणि सामाजिक प्रश्यांच्या सोडवणूकीसाठी त्यांच्या
+                                विविध हक्कांचे हिताचे संवर्धन व संरक्षण करण्याच्या प्रधान ने पशु वैद्यकीय पशु संवर्धन दुग्ध व्यवस्थापन सेवा संघ
+                                सोसायटी नोंदणी कायदा १८६० व मुंबई सावर्जनिक न्यास स्थापन कायदा १९५० मधील तरतुदीनुसार नोंदणी क्रमांक
+                                अनुक्रमे महा/८४७ पुणे २०११ ता. ७.५.२०११ व एफ ३११९९ ता. १८.९.२०११ अन्वये नोंदला गेला आहे असे
+                                समजल्यावरुन मी सदर अर्ज सादर करीत आहे.
+                            </Text>
+                            <Text style={{ color: "#003", marginTop: 10, fontSize: 13, fontWeight: '600' }}>    प्रथमतःच मी प्रतिज्ञापूर्वक नमुद करीत आहे. की संघाच्या नियम अटी धोरणे माझ्यावर बंधनकारक राहतील व
+                                स्वखुषीने माझ्या व आमच्या संवर्गाच्या शैक्षणिक विकासार्थ, सर्वागीण कल्याणार्थ, आर्थिक विकासार्थ आणि व्यवसायिक
+                                हक्काच्या संरक्षणार्थ संघाची वर्गणी वेळोवेळी निश्चित केलेला संघटीत - सर्वंकष - सक्षम कायदेशीर प्रयत्नासाठी
+                                इतर निधी मी वेळोवेळी न चुकता संघास देत राहीन
+                            </Text>
+                        </View>
+                        <View style={{ alignItems: 'center', flex: 1, marginTop: 10 }}>
+                            {
+                                userData.MEMBER_SIGN ?
+                                    <Image
+                                        source={{ uri: STATIC_URL + '/MemberSign/' + userData.MEMBER_SIGN }}
+                                        style={{ height: 100, width: 100 }}
+                                    />
+                                    : <Signature
+                                        ref={signatureRef}
+                                        onOK={handleSignatureSaved}
+                                        descriptionText=""
+                                        clearText="Clear"
+                                        confirmText="Save"
+                                        color="#4B1AFF"
+                                        webStyle={`
+                                            .m-signature-pad { 
+                                                height: 80%;
+                                                width: 100%;
+                                            }
+                                            .m-signature-pad--footer
+                                            .clear {
+                                                background-color: #fff;
+                                                border-color: #20daff;
+                                                color: #8a8a8f;
+                                                width: 100px;
+                                                height: 35px;
+                                                font-size: 16px;
+                                                font-weight: 500;
+                                                border-radius: 50px;
+                                                border-width: 2px;
+                                            }
+                                            .m-signature-pad--footer
+                                            .save {
+                                                background-color: #20daff;
+                                                color: #8a8a8f;
+                                                width: 100px;
+                                                height: 35px;
+                                                font-size: 16px;
+                                                font-weight: 500;
+                                                border-radius: 50px;
+                                            }
+                                            .m-signature-pad--footer{
+                                                padding: 5px;
+                                                display: flex;
+                                                justify-content: space-between;
+                                                align-items: center;
+                                            }
+                                            
+                                            `}
+                                    />
+                            }
+                        </View>
+                        <View style={{ justifyContent: 'center', gap: 10, alignItems: 'center', flexDirection: 'row', margin: 10 }}>
+                            {
+                                agreed ?
+                                    <VectorIcon
+                                        name="check-square"
+                                        type="Feather"
+                                        onPress={() => setAgreed(!agreed)}
+                                        size={22}
+                                        color={'#4B1AFF'}
+                                    /> :
+                                    <VectorIcon
+                                        name="square"
+                                        type="Feather"
+                                        size={22}
+                                        onPress={() => setAgreed(!agreed)}
+                                        color={'#4B1AFF'}
+                                    />
+                            }
+                            <Text style={{ fontSize: 14, color: "#000", fontFamily: "Poppins-Regular" }}>I agree with the terms and conditions</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'left', gap: 50, marginBottom: 10 }}>
+                            <TouchableOpacity
+                                style={{ height: 40, backgroundColor: "#fff", borderRadius: 20, alignItems: "center", justifyContent: "center", borderColor: "#4B1AFF", borderWidth: 1, width: 120 }}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={{ fontSize: 16, color: "#000", fontFamily: "Poppins-Medium", }}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{ height: 40, backgroundColor: "#4B1AFF", borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: agreed ? "#4B1AFF" : "#8f8f8f", width: 120 }}
+                                disabled={!agreed}
+                                onPress={handleSubmit}
+                            >
+                                <Text style={{ fontSize: 16, color: "#fff", fontFamily: "Poppins-Medium", }}>Submit</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal >
             <Loader isLoading={isLoading} />
         </View >
     );

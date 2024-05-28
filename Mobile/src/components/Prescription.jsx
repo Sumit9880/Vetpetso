@@ -72,7 +72,7 @@ const Prescription = ({ item, showModal, setModal }) => {
             <body>
                     <div class="prescription-details">
                     <div style="display: flex; align-items: center; padding: 10px 40px">
-                    <img src="${STATIC_URL}/jOthers/vetpetso.png" style="width: 100px; height: 100px;" alt="Logo"/>
+                    <img src="${STATIC_URL}/Others/vetpetso.png" style="width: 100px; height: 100px;" alt="Logo"/>
                     <div style="align-items: center; width : 100%;">
                     <h2>MAHARASHTRA MODEL</h2>
                     <h3>PRESCRIPTION</h3>

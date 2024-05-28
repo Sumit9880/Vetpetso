@@ -11,9 +11,11 @@ import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
 import * as Yup from 'yup';
 import Loader from './Loader';
+import { useNavigation } from '@react-navigation/native';
 
-const EducationalInfoModal = ({ showModal, setModal }) => {
+const EducationalInfoModal = () => {
 
+    const navigation = useNavigation();
     const user = useSelector(state => state.user.userInfo)
     const [userData, setUserData] = useState({ ...user })
     const [preview, setPreview] = useState({
@@ -75,7 +77,6 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                 if (response.code === 200) {
                     ToastAndroid.show(response.message, ToastAndroid.SHORT);
                     dispatch(setUser(userData));
-                    setModal();
                     setValidation({});
                 } else {
                     ToastAndroid.show(response.message, ToastAndroid.SHORT);
@@ -131,7 +132,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
 
     return (
 
-        <Modal style={styles.container} visible={showModal}>
+        <>
             <Header name="Educational Information" />
             <View style={styles.mainContainer}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -221,7 +222,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                     </View>
                 </ScrollView>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={setModal}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <View style={styles.buttonContainer}>
                             <Text style={[styles.button, { backgroundColor: '#fff', color: "#4B1AFF", borderColor: '#4B1AFF', borderWidth: 1 }]} >Cancel</Text>
                         </View>
@@ -262,7 +263,7 @@ const EducationalInfoModal = ({ showModal, setModal }) => {
                 </View>
             </Modal>
             <Loader isLoading={isLoading} />
-        </Modal>
+        </>
     );
 };
 
@@ -317,12 +318,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         padding: 15,
         paddingTop: 0
-        // justifyContent: "center",
-        // alignItems: "center"
     },
     container: {
-        // padding: 5,
         margin: 5,
+        marginTop: 0,
         marginBottom: 20,
         flexDirection: 'col',
         alignItems: 'center',

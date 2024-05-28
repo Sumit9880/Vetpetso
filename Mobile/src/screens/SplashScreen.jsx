@@ -41,7 +41,7 @@ const SplashScreen = () => {
                 source={require('../assets/vetpetso.png')}
             />
             <ActivityIndicator size="small" color="#62A4FB" style={styles.name} />
-            <Text style={styles.name1}>© Sumit Ghatage</Text>
+            <Text style={styles.name1}>© Eternal Tech Services</Text>
         </View>
     </>
     );

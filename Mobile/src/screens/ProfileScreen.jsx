@@ -1,24 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { setLogin, setUser, setStatusBar } from '../reduxStore/userSlice';
 import VectorIcon from '../utils/VectorIcon';
 import Header from '../components/Header';
-import PersonalInfoModal from '../components/PersonalInfoModal';
-import ProfestionalInfoModal from '../components/ProfestionalInfoModal';
-import EducationalInfoModal from '../components/EducationalInfoModal';
 import { STATIC_URL } from '../utils/api';
 import LinearGradient from 'react-native-linear-gradient';
 
 const ProfileScreen = () => {
-  const [showModal, setShowModal] = useState({
-    personal: false,
-    educational: false,
-    professional: false
-  });
-  
   const user = useSelector(state => state.user.userInfo)
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -70,7 +61,7 @@ const ProfileScreen = () => {
                 style={[styles.subscription, { shadowColor: `${user.PLAN_DETAILS?.COLOR_3 || '#dbd1ff'}` }]}
               >
                 {
-                  user.PLAN_DETAILS.ID ? (
+                  (user.PLAN_DETAILS.PLAN_ID != null && (user.PLAN_DETAILS.END_DATE == null || new Date(user.PLAN_DETAILS.END_DATE) > new Date())) ? (
                     <View style={{ width: '70%' }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000', width: 85 }}>Active Plan</Text>
@@ -143,7 +134,7 @@ const ProfileScreen = () => {
                 <TouchableOpacity
                   style={styles.buttonContainer}
                   onPress={() => {
-                    setShowModal(prev => ({ ...prev, personal: true }))
+                    navigation.navigate('PersonalInfoModal')
                   }}
                 >
                   <View style={styles.buttonIcon}>
@@ -159,7 +150,7 @@ const ProfileScreen = () => {
                 <TouchableOpacity
                   style={styles.buttonContainer}
                   onPress={() => {
-                    setShowModal(prev => ({ ...prev, educational: true }))
+                    navigation.navigate('EducationalInfoModal')
                   }}
                 >
                   <View style={styles.buttonIcon}>
@@ -175,7 +166,7 @@ const ProfileScreen = () => {
                 <TouchableOpacity
                   style={[styles.buttonContainer, { marginRight: 10 }]}
                   onPress={() => {
-                    setShowModal(prev => ({ ...prev, professional: true }))
+                    navigation.navigate('ProfestionalInfoModal')
                   }}
                 >
                   <View style={styles.buttonIcon}>
@@ -199,12 +190,9 @@ const ProfileScreen = () => {
           </TouchableOpacity>
           <Text style={{ color: "#7a7a7a", fontSize: 12, fontWeight: 'bold', paddingTop: 10 }}>Version 1.0.0</Text>
           <Text style={{ color: "#7a7a7a", fontSize: 10, fontWeight: 'bold', paddingTop: 10 }}>Developed By</Text>
-          <Text style={{ fontWeight: 'bold', color: '#5a5a5a', paddingTop: 1 }}>Sumit Ghatage</Text>
+          <Text style={{ fontWeight: 'bold', color: '#5a5a5a', paddingTop: 1 }}>Eternal Tech Services</Text>
         </View >
       </ScrollView >
-      <PersonalInfoModal showModal={showModal.personal} setModal={() => setShowModal(prev => ({ ...prev, personal: false }))} />
-      <ProfestionalInfoModal showModal={showModal.professional} setModal={() => setShowModal(prev => ({ ...prev, professional: false }))} />
-      <EducationalInfoModal showModal={showModal.educational} setModal={() => setShowModal(prev => ({ ...prev, educational: false }))} />
     </View >
   );
 };

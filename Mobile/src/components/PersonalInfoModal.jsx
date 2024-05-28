@@ -12,8 +12,11 @@ import DropdownComponent from './DropdownComponent';
 import DatePick from './DatePick';
 import * as Yup from 'yup';
 import Loader from './Loader';
+import { useNavigation } from '@react-navigation/native';
 
-const PersonalInfoModal = ({ showModal, setModal }) => {
+const PersonalInfoModal = () => {
+
+    const navigation = useNavigation();
 
     const user = useSelector(state => state.user.userInfo)
     const [userData, setUserData] = useState({})
@@ -89,7 +92,6 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                 if (response.code === 200) {
                     ToastAndroid.show(response.message, ToastAndroid.SHORT);
                     dispatch(setUser(userData));
-                    setModal();
                     setValidation({});
                 } else {
                     ToastAndroid.show(response.message, ToastAndroid.SHORT);
@@ -144,7 +146,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
 
     return (
 
-        <Modal style={styles.container} visible={showModal}>
+        <>
             <Header name="Personal Information" />
             <View style={styles.mainContainer}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -280,8 +282,8 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                         </View>
                     </View>
                 </ScrollView>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={setModal}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <View style={styles.buttonContainer}>
                             <Text style={[styles.button, { backgroundColor: '#fff', color: "#4B1AFF", borderColor: '#4B1AFF', borderWidth: 1 }]} >Cancel</Text>
                         </View>
@@ -322,7 +324,7 @@ const PersonalInfoModal = ({ showModal, setModal }) => {
                 </View>
             </Modal>
             <Loader isLoading={isLoading} />
-        </Modal>
+        </>
     );
 };
 
@@ -376,13 +378,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         padding: 15,
         paddingTop: 0
-        // justifyContent: "center",
-        // alignItems: "center"
     },
     container: {
-        // padding: 5,
         margin: 5,
-        paddingBottom: 20,
+        marginTop: 0,
+        marginBottom: 20,
         flexDirection: 'col',
         alignItems: 'center',
         justifyContent: "center",

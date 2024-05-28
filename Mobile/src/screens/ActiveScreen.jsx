@@ -1,21 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import VectorIcon from '../utils/VectorIcon';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { apiPost } from '../utils/api';
+import Loader from '../components/Loader';
 
 const ActiveScreen = () => {
-  const [active, setActive] = useState({
-    insumate: '#7c97f9',
-    pet: '#7c97f9'
-  });
+
+  const user = useSelector(state => state.user.userInfo);
+  const [memberCounts, setMemberCounts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
   const Rediect = (screen) => {
-    // setActive({ insumate: '#7c97f9', pet: '#7c97f9' });
     navigation.navigate(screen);
   };
 
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    setIsLoading(true);
+    try {
+      const resMemberCounts = await apiPost("api/summary/getTypeWiseCount", {
+        filter: " AND MEMBER_ID = " + user.ID + " GROUP BY CASE_TYPE"
+      });
+      setMemberCounts(resMemberCounts.data);
+      console.log("res", resMemberCounts.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  let TYPE1 = memberCounts?.filter(item => item.CASE_TYPE === 1);
+  let TYPE2 = memberCounts?.filter(item => item.CASE_TYPE === 2);
+  let TYPE3 = memberCounts?.filter(item => item.CASE_TYPE === 3);
   return (
     <>
       <Header name="Active" />
@@ -48,11 +71,11 @@ const ActiveScreen = () => {
                 <View style={styles.innerContainer}>
                   <View style={styles.stat}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>3000</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE1[0]?.CLOSED.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Closed</Text>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>3000</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE1[0]?.ACTIVE.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Open</Text>
                     </View>
                   </View>
@@ -74,11 +97,11 @@ const ActiveScreen = () => {
                 <View style={styles.innerContainer}>
                   <View style={styles.stat}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>3000</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE2[0]?.CLOSED.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Closed</Text>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>3000</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE2[0]?.ACTIVE.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Open</Text>
                     </View>
                   </View>
@@ -100,11 +123,11 @@ const ActiveScreen = () => {
                 <View style={styles.innerContainer}>
                   <View style={styles.stat}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>3000</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE3[0]?.CLOSED.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Closed</Text>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>3000</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE3[0]?.ACTIVE.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Open</Text>
                     </View>
                   </View>
@@ -114,6 +137,7 @@ const ActiveScreen = () => {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <Loader isLoading={isLoading} />
       </View>
     </>
   );

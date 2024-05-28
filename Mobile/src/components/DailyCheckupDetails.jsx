@@ -46,7 +46,7 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     setModal()
                 } else {
-                    ToastAndroid.show('Failed to update Record', ToastAndroid.SHORT);
+                    ToastAndroid.show(res.message, ToastAndroid.SHORT);
                 }
             } catch (error) {
                 console.error(error);
@@ -72,7 +72,7 @@ const DailyCheckupDetails = ({ item, showModal, setModal, getData }) => {
                         setModal()
                         getData(dailyData)
                     } else {
-                        ToastAndroid.show('Failed to create Record', ToastAndroid.SHORT);
+                        ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     }
                 } else {
                     setModal()

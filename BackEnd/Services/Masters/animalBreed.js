@@ -96,7 +96,7 @@ exports.create = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
@@ -143,7 +143,7 @@ exports.update = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {

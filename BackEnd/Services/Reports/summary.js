@@ -40,7 +40,7 @@ exports.getDashboardCount = (req, res) => {
 exports.getMemberWiseCount = (req, res) => {
     let filter = req.body.filter ? req.body.filter : '';
     try {
-        dm.runQuery('SELECT COUNT(CASE WHEN DISCHARGE_DATE IS NOT NULL THEN 1 END) AS CLOSED,COUNT(CASE WHEN DISCHARGE_DATE IS NULL THEN 1 END) AS ACTIVE FROM patient_master WHERE 1 ' + filter, req, (error, results) => {
+        dm.runQuery('SELECT COUNT(CASE WHEN IS_CLOSED = 1 THEN 1 END) AS CLOSED,COUNT(CASE WHEN IS_CLOSED = 0 THEN 1 END) AS ACTIVE FROM patient_master WHERE 1 ' + filter, req, (error, results) => {
             if (error) {
                 console.error(error);
                 res.send({
@@ -49,11 +49,39 @@ exports.getMemberWiseCount = (req, res) => {
                 });
             }
             else {
-                console.log(results);
                 res.send({
                     "code": 200,
                     "message": "success",
                     "data": results[0]
+                });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        logError(req.method, req.originalUrl, error, '', '', "CatchError");
+        res.send({
+            "code": 500,
+            "message": "Something went wrong."
+        });
+    }
+}
+
+exports.getTypeWiseCount = (req, res) => {
+    let filter = req.body.filter ? req.body.filter : '';
+    try {
+        dm.runQuery('SELECT CASE_TYPE,COUNT(CASE WHEN IS_CLOSED = 1 THEN 1 END) AS CLOSED,COUNT(CASE WHEN IS_CLOSED = 0 THEN 1 END) AS ACTIVE FROM patient_master WHERE 1 ' + filter, req, (error, results) => {
+            if (error) {
+                console.error(error);
+                res.send({
+                    "code": 400,
+                    "message": "Failed to get count.",
+                });
+            }
+            else {
+                res.send({
+                    "code": 200,
+                    "message": "success",
+                    "data": results
                 });
             }
         });

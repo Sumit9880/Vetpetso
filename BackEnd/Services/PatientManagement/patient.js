@@ -144,7 +144,7 @@ exports.create = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
@@ -191,7 +191,7 @@ exports.update = (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
@@ -231,13 +231,13 @@ exports.addAi = async (req, res) => {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
         try {
             const connection = await dm.getConnection();
-            dm.runDMLQuery('INSERT INTO patient_master SET ?', data, connection, req, (error, results) => {
+            dm.runDMLQuery('SELECT CASE_NO FROM `patient_master` ORDER BY CASE_NO DESC LIMIT 1', '', connection, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     dm.rollback(connection);
@@ -246,22 +246,38 @@ exports.addAi = async (req, res) => {
                         "message": "Failed to save patientMaster information..."
                     });
                 } else {
-                    dm.runDMLQuery('INSERT INTO ai_details SET PATIENT_ID = ?', [results.insertId], connection, req, (error, results1) => {
+                    if (results[0].CASE_NO > 0) {
+                        data.CASE_NO = (parseInt(results[0].CASE_NO) + 1)
+                    } else {
+                        data.CASE_NO = 1
+                    }
+                    dm.runDMLQuery('INSERT INTO patient_master SET ?', data, connection, req, (error, results) => {
                         if (error) {
                             console.error(error);
                             dm.rollback(connection);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to save Ai information..."
+                                "message": "Failed to save patientMaster information..."
                             });
                         } else {
-                            dm.commit(connection);
-                            res.send({
-                                "code": 200,
-                                "message": "patientMaster information saved successfully...",
-                            });
+                            dm.runDMLQuery('INSERT INTO ai_details SET PATIENT_ID = ?', [results.insertId], connection, req, (error, results1) => {
+                                if (error) {
+                                    console.error(error);
+                                    dm.rollback(connection);
+                                    res.send({
+                                        "code": 400,
+                                        "message": "Failed to save Ai information..."
+                                    });
+                                } else {
+                                    dm.commit(connection);
+                                    res.send({
+                                        "code": 200,
+                                        "message": "patientMaster information saved successfully...",
+                                    });
+                                }
+                            })
                         }
-                    })
+                    });
                 }
             });
         } catch (error) {
@@ -280,20 +296,19 @@ exports.addVaccination = async (req, res) => {
     var data = reqData(req);
     const errors = validationResult(req);
     data.REGISTRATION_DATE = bm.getSystemDate();
-    data.CASE_NO = 'V' + req.body.MEMBER_ID
     let TYPE = req.body.TYPE
     let NAME = req.body.NAME
     if (!errors.isEmpty()) {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
         try {
             const connection = await dm.getConnection();
-            dm.runDMLQuery('INSERT INTO patient_master SET ?', data, connection, req, (error, results) => {
+            dm.runDMLQuery('SELECT CASE_NO FROM `patient_master` ORDER BY CASE_NO DESC LIMIT 1', '', connection, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     dm.rollback(connection);
@@ -302,22 +317,38 @@ exports.addVaccination = async (req, res) => {
                         "message": "Failed to save patientMaster information..."
                     });
                 } else {
-                    dm.runDMLQuery('INSERT INTO vaccination_details SET PATIENT_ID = ?,TYPE = ? ,NAME = ?,DOSE_NUMBER = ?', [results.insertId, TYPE, NAME, 1], connection, req, (error, results1) => {
+                    if (results[0].CASE_NO > 0) {
+                        data.CASE_NO = (parseInt(results[0].CASE_NO) + 1)
+                    } else {
+                        data.CASE_NO = 1
+                    }
+                    dm.runDMLQuery('INSERT INTO patient_master SET ?', data, connection, req, (error, results) => {
                         if (error) {
                             console.error(error);
                             dm.rollback(connection);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to save Vaccination information..."
+                                "message": "Failed to save patientMaster information..."
                             });
                         } else {
-                            dm.commit(connection);
-                            res.send({
-                                "code": 200,
-                                "message": "patientMaster information saved successfully...",
-                            });
+                            dm.runDMLQuery('INSERT INTO vaccination_details SET PATIENT_ID = ?,TYPE = ? ,NAME = ?,DOSE_NUMBER = ?', [results.insertId, TYPE, NAME, 1], connection, req, (error, results1) => {
+                                if (error) {
+                                    console.error(error);
+                                    dm.rollback(connection);
+                                    res.send({
+                                        "code": 400,
+                                        "message": "Failed to save Vaccination information..."
+                                    });
+                                } else {
+                                    dm.commit(connection);
+                                    res.send({
+                                        "code": 200,
+                                        "message": "patientMaster information saved successfully...",
+                                    });
+                                }
+                            })
                         }
-                    })
+                    });
                 }
             });
         } catch (error) {
@@ -338,20 +369,19 @@ exports.add = async (req, res) => {
     const errors = validationResult(req);
     let systemDate = bm.getSystemDate();
     data.REGISTRATION_DATE = systemDate
-    data.CASE_NO = 'P' + req.body.MEMBER_ID
     let checkupDetails = req.body.checkupDetails[0];
 
     if (!errors.isEmpty()) {
         console.error(errors);
         res.send({
             "code": 422,
-            "message": errors.errors
+            "message": "Parameter Missing " + errors.errors.map(error => error.path)
         });
     }
     else {
         try {
             const connection = await dm.getConnection();
-            dm.runDMLQuery('INSERT INTO patient_master SET ?', data, connection, req, (error, results) => {
+            dm.runDMLQuery('SELECT CASE_NO FROM `patient_master` ORDER BY CASE_NO DESC LIMIT 1', '', connection, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     dm.rollback(connection);
@@ -360,32 +390,57 @@ exports.add = async (req, res) => {
                         "message": "Failed to save patientMaster information..."
                     });
                 } else {
-                    historyData.PATIENT_ID = results.insertId
-                    dm.runDMLQuery('INSERT INTO patient_history SET ?', historyData, connection, req, (error, results1) => {
+                    if (results[0].CASE_NO > 0) {
+                        data.CASE_NO = (parseInt(results[0].CASE_NO) + 1)
+                    } else {
+                        data.CASE_NO = 1
+                    }
+                    dm.runDMLQuery('INSERT INTO patient_master SET ?', data, connection, req, (error, results) => {
                         if (error) {
                             console.error(error);
                             dm.rollback(connection);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to save patientHistory information..."
+                                "message": "Failed to save patientMaster information..."
                             });
                         } else {
-                            dm.runDMLQuery('INSERT INTO patient_daily_checkup_details (PATIENT_ID,OBSERVATION_DATE,OBSERVATION_AND_FINDINGS,PRESCRIPTION,TREATMENT_AND_SUGGESTION,REMARKS) VALUES (?,?,?,?,?,?)', [results.insertId, systemDate, checkupDetails.OBSERVATION_AND_FINDINGS, checkupDetails.PRESCRIPTION, checkupDetails.TREATMENT_AND_SUGGESTION, checkupDetails.REMARKS], connection, req, (error, results2) => {
+                            historyData.PATIENT_ID = results.insertId
+                            dm.runDMLQuery('INSERT INTO patient_history SET ?', historyData, connection, req, (error, results1) => {
                                 if (error) {
                                     console.error(error);
                                     dm.rollback(connection);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to save Checkup information..."
+                                        "message": "Failed to save patientHistory information..."
                                     });
                                 } else {
-                                    dm.commit(connection);
-                                    res.send({
-                                        "code": 200,
-                                        "message": "patientMaster information saved successfully...",
-                                    });
+                                    if (checkupDetails != {} && checkupDetails?.OBSERVATION_AND_FINDINGS) {
+                                        dm.runDMLQuery('INSERT INTO patient_daily_checkup_details (PATIENT_ID,OBSERVATION_DATE,OBSERVATION_AND_FINDINGS,PRESCRIPTION,TREATMENT_AND_SUGGESTION,REMARKS) VALUES (?,?,?,?,?,?)', [results.insertId, systemDate, checkupDetails.OBSERVATION_AND_FINDINGS, checkupDetails.PRESCRIPTION, checkupDetails.TREATMENT_AND_SUGGESTION, checkupDetails.REMARKS], connection, req, (error, results2) => {
+                                            if (error) {
+                                                console.error(error);
+                                                dm.rollback(connection);
+                                                res.send({
+                                                    "code": 400,
+                                                    "message": "Failed to save Checkup information..."
+                                                });
+                                            } else {
+                                                dm.commit(connection);
+                                                res.send({
+                                                    "code": 200,
+                                                    "message": "patientMaster information saved successfully...",
+                                                });
+                                            }
+                                        })
+                                    } else {
+                                        dm.rollback(connection);
+                                        res.send({
+                                            "code": 300,
+                                            "message": "Please fill checkkup details",
+                                        });
+                                    }
+
                                 }
-                            })
+                            });
                         }
                     });
                 }
