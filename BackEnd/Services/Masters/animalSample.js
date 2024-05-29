@@ -50,7 +50,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get animalSampleMaster count.",
+                    "message": "Failed to get Animal Sample count.",
                 });
             }
             else {
@@ -59,7 +59,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get animalSampleMaster information."
+                            "message": "Failed to get Animal Sample information."
                         });
                     }
                     else {
@@ -103,12 +103,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save animalSampleMaster information..."
+                        "message": "Failed to save Animal Sample information"
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "animalSampleMaster information saved successfully...",
+                        "message": "Animal Sample information saved successfully",
                     });
                 }
             });
@@ -150,12 +150,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update animalSampleMaster information."
+                        "message": "Failed to update Animal Sample information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "animalSampleMaster information updated successfully...",
+                        "message": "Animal Sample information updated successfully",
                     });
                 }
             });

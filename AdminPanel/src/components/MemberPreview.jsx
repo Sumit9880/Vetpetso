@@ -62,7 +62,7 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
                         </div>
                         <div id="pdf" className="items-center m-16 mt-10">
                             <div className="text-center">
-                                <h1 className="text-2xl font-bold mb-4">संघटना सभासदाचा अर्ज - क्रमांक : {data.ID}</h1>
+                                <h1 className="text-2xl font-bold mb-4">संघटना सभासदाचा अर्ज - क्रमांक : {data.APPLICATION_NO}</h1>
                             </div>
                             <br />
                             <div>

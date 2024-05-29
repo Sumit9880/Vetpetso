@@ -55,7 +55,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get planMapping count.",
+                    "message": "Failed to get Plan Mapping count.",
                 });
             }
             else {
@@ -64,7 +64,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get planMapping information."
+                            "message": "Failed to get Plan Mapping information."
                         });
                     }
                     else {

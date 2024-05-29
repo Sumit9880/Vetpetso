@@ -53,7 +53,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get animalBreedMaster count.",
+                    "message": "Failed to get Breed count.",
                 });
             }
             else {
@@ -62,7 +62,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get animalBreedMaster information."
+                            "message": "Failed to get Breed information."
                         });
                     }
                     else {
@@ -106,12 +106,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save animalBreedMaster information..."
+                        "message": "Failed to save Breed information"
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "animalBreedMaster information saved successfully...",
+                        "message": "Breed information saved successfully",
                     });
                 }
             });
@@ -153,12 +153,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update animalBreedMaster information."
+                        "message": "Failed to update Breed information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "animalBreedMaster information updated successfully...",
+                        "message": "Breed information updated successfully",
                     });
                 }
             });

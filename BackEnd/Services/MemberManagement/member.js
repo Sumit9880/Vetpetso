@@ -139,7 +139,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get memberMaster count.",
+                    "message": "Failed to get Member count.",
                 });
             }
             else {
@@ -148,7 +148,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get memberMaster information."
+                            "message": "Failed to get Member information."
                         });
                     }
                     else {
@@ -191,12 +191,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save memberMaster information..."
+                        "message": "Failed to save Member information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "memberMaster information saved successfully...",
+                        "message": "Member information saved successfully...",
                     });
                 }
             });
@@ -237,7 +237,7 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update memberMaster information."
+                        "message": "Failed to update Member information."
                     });
                 } else {
                     if (results.length > 0 && results[0].ID != null) {
@@ -259,12 +259,12 @@ exports.update = (req, res) => {
                                 console.error(error);
                                 res.send({
                                     "code": 400,
-                                    "message": "Failed to update memberMaster information."
+                                    "message": "Failed to update Member information."
                                 });
                             } else {
                                 res.send({
                                     "code": 200,
-                                    "message": "memberMaster information updated successfully...",
+                                    "message": "Member information updated successfully...",
                                 });
                             }
                         });
@@ -309,12 +309,12 @@ exports.approveReject = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update memberMaster information."
+                        "message": "Failed to update Member information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "memberMaster information updated successfully...",
+                        "message": "Member information updated successfully...",
                     });
                 }
             });
@@ -340,7 +340,7 @@ exports.login = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get memberMaster count.",
+                    "message": "Failed to get Member count.",
                 });
             }
             else {
@@ -375,7 +375,7 @@ exports.sendRegistrationOtp = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get memberMaster information.",
+                    "message": "Failed to get Member information.",
                 });
             }
             else {
@@ -472,7 +472,7 @@ exports.sendForgotOtp = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get memberMaster information.",
+                    "message": "Failed to get Member information.",
                 });
             }
             else {
@@ -570,12 +570,12 @@ exports.changePassword = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to update memberMaster information."
+                    "message": "Failed to update Member information."
                 });
             } else {
                 res.send({
                     "code": 200,
-                    "message": "memberMaster information updated successfully...",
+                    "message": "Member information updated successfully...",
                 });
             }
         });
@@ -610,7 +610,7 @@ exports.register = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save memberMaster information..."
+                        "message": "Failed to save Member information..."
                     });
                 } else {
                     if (results[0].length > 0 && results[0][0]?.ID != null) {
@@ -627,18 +627,18 @@ exports.register = (req, res) => {
                         });
                     } else {
                         data.MEMBER_REGISTRATION_NO = getNextMemberNo(results[1][0]?.MEMBER_REGISTRATION_NO ? results[1][0]?.MEMBER_REGISTRATION_NO : 'A0000');
-                        data.APPLICATION_NO = results[1][0]?.APPLICATION_NO ? results[1][0]?.APPLICATION_NO + 1 : 1;
+                        data.APPLICATION_NO = results[1][0]?.APPLICATION_NO ? parseInt(results[1][0]?.APPLICATION_NO) + 1 : 1;
                         dm.runDataQuery('INSERT INTO member_master SET ?', data, req, (error, results) => {
                             if (error) {
                                 console.error(error);
                                 res.send({
                                     "code": 400,
-                                    "message": "Failed to save memberMaster information..."
+                                    "message": "Failed to save Member information..."
                                 });
                             } else {
                                 res.send({
                                     "code": 200,
-                                    "message": "memberMaster information saved successfully...",
+                                    "message": "Member information saved successfully...",
                                 });
                             }
                         });
@@ -694,7 +694,7 @@ exports.getData = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get memberMaster count.",
+                    "message": "Failed to get Member count.",
                 });
             }
             else {

@@ -53,7 +53,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get bannerMaster count.",
+                    "message": "Failed to get Banner count.",
                 });
             }
             else {
@@ -62,7 +62,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get bannerMaster information."
+                            "message": "Failed to get Banner information."
                         });
                     }
                     else {
@@ -106,12 +106,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save bannerMaster information..."
+                        "message": "Failed to save Banner information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "bannerMaster information saved successfully...",
+                        "message": "Banner information saved successfully...",
                     });
                 }
             });
@@ -153,12 +153,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update bannerMaster information."
+                        "message": "Failed to update Banner information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "bannerMaster information updated successfully...",
+                        "message": "Banner information updated successfully...",
                     });
                 }
             });
@@ -184,7 +184,7 @@ exports.remove = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to update bannerMaster information."
+                    "message": "Failed to update Banner information."
                 });
             } else {
                 var fileUrl = path.join(__dirname, '../../Uploads/Banners/' + URL)

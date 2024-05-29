@@ -52,7 +52,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get districtMaster count.",
+                    "message": "Failed to get District count.",
                 });
             }
             else {
@@ -61,7 +61,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get districtMaster information."
+                            "message": "Failed to get District information."
                         });
                     }
                     else {
@@ -105,12 +105,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save districtMaster information..."
+                        "message": "Failed to save District information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "districtMaster information saved successfully...",
+                        "message": "District information saved successfully...",
                     });
                 }
             });
@@ -152,12 +152,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update districtMaster information."
+                        "message": "Failed to update District information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "districtMaster information updated successfully...",
+                        "message": "District information updated successfully...",
                     });
                 }
             });

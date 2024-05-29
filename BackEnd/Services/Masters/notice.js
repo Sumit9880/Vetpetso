@@ -56,7 +56,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get noticeMaster count.",
+                    "message": "Failed to get Notice count.",
                 });
             }
             else {
@@ -65,7 +65,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get noticeMaster information."
+                            "message": "Failed to get Notice information."
                         });
                     }
                     else {
@@ -109,12 +109,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save noticeMaster information..."
+                        "message": "Failed to save Notice information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "noticeMaster information saved successfully...",
+                        "message": "Notice information saved successfully...",
                     });
                 }
             });
@@ -156,12 +156,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update noticeMaster information."
+                        "message": "Failed to update Notice information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "noticeMaster information updated successfully...",
+                        "message": "Notice information updated successfully...",
                     });
                 }
             });

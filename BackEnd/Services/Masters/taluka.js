@@ -53,7 +53,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get talukaMaster count.",
+                    "message": "Failed to get Taluka count.",
                 });
             }
             else {
@@ -62,7 +62,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get talukaMaster information."
+                            "message": "Failed to get Taluka information."
                         });
                     }
                     else {
@@ -106,12 +106,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save talukaMaster information..."
+                        "message": "Failed to save Taluka information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "talukaMaster information saved successfully...",
+                        "message": "Taluka information saved successfully...",
                     });
                 }
             });
@@ -153,12 +153,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update talukaMaster information."
+                        "message": "Failed to update Taluka information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "talukaMaster information updated successfully...",
+                        "message": "Taluka information updated successfully...",
                     });
                 }
             });

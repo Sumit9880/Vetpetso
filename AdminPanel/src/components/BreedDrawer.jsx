@@ -55,15 +55,15 @@ const BreedDrawer = ({ isOpen, onClose, data }) => {
             if (res.code === 200) {
                 toast.success(res.message);
                 setFormData(initialFormData);
-                setLoader(false);
             } else {
                 toast.error(res.message)
                 console.error(res.message);
-                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
+        }finally{
+            setLoader(false);
         }
     };
 

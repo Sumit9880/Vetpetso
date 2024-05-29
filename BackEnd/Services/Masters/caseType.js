@@ -51,7 +51,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get caseTypeMaster count.",
+                    "message": "Failed to get Case Type count.",
                 });
             }
             else {
@@ -60,7 +60,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get caseTypeMaster information."
+                            "message": "Failed to get Case Type information."
                         });
                     }
                     else {
@@ -104,12 +104,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save caseTypeMaster information..."
+                        "message": "Failed to save Case Type information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "caseTypeMaster information saved successfully...",
+                        "message": "Case Type information saved successfully...",
                     });
                 }
             });
@@ -151,12 +151,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update caseTypeMaster information."
+                        "message": "Failed to update Case Type information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "caseTypeMaster information updated successfully...",
+                        "message": "Case Type information updated successfully...",
                     });
                 }
             });

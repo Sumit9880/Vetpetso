@@ -32,8 +32,8 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         try {
-            setLoader(true);
             const method = formData.ID ? 'api/animalSample/update' : 'api/animalSample/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
@@ -41,15 +41,15 @@ const AnimalSampleDrawer = ({ isOpen, onClose, data }) => {
                 if (!formData.ID) {
                     setFormData(initialFormData);
                 }
-                setLoader(false);
             } else {
                 toast.error(res.message)
                 console.error(res.message);
-                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
+        }finally{
+            setLoader(false);
         }
     };
 

@@ -36,15 +36,15 @@ const BannerPopup = ({ isOpen, onClose, fetchData }) => {
                 toast.success(res.message)
                 resetForm();
                 fetchData();
-                setLoader(false);
             } else {
                 toast.error(res.message)
                 console.error('Failed to fetch banners:', res.message);
-                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
+        }finally{
+            setLoader(false);
         }
     };
 
@@ -57,15 +57,15 @@ const BannerPopup = ({ isOpen, onClose, fetchData }) => {
             if (res.code === 200) {
                 setBannerData({ ...bannerData, URL: res.name });
                 toast.success(res.message)
-                setLoader(false);
             } else {
                 toast.error(res.message)
                 console.error('Failed to upload:', res.message);
-                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('Upload failed:', error);
+        }finally{
+            setLoader(false);
         }
     };
 

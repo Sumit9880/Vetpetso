@@ -52,7 +52,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get animalTypeMaster count.",
+                    "message": "Failed to get Animal Type count.",
                 });
             }
             else {
@@ -61,7 +61,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get animalTypeMaster information."
+                            "message": "Failed to get Animal Type information."
                         });
                     }
                     else {
@@ -105,12 +105,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save animalTypeMaster information..."
+                        "message": "Failed to save Animal Type information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "animalTypeMaster information saved successfully...",
+                        "message": "Animal Type information saved successfully...",
                     });
                 }
             });
@@ -152,12 +152,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update animalTypeMaster information."
+                        "message": "Failed to update Animal Type information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "animalTypeMaster information updated successfully...",
+                        "message": "Animal Type information updated successfully...",
                     });
                 }
             });

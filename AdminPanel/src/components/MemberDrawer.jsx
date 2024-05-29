@@ -154,15 +154,15 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                     if (!formData.ID) {
                         setFormData(initialFormData);
                     }
-                    setLoader(false);
                 } else {
                     toast.error(res.message)
                     console.error(res.message);
-                    setLoader(false);
                 }
             } catch (error) {
                 toast.error('Somthing Went Wrong')
                 console.error('API call failed:', error);
+            }finally{
+                setLoader(false);
             }
         } else {
             toast.warn('Please fill all required fields');
@@ -188,15 +188,15 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
             if (res.code === 200) {
                 setFormData({ ...formData, [name]: res.name });
                 toast.success(res.message);
-                setLoader(false);
             } else {
                 console.error('Failed to upload:', res.message);
                 toast.error(res.message)
-                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
+        } finally {
+            setLoader(false);
         }
     };
 

@@ -50,7 +50,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get castMaster count.",
+                    "message": "Failed to get Cast count.",
                 });
             }
             else {
@@ -59,7 +59,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get castMaster information."
+                            "message": "Failed to get Cast information."
                         });
                     }
                     else {
@@ -103,12 +103,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save castMaster information..."
+                        "message": "Failed to save Cast information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "castMaster information saved successfully...",
+                        "message": "Cast information saved successfully...",
                     });
                 }
             });
@@ -150,12 +150,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update castMaster information."
+                        "message": "Failed to update Cast information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "castMaster information updated successfully...",
+                        "message": "Cast information updated successfully...",
                     });
                 }
             });

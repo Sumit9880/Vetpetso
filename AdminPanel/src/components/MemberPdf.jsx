@@ -17,7 +17,7 @@ function MemberPdf({ open, setOpen, data }) {
                             <View style={{ fontFamily: 'Marathi' }}>
                                 <View style={{ margin: 40, pageBreak: 'always', }}>
                                     <View style={{ marginBottom: 10 }}>
-                                        <Text style={{ fontSize: 20, fontWeight: 'bold', fontFamily: 'Marathi' }}>संघटना सभासदाचा अर्ज - क्रमांक : {data.ID}</Text>
+                                        <Text style={{ fontSize: 20, fontWeight: 'bold', fontFamily: 'Marathi' }}>संघटना सभासदाचा अर्ज - क्रमांक : {data.APPLICATION_NO}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', fontFamily: 'Marathi' }}>
                                         <View>

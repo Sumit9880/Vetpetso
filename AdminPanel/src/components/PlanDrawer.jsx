@@ -42,15 +42,15 @@ const PlanDrawer = ({ isOpen, onClose, data }) => {
                 if (!formData.ID) {
                     setFormData(initialFormData);
                 }
-                setLoader(false);
             } else {
                 toast.error(res.message)
                 console.error(res.message);
-                setLoader(false);
             }
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
+        }finally{
+            setLoader(false);
         }
     };
 

@@ -55,7 +55,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get planMaster count.",
+                    "message": "Failed to get Plan count.",
                 });
             }
             else {
@@ -64,7 +64,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get planMaster information."
+                            "message": "Failed to get Plan information."
                         });
                     }
                     else {
@@ -108,12 +108,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save planMaster information..."
+                        "message": "Failed to save Plan information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "planMaster information saved successfully...",
+                        "message": "Plan information saved successfully...",
                     });
                 }
             });
@@ -155,12 +155,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update planMaster information."
+                        "message": "Failed to update Plan information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "planMaster information updated successfully...",
+                        "message": "Plan information updated successfully...",
                     });
                 }
             });

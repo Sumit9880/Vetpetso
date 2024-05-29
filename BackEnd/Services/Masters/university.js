@@ -51,7 +51,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get universityMaster count.",
+                    "message": "Failed to get University count.",
                 });
             }
             else {
@@ -60,7 +60,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get universityMaster information."
+                            "message": "Failed to get University information."
                         });
                     }
                     else {
