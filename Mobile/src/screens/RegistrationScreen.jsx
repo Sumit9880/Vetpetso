@@ -663,10 +663,11 @@ const RegistrationScreen = () => {
                                         </TouchableOpacity>
                                     </View> :
                                     <>
-                                        <Text style={styles.heading}>Thank You</Text>
-                                        <Text style={styles.heading}>For Registration</Text>
+                                        <Text style={styles.heading}>Application</Text>
+                                        <Text style={styles.heading}>Submitted Successfully</Text>
                                         <View style={styles.container}>
-                                            <Text style={{ textAlign: 'center', fontSize: 18, fontFamily: "Poppins", color: "#6B1AFF", letterSpacing: 1, marginTop: 20 }} >Congratulations, your application has been successfully submitted! 🎉 Once it's approved by the admin, you'll receive a notification right here. Stay tuned!</Text>
+                                            <Text style={{ textAlign: 'center', fontSize: 18, fontFamily: "Poppins", color: "#6B1AFF", letterSpacing: 1, marginTop: 20 }} >Dear {userData?.NAME},</Text>
+                                            <Text style={{ textAlign: 'center', fontSize: 18, fontFamily: "Poppins", color: "#6B1AFF", letterSpacing: 1 }} >Your application has been sent for verification. Once it is approved, you will be notified here. Stay connected. Thank you.</Text>
                                         </View>
                                     </>
                         }

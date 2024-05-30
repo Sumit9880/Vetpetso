@@ -21,7 +21,7 @@ function MemberRequsets() {
 
     const getData = useCallback(async () => {
         try {
-            const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%') AND STATUS = "P"` : ' AND STATUS = "P"';
+            const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%') AND STATUS IN ("P","R")` : ' AND STATUS IN ("P","R")';
             const res = await apiPost("api/member/get", {
                 filter,
                 pageSize,
@@ -82,8 +82,8 @@ function MemberRequsets() {
                         <tr className="bg-gray-200 rounded-lg">
                             <th className="px-2 py-2 border border-gray-300">Actions</th>
                             <th className="px-2 py-2 border border-gray-300">Name</th>
+                            <th className="px-2 py-2 border border-gray-300">Mobile No</th>
                             <th className="px-2 py-2 border border-gray-300">Address</th>
-                            <th className="px-2 py-2 border border-gray-300">Email</th>
                             <th className="px-2 py-2 border border-gray-300">Status</th>
                         </tr>
                     </thead>
@@ -94,8 +94,8 @@ function MemberRequsets() {
                                     <button className="py-2 text-center" onClick={() => handleOpenDrawer(memberRequset)}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
                                 </td>
                                 <td className="px-2 border border-gray-200">{memberRequset.NAME}</td>
+                                <td className="px-2 border border-gray-200 text-center">{memberRequset.MOBILE_NUMBER}</td>
                                 <td className="px-2 border border-gray-200">{memberRequset.ADDRESS}</td>
-                                <td className="px-2 border border-gray-200 text-center">{memberRequset.EMAIL}</td>
                                 <td className={`px-2 border border-gray-200 text-center${memberRequset.IS_ACTIVE ? " text-green-500" : " text-red-500"}`}>{memberRequset.IS_ACTIVE ? "On" : "Off"}</td>
                             </tr>
                         ))}

@@ -5,6 +5,7 @@ import MemberDrawer from '../components/MemberDrawer';
 import Pagination from '../components/Pagination';
 import MemberPreview from '../components/MemberPreview';
 import { IoEyeOutline } from "react-icons/io5";
+import PlanPreview from '../components/PlanPreview';
 
 function Members() {
     const [members, setMembers] = useState([]);
@@ -15,7 +16,10 @@ function Members() {
         current: 1,
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [preview, setPreview] = useState(false);
+    const [preview, setPreview] = useState({
+        member: false,
+        plan: false,
+    });
     const [member, setMember] = useState({});
 
     useEffect(() => {
@@ -24,7 +28,7 @@ function Members() {
 
     const getData = useCallback(async () => {
         try {
-            const filter = searchTerm ? ` AND STATUS != "P" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS != "P"';
+            const filter = searchTerm ? ` AND STATUS = "A" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS = "A"';
             const res = await apiPost("api/member/get", {
                 filter,
                 pageSize,
@@ -58,9 +62,11 @@ function Members() {
         setMember(data);
         setIsDrawerOpen(true);
     };
-    const handleOpenPreview = (data) => {
+
+    const handleOpenPreview = (data, type) => {
         setMember(data);
-        setPreview(true);
+        setPreview({ ...preview, [type]: true });
+        // setPreview({ ...preview, member: true });
     };
 
     const handleCloseDrawer = () => {
@@ -87,18 +93,21 @@ function Members() {
                         Add Member
                     </button>
                     <MemberDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={member} />
-                    <MemberPreview isOpen={preview} onClose={() => setPreview(false)} data={member} />
+                    <PlanPreview isOpen={preview.plan} onClose={() => setPreview({ ...preview, plan: false })} id={member.ID} />
+                    <MemberPreview isOpen={preview.member} onClose={() => setPreview({ ...preview, member: false })} data={member} />
                 </div>
             </div>
-            <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
-                {/* <div className="max-h-96 overflow-y-auto"> */}
+            <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)' }}>
+                {/* <div className="overflow-y-auto"> */}
                 <table className="table-auto w-full border-collapse rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
                             <th className="px-2 py-2 border border-gray-300">Name</th>
+                            <th className="px-2 py-2 border border-gray-300">Mobile No</th>
                             <th className="px-2 py-2 border border-gray-300">Address</th>
-                            <th className="px-2 py-2 border border-gray-300">Email</th>
+                            <th className="px-2 py-2 border border-gray-300">Plan</th>
                             <th className="px-2 py-2 border border-gray-300">Status</th>
+                            <th className="px-2 py-2 border border-gray-300">Plan Details</th>
                             <th className="px-2 py-2 border border-gray-300">View</th>
                             <th className="px-2 py-2 border border-gray-300">Actions</th>
                         </tr>
@@ -107,11 +116,15 @@ function Members() {
                         {members?.map(member => (
                             <tr key={member.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">{member.NAME}</td>
+                                <td className="px-2 border border-gray-200 text-center">{member.MOBILE_NUMBER}</td>
                                 <td className="px-2 border border-gray-200">{member.ADDRESS}</td>
-                                <td className="px-2 border border-gray-200 text-center">{member.EMAIL}</td>
+                                <td className="px-2 border border-gray-200">{member.PLAN_NAME}</td>
                                 <td className={`px-2 border border-gray-200 text-center${member.IS_ACTIVE ? " text-green-500" : " text-red-500"}`}>{member.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">
-                                    <button className="py-2 text-center" onClick={() => handleOpenPreview(member)}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                    <button className="py-2 text-center" onClick={() => handleOpenPreview(member, "plan")}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                </td>
+                                <td className="px-2 border border-gray-200 text-center">
+                                    <button className="py-2 text-center" onClick={() => handleOpenPreview(member, "member")}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
                                 </td>
                                 <td className="px-2 border border-gray-200 text-center">
                                     <button className="py-2 text-center" onClick={() => handleOpenDrawer(member)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>

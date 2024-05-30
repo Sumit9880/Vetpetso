@@ -186,21 +186,22 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
                                 </button>
                             </div> :
                                 < div className="flex justify-end m-6 space-x-4">
+                                    {
+                                        data.STATUS === "P" ?
+                                            <button
+                                                onClick={() => handleOpenDilog('R')}
+                                                className="bg-red-600 hover:bg-red-700 text-white font-normal py-1.5 px-4 rounded"
+                                            >
+                                                Reject
+                                            </button>
+                                            : null
+                                    }
                                     <button
                                         onClick={() => handleOpenDilog('A')}
                                         className="bg-green-600 hover:bg-green-700 text-white font-normal py-1.5 px-4 rounded"
                                     >
                                         Approve
                                     </button>
-                                    {
-                                        data.STATUS === "A" ?
-                                            <button
-                                                onClick={() => handleOpenDilog('R')}
-                                                className="bg-red-600 hover:bg-red-700 text-white font-normal py-1.5 px-4 rounded"
-                                            >
-                                                Reject
-                                            </button> : null
-                                    }
                                 </div>
                         }
                         <ConfirmationDialog open={showDilog} setOpen={handleCloseDilog} fetchData={data} />

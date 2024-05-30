@@ -21,7 +21,7 @@ const ConfirmationDialog = ({ open, setOpen, fetchData }) => {
     try {
       const res = await apiPost('api/member/approveReject', updateData);
       if (res.code === 200) {
-        toast.success("Approved Successfully!")
+        toast.success(updateData.STATUS === "R" ? "Rejected Successfully!" : "Approved Successfully!")
         setOpen(false);
       } else {
         toast.error(res.message)
