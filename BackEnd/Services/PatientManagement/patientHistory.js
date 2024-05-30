@@ -77,7 +77,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get patientHistory count.",
+                    "message": "Failed to get Patient History count.",
                 });
             }
             else {
@@ -86,7 +86,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get patientHistory information."
+                            "message": "Failed to get Patient History information."
                         });
                     }
                     else {
@@ -129,12 +129,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save patientHistory information..."
+                        "message": "Failed to save Patient History information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "patientHistory information saved successfully...",
+                        "message": "Patient History information saved successfully...",
                     });
                 }
             });
@@ -175,12 +175,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update patientHistory information."
+                        "message": "Failed to update Patient History information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "patientHistory information updated successfully...",
+                        "message": "Patient History information updated successfully...",
                     });
                 }
             });

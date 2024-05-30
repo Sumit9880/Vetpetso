@@ -411,7 +411,7 @@ exports.add = async (req, res) => {
                                     dm.rollback(connection);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to save patientHistory information..."
+                                        "message": "Failed to save Patient History information..."
                                     });
                                 } else {
                                     if (checkupDetails != {} && checkupDetails?.OBSERVATION_AND_FINDINGS) {

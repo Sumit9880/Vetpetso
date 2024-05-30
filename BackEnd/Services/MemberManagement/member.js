@@ -340,7 +340,7 @@ exports.login = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get Member count.",
+                    "message": "Failed to get Member information.",
                 });
             }
             else {
@@ -391,7 +391,7 @@ exports.sendRegistrationOtp = (req, res) => {
                             console.error(error);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to save registration_otp_details information.",
+                                "message": "Failed to save OTP information.",
                             });
                         }
                         else {
@@ -423,7 +423,7 @@ exports.verifyRegistrationOtp = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get registration_otp_details information.",
+                    "message": "Failed to Verify OTP .",
                 });
             }
             else {
@@ -433,7 +433,7 @@ exports.verifyRegistrationOtp = (req, res) => {
                             console.error(error);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to get registration_otp_details information.",
+                                "message": "Failed to Verify OTP information.",
                             });
                         }
                         else {
@@ -482,7 +482,7 @@ exports.sendForgotOtp = (req, res) => {
                             console.error(error);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to save registration_otp_details information.",
+                                "message": "Failed to save OTP information.",
                             });
                         }
                         else {
@@ -522,7 +522,7 @@ exports.verifyForgotOtp = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get registration_otp_details information.",
+                    "message": "Failed to Verify OTP .",
                 });
             }
             else {
@@ -532,7 +532,7 @@ exports.verifyForgotOtp = (req, res) => {
                             console.error(error);
                             res.send({
                                 "code": 400,
-                                "message": "Failed to get registration_otp_details information.",
+                                "message": "Failed to Verify OTP information.",
                             });
                         }
                         else {
@@ -610,7 +610,7 @@ exports.register = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save Member information..."
+                        "message": "Failed to get Member information..."
                     });
                 } else {
                     if (results[0].length > 0 && results[0][0]?.ID != null) {
@@ -703,7 +703,7 @@ exports.getData = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get memberPlan information."
+                            "message": "Failed to get Member Plan information."
                         });
                     }
                     else {

@@ -156,7 +156,7 @@ exports.update = (req, res) => {
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "university information updated successfully...",
+                        "message": "University information updated successfully...",
                     });
                 }
             });

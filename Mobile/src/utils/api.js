@@ -1,19 +1,18 @@
-// import storage from '@react-native-firebase/storage';
-// import DeviceInfo from 'react-native-device-info';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-// export const BASE_URL = 'http://192.168.10.9:2003/';
-export const BASE_URL = 'http://13.232.134.32:2003/';
 
-export const API_KEY = 'ZNnLXmOzdd8skG4u1KzceYG7eLzgYIWF';
+export const API_KEY = 'PiuRcts9gYsh8CMwAIwApvNL4PayKIaR';
 
-// export const STATIC_URL = 'http://192.168.10.9:2003/static/';
-export const STATIC_URL = 'http://13.232.134.32:2003/static/';
+export const BASE_URL = 'http://192.168.29.209:2003/';
+// export const BASE_URL = 'http://13.232.134.32:2003/';
 
+export const STATIC_URL = 'http://192.168.29.209:2003/static/';
+// export const STATIC_URL = 'http://13.232.134.32:2003/static/';
 
 const getHeaders = async () => {
-  // const token = sessionStorage.getItem('token');
-  const token = '';
+  const user = await AsyncStorage.getItem('LOGININFO');
+  const loginInfo = JSON.parse(user)
+  const token = loginInfo?.token;
   const deviceId = 'some-device-id';
 
   return {
@@ -33,18 +32,21 @@ export const apiPost = async (method, data) => {
     const result = response.data;
     return result;
   } catch (err) {
+    console.log(err);
     alert("Something went wrong. Please try again.");
     return { code: 999, message: err.message };
   }
 };
 
 export const apiPut = async (method, data) => {
+  console.log(`${BASE_URL}${method}`);
   try {
     const headers = await getHeaders();
     const response = await axios.put(`${BASE_URL}${method}`, data, { headers });
     const result = response.data;
     return result;
   } catch (err) {
+    console.log(err);
     alert("Something went wrong. Please try again.");
     return { code: 999, message: err.message };
   }
@@ -83,6 +85,8 @@ export const apiUpload = async (method, file, id) => {
     return { ...result, name: result.code === 200 ? URL : '' };
   } catch (err) {
     console.error('Upload Error:', err);
-    throw err;
+    alert("Something went wrong. Please try again.");
+    return { code: 999, message: err.message };
+    // throw err;
   }
 };

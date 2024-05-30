@@ -3,11 +3,6 @@ const bm = require('../../Modules/basicModules');
 const { validationResult, body } = require('express-validator');
 const { logError } = require('../../Modules/logger');
 
-
-var userMaster = "user_master";
-var viewuserMaster = "view_" + userMaster;
-
-
 function reqData(req) {
 
     var data = {
@@ -61,21 +56,21 @@ exports.get = (req, res) => {
     let countCriteria = filter;
 
     try {
-        dm.runQuery('select count(*) as cnt from ' + viewuserMaster + ' where 1 ' + countCriteria, req, (error, results1) => {
+        dm.runQuery('select count(*) as cnt from view_user_master where 1 ' + countCriteria, req, (error, results1) => {
             if (error) {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get userMaster count.",
+                    "message": "Failed to get User count.",
                 });
             }
             else {
-                dm.runQuery('select * from ' + viewuserMaster + ' where 1 ' + criteria, req, (error, results) => {
+                dm.runQuery('select * from view_user_master where 1 ' + criteria, req, (error, results) => {
                     if (error) {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get userMaster information."
+                            "message": "Failed to get User information."
                         });
                     }
                     else {
@@ -114,17 +109,17 @@ exports.create = (req, res) => {
     }
     else {
         try {
-            dm.runDataQuery('INSERT INTO ' + userMaster + ' SET ?', data, req, (error, results) => {
+            dm.runDataQuery('INSERT INTO user_master SET ?', data, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save userMaster information..."
+                        "message": "Failed to save User information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "userMaster information saved successfully...",
+                        "message": "User information saved successfully...",
                     });
                 }
             });
@@ -166,12 +161,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update stateMaster information."
+                        "message": "Failed to update User information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "StateMaster information updated successfully...",
+                        "message": "User information updated successfully...",
                     });
                 }
             });
@@ -204,7 +199,7 @@ exports.login = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to get userMaster information."
+                        "message": "Failed to get User information."
                     });
                 }
                 else {

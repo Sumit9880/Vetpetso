@@ -209,7 +209,7 @@ exports.mapPlan = async (req, res) => {
                     dm.rollback(connection);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save Plan Mapping information..."
+                        "message": "Failed to Update Plan Mapping information..."
                     });
                 } else {
                     dm.runDMLQuery('INSERT INTO member_plan_mapping SET ?', data, connection, req, (error, results) => {
@@ -227,7 +227,7 @@ exports.mapPlan = async (req, res) => {
                                     dm.rollback(connection);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberPlan information."
+                                        "message": "Failed to get Member Plan information."
                                     });
                                 }
                                 else {

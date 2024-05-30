@@ -55,7 +55,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get patientDailyCheckup count.",
+                    "message": "Failed to get Daily Checkup count.",
                 });
             }
             else {
@@ -64,7 +64,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get patientDailyCheckup information."
+                            "message": "Failed to get Daily Checkup information."
                         });
                     }
                     else {
@@ -108,12 +108,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save patientDailyCheckup information..."
+                        "message": "Failed to save Daily Checkup information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "patientDailyCheckup information saved successfully...",
+                        "message": "Daily Checkup information saved successfully...",
                     });
                 }
             });
@@ -155,12 +155,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update patientDailyCheckup information."
+                        "message": "Failed to update Daily Checkup information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "patientDailyCheckup information updated successfully...",
+                        "message": "Daily Checkup information updated successfully...",
                     });
                 }
             });

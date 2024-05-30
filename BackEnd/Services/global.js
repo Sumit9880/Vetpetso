@@ -154,7 +154,7 @@ exports.memberSign = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -163,7 +163,7 @@ exports.memberSign = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {
@@ -232,7 +232,7 @@ exports.experienceLetter = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -241,7 +241,7 @@ exports.experienceLetter = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {
@@ -310,7 +310,7 @@ exports.leavingCretificate = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -319,7 +319,7 @@ exports.leavingCretificate = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {
@@ -388,7 +388,7 @@ exports.educationalCretificate = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -397,7 +397,7 @@ exports.educationalCretificate = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {
@@ -466,7 +466,7 @@ exports.profilePhoto = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -475,7 +475,7 @@ exports.profilePhoto = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {
@@ -544,7 +544,7 @@ exports.adharCard = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -553,7 +553,7 @@ exports.adharCard = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {
@@ -622,7 +622,7 @@ exports.panCard = function (req, res) {
                                     console.error(error);
                                     res.send({
                                         "code": 400,
-                                        "message": "Failed to get memberMasterMaster.",
+                                        "message": "Failed to get Member information.",
                                     });
                                 }
                                 else {
@@ -631,7 +631,7 @@ exports.panCard = function (req, res) {
                                             console.error(error);
                                             res.send({
                                                 "code": 400,
-                                                "message": "Failed to update memberMasterMaster information."
+                                                "message": "Failed to update Member information."
                                             });
                                         }
                                         else {

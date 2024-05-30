@@ -54,7 +54,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get vaccinationDetails count.",
+                    "message": "Failed to get Vaccination Details count.",
                 });
             }
             else {
@@ -63,7 +63,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get vaccinationDetails information."
+                            "message": "Failed to get Vaccination Details information."
                         });
                     }
                     else {
@@ -107,12 +107,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save vaccinationDetails information..."
+                        "message": "Failed to save Vaccination Details information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "vaccinationDetails information saved successfully...",
+                        "message": "Vaccination Details information saved successfully...",
                     });
                 }
             });
@@ -154,12 +154,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update vaccinationDetails information."
+                        "message": "Failed to update Vaccination Details information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "vaccinationDetails information updated successfully...",
+                        "message": "Vaccination Details information updated successfully...",
                     });
                 }
             });

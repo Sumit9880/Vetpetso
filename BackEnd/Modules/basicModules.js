@@ -31,7 +31,7 @@ exports.getSystemDate = function () {
 exports.generateToken = function (userId, res, resultsUser) {
     try {
         var data = {
-            "USER_ID": userId,
+            "USER_ID": userId,  
         }
         jwt.sign({ data }, process.env.SECRET, (error, token) => {
             if (error) {

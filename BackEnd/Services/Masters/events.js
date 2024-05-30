@@ -59,7 +59,7 @@ exports.get = (req, res) => {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get eventsMaster count.",
+                    "message": "Failed to get Event count.",
                 });
             }
             else {
@@ -68,7 +68,7 @@ exports.get = (req, res) => {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get eventsMaster information."
+                            "message": "Failed to get Event information."
                         });
                     }
                     else {
@@ -112,12 +112,12 @@ exports.create = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save eventsMaster information..."
+                        "message": "Failed to save Event information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "eventsMaster information saved successfully...",
+                        "message": "Event information saved successfully...",
                     });
                 }
             });
@@ -159,12 +159,12 @@ exports.update = (req, res) => {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update stateMaster information."
+                        "message": "Failed to update Event information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "StateMaster information updated successfully...",
+                        "message": "Event information updated successfully...",
                     });
                 }
             });

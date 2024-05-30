@@ -19,7 +19,7 @@ const LoginPage = () => {
         try {
             const res = await apiPost("user/login", { username, password });
             if (res.code === 200) {
-                sessionStorage.setItem("token", JSON.stringify(res.data[0].token));
+                sessionStorage.setItem("token", res.data[0].token);
                 localStorage.setItem("user", JSON.stringify(res.data[0].UserData));
                 window.location.href = "/";
             } else {
