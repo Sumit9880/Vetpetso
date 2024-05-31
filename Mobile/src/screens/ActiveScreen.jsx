@@ -28,7 +28,6 @@ const ActiveScreen = () => {
         filter: " AND MEMBER_ID = " + user.ID + " GROUP BY CASE_TYPE"
       });
       setMemberCounts(resMemberCounts.data);
-      console.log("res", resMemberCounts.data);
     } catch (error) {
       console.error(error);
     } finally {

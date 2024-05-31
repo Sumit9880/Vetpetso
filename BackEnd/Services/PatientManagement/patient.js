@@ -363,7 +363,6 @@ exports.addVaccination = async (req, res) => {
 }
 
 exports.add = async (req, res) => {
-    console.log(req.body);
     var data = reqData(req);
     let historyData = historyReqData(req);
     const errors = validationResult(req);

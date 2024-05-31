@@ -26,7 +26,6 @@ const BannerPopup = ({ isOpen, onClose, fetchData }) => {
         }
         onClose();
     };
-    console.log(loader);
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

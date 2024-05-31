@@ -3,6 +3,7 @@ import { apiPost } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import TalukaDrawer from '../components/TalukaDrawer';
 import Pagination from '../components/Pagination';
+import Loader from '../components/Loader';
 
 function Taluka() {
     const [talukas, setTalukas] = useState([]);
@@ -14,12 +15,14 @@ function Taluka() {
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [taluka, setTaluka] = useState([]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%')` : '';
             const res = await apiPost("api/taluka/get", {
@@ -42,6 +45,8 @@ function Taluka() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
 
@@ -106,7 +111,7 @@ function Taluka() {
                         ))}
                     </tbody>
                 </table>
-                {talukas.length > 0 ? null :
+                {talukas.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -116,6 +121,9 @@ function Taluka() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
+                {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}

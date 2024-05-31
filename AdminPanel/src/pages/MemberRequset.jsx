@@ -3,6 +3,7 @@ import { apiPost } from "../utils/api";
 import { IoEyeOutline } from "react-icons/io5";
 import MemberPreview from '../components/MemberPreview';
 import Pagination from '../components/Pagination';
+import Loader from '../components/Loader';
 
 function MemberRequsets() {
     const [memberRequsets, setMemberRequsets] = useState([]);
@@ -14,12 +15,14 @@ function MemberRequsets() {
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [memberRequset, setMemberRequset] = useState([]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%') AND STATUS IN ("P","R")` : ' AND STATUS IN ("P","R")';
             const res = await apiPost("api/member/get", {
@@ -42,6 +45,8 @@ function MemberRequsets() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]);
 
@@ -101,7 +106,7 @@ function MemberRequsets() {
                         ))}
                     </tbody>
                 </table>
-                {memberRequsets.length > 0 ? null :
+                {memberRequsets.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -111,6 +116,9 @@ function MemberRequsets() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Member Requsets</h1>
                     </div>}
+                {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}

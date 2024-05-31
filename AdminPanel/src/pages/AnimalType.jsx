@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { apiPost ,STATIC_URL} from "../utils/api";
+import { apiPost, STATIC_URL } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import AnimalTypeDrawer from '../components/AnimalTypeDrawer';
 import Pagination from '../components/Pagination';
+import Loader from '../components/Loader';
 
 function AnimalType() {
     const [animalTypes, setAnimalTypes] = useState([]);
@@ -14,12 +15,14 @@ function AnimalType() {
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [animalType, setAnimalType] = useState([]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR NAME_MR LIKE '%${searchTerm}%')` : '';
             const res = await apiPost("api/animalType/get", {
@@ -42,6 +45,8 @@ function AnimalType() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
 
@@ -110,7 +115,7 @@ function AnimalType() {
                         ))}
                     </tbody>
                 </table>
-                {animalTypes.length > 0 ? null :
+                {animalTypes.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -120,6 +125,9 @@ function AnimalType() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
+                {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}

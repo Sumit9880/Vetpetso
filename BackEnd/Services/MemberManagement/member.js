@@ -486,7 +486,6 @@ exports.sendForgotOtp = (req, res) => {
                             });
                         }
                         else {
-                            console.log(results[0].ID);
                             res.send({
                                 "code": 200,
                                 "message": "OTP sent successfully.",

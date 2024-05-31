@@ -3,6 +3,7 @@ import { apiPost } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import DistrictDrawer from '../components/DistrictDrawer';
 import Pagination from '../components/Pagination';
+import Loader from '../components/Loader';
 
 function District() {
     const [districts, setDistricts] = useState([]);
@@ -12,14 +13,16 @@ function District() {
         pages: 1,
         current: 1,
     });
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false );
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [district, setDistrict] = useState([]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%')` : '';
             const res = await apiPost("api/district/get", {
@@ -42,6 +45,8 @@ function District() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
 
@@ -64,49 +69,49 @@ function District() {
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">District Master</h1>
-            <div className="flex justify-end mb-2">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    id='districtSearch'
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    className="w-64 h-9 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 px-2 py-1"
-                />
-                <button
-                    className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
-                    onClick={() => handleOpenDrawer(null)}
-                >
-                    Add New
-                </button>
-                <DistrictDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={district} />
-            </div>
+                <div className="flex justify-end mb-2">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        id='districtSearch'
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        className="w-64 h-9 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 px-2 py-1"
+                    />
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
+                        onClick={() => handleOpenDrawer(null)}
+                    >
+                        Add New
+                    </button>
+                    <DistrictDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={district} />
+                </div>
             </div>
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
                 {/* <div className=" overflow-y-auto"> */}
-                    <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
-                        <thead>
-                            <tr className="bg-gray-200 rounded-lg">
-                                <th className="px-2 py-2 border border-gray-300">Seq No.</th>
-                                <th className="px-2 py-2 border border-gray-300">Name</th>
-                                <th className="px-2 py-2 border border-gray-300">Status</th>
-                                <th className="px-2 py-2 border border-gray-300">Actions</th>
+                <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
+                    <thead>
+                        <tr className="bg-gray-200 rounded-lg">
+                            <th className="px-2 py-2 border border-gray-300">Seq No.</th>
+                            <th className="px-2 py-2 border border-gray-300">Name</th>
+                            <th className="px-2 py-2 border border-gray-300">Status</th>
+                            <th className="px-2 py-2 border border-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {districts?.map(district => (
+                            <tr key={district.ID} className="bg-white">
+                                <td className="px-2 border border-gray-200">{district.ID}</td>
+                                <td className="px-2 border border-gray-200">{district.NAME}</td>
+                                <td className={`px-2 border border-gray-200 text-center${district.STATUS ? " text-green-500" : " text-red-500"}`}>{district.STATUS ? "On" : "Off"}</td>
+                                <td className="px-2 border border-gray-200 text-center">
+                                    <button className="py-2 text-center" onClick={() => handleOpenDrawer(district)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {districts?.map(district => (
-                                <tr key={district.ID} className="bg-white">
-                                    <td className="px-2 border border-gray-200">{district.ID}</td>
-                                    <td className="px-2 border border-gray-200">{district.NAME}</td>
-                                    <td className={`px-2 border border-gray-200 text-center${district.STATUS ? " text-green-500" : " text-red-500"}`}>{district.STATUS ? "On" : "Off"}</td>
-                                    <td className="px-2 border border-gray-200 text-center">
-                                        <button className="py-2 text-center" onClick={() => handleOpenDrawer(district)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {districts.length > 0 ? null :
+                        ))}
+                    </tbody>
+                </table>
+                {districts.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -116,6 +121,9 @@ function District() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
+                {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}

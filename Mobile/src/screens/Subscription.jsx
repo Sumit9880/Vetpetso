@@ -58,7 +58,6 @@ const Subscription = () => {
         dispatch(setStatusBar({ backgroundColor: "#4B1AFF", barStyle: "light-content" }))
         return true;
     };
-    // console.log("user", user);
     const submit = async () => {
         setIsLoading(true);
         try {

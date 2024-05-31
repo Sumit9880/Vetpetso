@@ -17,7 +17,6 @@ const MemberPreview = ({ isOpen, onClose, data }) => {
     const handlePreview = (url) => {
         setUrl(url)
         setPreview(true)
-        console.log(url, preview);
     }
 
     const handleOpenDilog = (key) => {

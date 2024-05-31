@@ -6,6 +6,8 @@ import Pagination from '../components/Pagination';
 import MemberPreview from '../components/MemberPreview';
 import { IoEyeOutline } from "react-icons/io5";
 import PlanPreview from '../components/PlanPreview';
+import { ToastContainer } from 'react-toastify';
+import Loader from '../components/Loader';
 
 function Members() {
     const [members, setMembers] = useState([]);
@@ -21,12 +23,14 @@ function Members() {
         plan: false,
     });
     const [member, setMember] = useState({});
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? ` AND STATUS = "A" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS = "A"';
             const res = await apiPost("api/member/get", {
@@ -49,6 +53,8 @@ function Members() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]);
 
@@ -75,6 +81,7 @@ function Members() {
 
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
+            <ToastContainer />
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Member Management</h1>
                 <div className="flex justify-end mb-2">
@@ -133,7 +140,7 @@ function Members() {
                         ))}
                     </tbody>
                 </table>
-                {members.length > 0 ? null :
+                {members.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -143,6 +150,9 @@ function Members() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
+                {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}

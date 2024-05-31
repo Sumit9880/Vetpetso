@@ -3,6 +3,7 @@ import { apiPost } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import BreedDrawer from '../components/BreedDrawer';
 import Pagination from '../components/Pagination';
+import Loader from '../components/Loader';
 
 function Breed() {
     const [breeds, setBreeds] = useState([]);
@@ -14,12 +15,14 @@ function Breed() {
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [breed, setBreed] = useState([]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR NAME_MR LIKE '%${searchTerm}%')` : '';
             const res = await apiPost("api/animalBreed/get", {
@@ -42,6 +45,8 @@ function Breed() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
 
@@ -108,7 +113,7 @@ function Breed() {
                         ))}
                     </tbody>
                 </table>
-                {breeds.length > 0 ? null :
+                {breeds.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -118,6 +123,9 @@ function Breed() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
+                {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}

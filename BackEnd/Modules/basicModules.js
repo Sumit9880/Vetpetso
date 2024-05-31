@@ -23,7 +23,6 @@ exports.getSystemDate = function () {
     // current seconds
     let seconds = ("0" + date_ob.getSeconds()).slice(-2);
     // prints date & time in YYYY-MM-DD HH:MM:SS format
-    //console.log(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
     date_cur = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
     return date_cur;
 }

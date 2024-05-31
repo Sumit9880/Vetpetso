@@ -3,6 +3,7 @@ import { apiPost } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import CaseTypeDrawer from '../components/CaseTypeDrawer';
 import Pagination from '../components/Pagination';
+import Loader from '../components/Loader';
 
 function CaseType() {
     const [caseTypes, setCaseTypes] = useState([]);
@@ -14,12 +15,14 @@ function CaseType() {
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [caseType, setCaseType] = useState([]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const filter = searchTerm ? `AND (NAME LIKE '%${searchTerm}%' OR NAME_MR LIKE '%${searchTerm}%')` : '';
             const res = await apiPost("api/caseType/get", {
@@ -42,6 +45,8 @@ function CaseType() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
 
@@ -109,7 +114,7 @@ function CaseType() {
                         ))}
                     </tbody>
                 </table>
-                {caseTypes.length > 0 ? null :
+                {caseTypes.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -119,6 +124,9 @@ function CaseType() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
+                    {
+                    loader && <Loader />
+                }
                 {/* </div> */}
                 <Pagination
                     pages={pageIndex.pages}
