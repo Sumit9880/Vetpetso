@@ -24,6 +24,9 @@ import Subscription from '../screens/Subscription';
 import PersonalInfoModal from '../components/PersonalInfoModal';
 import EducationalInfoModal from '../components/EducationalInfoModal';
 import ProfestionalInfoModal from '../components/ProfestionalInfoModal';
+import VaccinationReport from '../screens/VaccinationReport';
+import CaseReport from '../screens/CaseReport';
+import AiReport from '../screens/AiReport';
 
 const AppRouter = () => {
   const Tab = createBottomTabNavigator();
@@ -77,24 +80,6 @@ const AppRouter = () => {
                   ),
                 }} />
               <Tab.Screen
-                name="Report"
-                component={ReportScreen}
-                options={{
-                  tabBarShowLabel: true,
-                  tabBarLabelStyle: {
-                    fontWeight: 'semibold',
-                    fontSize: 12
-                  },
-                  tabBarIcon: ({ color }) => (
-                    <VectorIcon
-                      type="Entypo"
-                      name="list"
-                      color={color}
-                      size={26}
-                    />
-                  ),
-                }} />
-              <Tab.Screen
                 name="Active Cases"
                 component={ActiveScreen}
                 options={{
@@ -107,6 +92,24 @@ const AppRouter = () => {
                     <VectorIcon
                       type="MaterialCommunityIcons"
                       name="briefcase-plus-outline"
+                      color={color}
+                      size={26}
+                    />
+                  ),
+                }} />
+              <Tab.Screen
+                name="Reports"
+                component={ReportScreen}
+                options={{
+                  tabBarShowLabel: true,
+                  tabBarLabelStyle: {
+                    fontWeight: 'semibold',
+                    fontSize: 12
+                  },
+                  tabBarIcon: ({ color }) => (
+                    <VectorIcon
+                      type="Entypo"
+                      name="list"
                       color={color}
                       size={26}
                     />
@@ -143,7 +146,9 @@ const AppRouter = () => {
         <Stack.Screen name="PersonalInfoModal" component={PersonalInfoModal} />
         <Stack.Screen name="EducationalInfoModal" component={EducationalInfoModal} />
         <Stack.Screen name="ProfestionalInfoModal" component={ProfestionalInfoModal} />
-
+        <Stack.Screen name="VaccinationReport" component={VaccinationReport} />
+        <Stack.Screen name="CaseReport" component={CaseReport} />
+        <Stack.Screen name="AiReport" component={AiReport} />
       </Stack.Navigator>
     </>
   )

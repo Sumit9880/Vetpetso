@@ -35,9 +35,12 @@ const ActiveScreen = () => {
     }
   };
 
-  let TYPE1 = memberCounts?.filter(item => item.CASE_TYPE === 1);
-  let TYPE2 = memberCounts?.filter(item => item.CASE_TYPE === 2);
-  let TYPE3 = memberCounts?.filter(item => item.CASE_TYPE === 3);
+  let counts = {
+    TYPE1: memberCounts?.filter(item => item.CASE_TYPE === 1)[0],
+    TYPE2: memberCounts?.filter(item => item.CASE_TYPE === 2)[0],
+    TYPE3: memberCounts?.filter(item => item.CASE_TYPE === 3)[0]
+  }
+
   return (
     <>
       <Header name="Active" />
@@ -70,11 +73,11 @@ const ActiveScreen = () => {
                 <View style={styles.innerContainer}>
                   <View style={styles.stat}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE1[0]?.CLOSED.toString().padStart(3, '0')}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{counts.TYPE1?.CLOSED?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Closed</Text>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE1[0]?.ACTIVE.toString().padStart(3, '0')}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{counts.TYPE1?.ACTIVE?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Open</Text>
                     </View>
                   </View>
@@ -96,11 +99,11 @@ const ActiveScreen = () => {
                 <View style={styles.innerContainer}>
                   <View style={styles.stat}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE2[0]?.CLOSED.toString().padStart(3, '0')}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{counts.TYPE2?.CLOSED?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Closed</Text>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE2[0]?.ACTIVE.toString().padStart(3, '0')}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{counts.TYPE2?.ACTIVE?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Open</Text>
                     </View>
                   </View>
@@ -122,11 +125,11 @@ const ActiveScreen = () => {
                 <View style={styles.innerContainer}>
                   <View style={styles.stat}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE3[0]?.CLOSED.toString().padStart(3, '0')}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{counts.TYPE3?.CLOSED?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Closed</Text>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{TYPE3[0]?.ACTIVE.toString().padStart(3, '0')}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#3c65fc' }}>{counts.TYPE3?.ACTIVE?.toString().padStart(3, '0')}</Text>
                       <Text style={styles.statsText}>Open</Text>
                     </View>
                   </View>
