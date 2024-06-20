@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View, TextInput, Modal, Text } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View, TextInput, Modal, Text, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setStatusBar } from '../reduxStore/userSlice';
 import Header from '../components/Header';
@@ -55,6 +55,8 @@ const AiList = () => {
       }, 500);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,6 +80,8 @@ const AiList = () => {
       }, 500);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -128,18 +132,23 @@ const AiList = () => {
             onSubmitEditing={() => getDataSearch()}
           />
         </View>
-        <FlatList
-          data={search.isOn ? dataSearch : data}
-          initialNumToRender={6}
-          renderItem={({ item }) => (
-            <AIItem item={item} />
-          )}
-          keyExtractor={item => item.ID}
-          contentContainerStyle={{ paddingVertical: 10 }}
-          showsVerticalScrollIndicator={false}
-          onEndReached={search.isOn ? getDataSearch : getData}
-          onEndReachedThreshold={0.1}
-        />
+        {dataSearch.length > 0 || data.length > 0 ?
+          <FlatList
+            data={search.isOn ? dataSearch : data}
+            initialNumToRender={6}
+            renderItem={({ item }) => (
+              <AIItem item={item} />
+            )}
+            keyExtractor={item => item.ID}
+            contentContainerStyle={{ paddingVertical: 10 }}
+            showsVerticalScrollIndicator={false}
+            onEndReached={search.isOn ? getDataSearch : getData}
+            onEndReachedThreshold={0.1}
+          /> :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image source={require('../assets/empty.png')} style={{ width: 150, height: 150, opacity: 0.5 }} />
+          </View>
+        }
         <TouchableOpacity onPress={() => handlePress()} style={styles.addButton}>
           <VectorIcon type="Feather" name="plus" size={40} color="#fff" />
         </TouchableOpacity>

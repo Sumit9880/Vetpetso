@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, Modal, Text } from 'react-native';
+import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, Modal, Text, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setStatusBar } from '../reduxStore/userSlice';
 import Header from '../components/Header';
@@ -56,6 +56,8 @@ const PatientCaseList = () => {
       }, 500);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -79,6 +81,8 @@ const PatientCaseList = () => {
       }, 500);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -129,18 +133,23 @@ const PatientCaseList = () => {
             onSubmitEditing={() => getDataSearch()}
           />
         </View>
-        <FlatList
-          data={search.isOn ? dataSearch : data}
-          initialNumToRender={8}
-          renderItem={({ item }) => (
-            <CaseItem item={item} />
-          )}
-          keyExtractor={item => item.ID}
-          contentContainerStyle={{ paddingVertical: 10 }}
-          showsVerticalScrollIndicator={false}
-          onEndReached={search.isOn ? getDataSearch : getData}
-          onEndReachedThreshold={0.1}
-        />
+        {dataSearch.length > 0 || data.length > 0 ?
+          <FlatList
+            data={search.isOn ? dataSearch : data}
+            initialNumToRender={8}
+            renderItem={({ item }) => (
+              <CaseItem item={item} />
+            )}
+            keyExtractor={item => item.ID}
+            contentContainerStyle={{ paddingVertical: 10 }}
+            showsVerticalScrollIndicator={false}
+            onEndReached={search.isOn ? getDataSearch : getData}
+            onEndReachedThreshold={0.1}
+          /> :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image source={require('../assets/empty.png')} style={{ width: 150, height: 150, opacity: 0.5 }} />
+          </View>
+        }
         <TouchableOpacity onPress={() => handlePress()} style={styles.addButton}>
           <VectorIcon type="Feather" name="plus" size={40} color="#fff" />
         </TouchableOpacity>

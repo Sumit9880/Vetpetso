@@ -13,16 +13,17 @@ const DatePick = ({ label, validation, value, setDate, options }) => {
         <>
             <View style={{ marginTop: 10, width: options.width ? options.width : '100%' }}>
                 {label.visible && <Text style={styles.label}>{label.text}</Text>}
-                <View style={styles.input}>
+                <TouchableOpacity
+                    onPress={() => setSelecteDate({ ...selecteDate, show: true })}
+                    style={styles.input}>
                     <Text style={styles.value}>{value ? value : label.text} </Text>
                     <VectorIcon
                         name="date"
                         type="Fontisto"
                         size={24}
                         color={'#1E90FF'}
-                        onPress={() => setSelecteDate({ ...selecteDate, show: true })}
                     />
-                </View>
+                </TouchableOpacity>
                 {validation && <Text style={styles.validation}>{validation}</Text>}
             </View>
             <Modal

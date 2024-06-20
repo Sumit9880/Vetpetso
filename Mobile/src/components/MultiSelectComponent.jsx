@@ -7,8 +7,8 @@ const MultiSelectComponent = ({ label, value, onChangeText, validation, options,
     const [isFocus, setIsFocus] = useState(false);
 
     return (
-        <View style={{ marginTop: 10, width: options.width ? options.width : '100%', backgroundColor: value ? '#E6F4FE' : 'white', paddingVertical: 10, borderRadius: 10 }}>
-            {label.visible && <Text style={styles.label}>{label.text}</Text>}
+        <View style={{ marginTop: 10, width: options.width ? options.width : '100%', backgroundColor: value ? '#E6F4FE' : 'white', padding: 10, borderRadius: 10 }}>
+            {/* {label.visible && <Text style={styles.label}>{label.text}</Text>} */}
             <MultiSelect
                 style={styles.input}
                 placeholderStyle={styles.placeholderStyle}
