@@ -41,7 +41,7 @@ const PatientCaseList = () => {
       if (search.pageIndex == 1) {
         setIsLoading(true);
       }
-      const res = await apiPost("api/vaccinationDetails/get", {
+      const res = await apiPost("api/patientHistory/get", {
         pageIndex: search.pageIndex,
         sortKey: "ID",
         sortValue: "ASC",
