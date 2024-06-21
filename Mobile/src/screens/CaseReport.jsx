@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, FlatList, StyleSheet, View, TextInput, Image, TouchableOpacity, Modal, Text } from 'react-native';
+import { ScrollView, FlatList, StyleSheet, View, TextInput, Image, TouchableOpacity, Modal, Text, ToastAndroid } from 'react-native';
 import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 import VectorIcon from '../utils/VectorIcon';
@@ -9,6 +9,7 @@ import CaseItemReport from '../components/CaseItemReport';
 import Loader from '../components/Loader';
 import MultiSelectComponent from '../components/MultiSelectComponent';
 import DatePick from '../components/DatePick';
+import ExportReport from '../components/ExportReport';
 
 const CaseReport = () => {
   const user = useSelector(state => state.user.userInfo);
@@ -17,6 +18,10 @@ const CaseReport = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [dataSearch, setDataSearch] = useState([]);
+  const [exportData, setExportData] = useState({
+    isVisible: false,
+    data: [],
+  });
   const [search, setSearch] = useState({
     isOn: false,
     value: '',
@@ -31,7 +36,6 @@ const CaseReport = () => {
     FROM_DATE: '',
     TO_DATE: ''
   })
-  console.log(filter);
   const [dropdownData, setDropdownData] = useState({
     breed: [],
     type: [],
@@ -40,7 +44,7 @@ const CaseReport = () => {
   })
 
   useEffect(() => {
-    if (search.value == '') {
+    if (search.value == '' && filter.TALUKA.length == 0 && filter.DISTRICT.length == 0 && filter.ANIMAL_BREED.length == 0 && filter.ANIMAL_TYPE.length == 0 && filter.FROM_DATE == '' && filter.TO_DATE == '') {
       setSearch({
         isOn: false,
         value: '',
@@ -50,28 +54,45 @@ const CaseReport = () => {
     }
   }, [search.value]);
 
-  const getDataSearch = async () => {
+
+  const getDataSearch = async (ind) => {
+    let index = ind || search.pageIndex
     try {
-      if (search.pageIndex == 1) {
+      if (search.pageIndex === 1) {
         setIsLoading(true);
       }
       const res = await apiPost("api/patientHistory/get", {
-        pageIndex: search.pageIndex,
+        pageIndex: index,
         sortKey: "ID",
         sortValue: "ASC",
         pageSize: 50,
-        filter: ` AND MEMBER_ID = ${user.ID}${filter.ANIMAL_BREED.length > 0 ? 'AND BREED_ID IN (' + filter.ANIMAL_BREED.join() + ')' : ''}${filter.ANIMAL_TYPE.length > 0 ? ' AND ANIMAL_TYPE IN (' + filter.ANIMAL_TYPE.join() + ')' : ''}${filter.DISTRICT.length > 0 ? ' AND DISTRICT IN (' + filter.DISTRICT.join() + ')' : ''}${filter.TALUKA.length > 0 ? ' AND TALUKA IN (' + filter.TALUKA.join() + ')' : ''}${search.value ? ` AND (ANIMAL_IDENTITY_NO LIKE '%${search.value}%' OR CASE_NO LIKE '%${search.value}%' OR OWNER_NAME LIKE '%${search.value}%' OR MOBILE_NUMBER LIKE '%${search.value}%')` : ''}`
+        filter: ` AND MEMBER_ID = ${user.ID}` +
+          (filter.ANIMAL_BREED.length > 0 ? ` AND BREED IN (${filter.ANIMAL_BREED.join()})` : '') +
+          (filter.ANIMAL_TYPE.length > 0 ? ` AND ANIMAL_TYPE IN (${filter.ANIMAL_TYPE.join()})` : '') +
+          (filter.DISTRICT.length > 0 ? ` AND DISTRICT IN (${filter.DISTRICT.join()})` : '') +
+          (filter.TALUKA.length > 0 ? ` AND TALUKA IN (${filter.TALUKA.join()})` : '') +
+          (filter.FROM_DATE && filter.TO_DATE ? ` AND DATE(REGISTRATION_DATE) BETWEEN '${filter.FROM_DATE.replace(/\//g, '-')}' AND '${filter.TO_DATE.replace(/\//g, '-')}'` : '') +
+          (search.value ? ` AND (ANIMAL_IDENTITY_NO LIKE '%${search.value}%' OR CASE_NO LIKE '%${search.value}%' OR OWNER_NAME LIKE '%${search.value}%' OR MOBILE_NUMBER LIKE '%${search.value}%')` : '')
       });
-      let updatedData = [...dataSearch, ...res.data];
-      setDataSearch(updatedData);
-      setSearch({ ...search, pageIndex: search.pageIndex + 1, isOn: true });
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+
+      if (res && res.code === 200) {
+        let updatedData = []
+        if (index === 1) {
+          updatedData = res.data;
+        } else {
+          updatedData = [...dataSearch, ...res.data];
+        }
+        setSearch({ ...search, pageIndex: index + 1, isOn: true });
+        setDataSearch(updatedData);
+      } else {
+        ToastAndroid.show(res.message, ToastAndroid.SHORT);
+      }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
@@ -85,18 +106,21 @@ const CaseReport = () => {
         sortKey: "ID",
         sortValue: "DESC",
         pageSize: 50,
-        filter: " AND MEMBER_ID = " + user.ID
+        filter: " aND MEMBER_ID = " + user.ID
       });
-      let updatedData = [...data, ...res.data];
-      setData(updatedData);
-      setPageIndex(pageIndex + 1);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+      if (res && res.code === 200) {
+        let updatedData = [...data, ...res.data];
+        setData(updatedData);
+        setPageIndex(pageIndex + 1);
+      } else {
+        ToastAndroid.show(res.message, ToastAndroid.SHORT);
+      }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
@@ -144,12 +168,14 @@ const CaseReport = () => {
       TO_DATE: ''
     })
   }
+
   const apply = () => {
-    getDataSearch();
+    setSearch({ ...search, pageIndex: 1 });
+    setDataSearch([]);
+    getDataSearch(1);
     setFilter({ ...filter, isOn: false })
   }
-  console.log("sjashjkahskjahkskj", (search.isOn && dataSearch.length > 0) || (filter.isOn && data.length > 0) || (!search.isOn && !filter.isOn && data.length > 0)
-  );
+
   return (
     <>
       <Header name="Patient Case Reports" />
@@ -162,9 +188,9 @@ const CaseReport = () => {
             style={styles.searchInput}
             value={search.value}
             onChangeText={(text) => {
-              setSearch({ ...search, value: text });
+              setSearch({ ...search, value: text, pageIndex: 1 });
             }}
-            onSubmitEditing={() => getDataSearch()}
+            onSubmitEditing={() => getDataSearch(null)}
           />
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 40, backgroundColor: '#fff', paddingVertical: 5 }}>
@@ -172,10 +198,12 @@ const CaseReport = () => {
           <TouchableOpacity activeOpacity={0.7} onPress={() => setFilter({ ...filter, isOn: !filter.isOn })}>
             <Image source={require('../assets/setting.png')} style={{ width: 35, height: 35 }} />
           </TouchableOpacity>
-          <Image source={require('../assets/exelfile.png')} style={{ width: 35, height: 35 }} />
+          <TouchableOpacity activeOpacity={0.7} onPress={() => setExportData({ isVisible: true, data: [] })}>
+            <Image source={require('../assets/exelfile.png')} style={{ width: 35, height: 35 }} />
+          </TouchableOpacity>
           {/* <VectorIcon type="AntDesign" name="export" size={30} color="#4B1AFF" /> */}
         </View>
-        {dataSearch.length > 0 || data.length > 0 ?
+        {(search.isOn && dataSearch.length > 0) || (!search.isOn && data.length > 0) ?
           <FlatList
             data={search.isOn || filter.isOn ? dataSearch : data}
             initialNumToRender={6}
@@ -185,7 +213,7 @@ const CaseReport = () => {
             keyExtractor={item => item.ID}
             contentContainerStyle={{ paddingVertical: 10 }}
             showsVerticalScrollIndicator={false}
-            onEndReached={search.isOn ? getDataSearch : getData}
+            onEndReached={search.isOn ? () => getDataSearch(null) : getData}
             onEndReachedThreshold={0.1}
           />
           :
@@ -195,6 +223,7 @@ const CaseReport = () => {
         }
       </View>
       <Loader isLoading={isLoading} />
+      <ExportReport item={{}} showModal={exportData.isVisible} setModal={() => setDropdownData({ isVisible: false, data: {} })} />
       <Modal
         animationType="slide"
         transparent={true}

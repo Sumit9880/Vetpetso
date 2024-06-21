@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, Modal, Text, Image } from 'react-native';
+import { ToastAndroid, FlatList, StyleSheet, TextInput, TouchableOpacity, View, Modal, Text, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setStatusBar } from '../reduxStore/userSlice';
 import Header from '../components/Header';
@@ -48,16 +48,24 @@ const PatientCaseList = () => {
         pageSize: 50,
         filter: ` AND IS_CLOSED = 0 AND MEMBER_ID = ${user.ID} AND (ANIMAL_IDENTITY_NO LIKE '%${search.value}%' OR CASE_NO LIKE '%${search.value}%' OR OWNER_NAME LIKE '%${search.value}%' OR MOBILE_NUMBER LIKE '%${search.value}%')`
       });
-      let updatedData = [...dataSearch, ...res.data];
-      setDataSearch(updatedData);
-      setSearch({ ...search, pageIndex: search.pageIndex + 1, isOn: true });
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+      if (res && res.code === 200) {
+        let updatedData = []
+        if (ind === 1) {
+          updatedData = res.data;
+        } else {
+          updatedData = [...dataSearch, ...res.data];
+        }
+        setDataSearch(updatedData);
+        setSearch({ ...search, pageIndex: search.pageIndex + 1, isOn: true });
+      } else {
+        ToastAndroid.show(res.message, ToastAndroid.SHORT);
+      }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
@@ -73,16 +81,19 @@ const PatientCaseList = () => {
         pageSize: 50,
         filter: " AND IS_CLOSED = 0 AND MEMBER_ID = " + user.ID
       });
-      let updatedData = [...data, ...res.data];
-      setData(updatedData);
-      setPageIndex(pageIndex + 1);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+      if (res && res.code === 200) {
+        let updatedData = [...data, ...res.data];
+        setData(updatedData);
+        setPageIndex(pageIndex + 1);
+      } else {
+        ToastAndroid.show(res.message, ToastAndroid.SHORT);
+      }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
@@ -128,12 +139,12 @@ const PatientCaseList = () => {
             style={styles.searchInput}
             value={search.value}
             onChangeText={(text) => {
-              setSearch({ ...search, value: text });
+              setSearch({ ...search, value: text, pageIndex: 1 });
             }}
             onSubmitEditing={() => getDataSearch()}
           />
         </View>
-        {dataSearch.length > 0 || data.length > 0 ?
+        {(search.isOn && dataSearch.length > 0) || (!search.isOn && data.length > 0) ?
           <FlatList
             data={search.isOn ? dataSearch : data}
             initialNumToRender={8}
