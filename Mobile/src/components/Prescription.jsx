@@ -205,7 +205,6 @@ const Prescription = ({ item, showModal, setModal }) => {
     const sharePdfToWhatsApp = async () => {
         try {
             const pdfUrl = 'file://' + pdf;
-
             const fileExists = await RNFS.exists(pdf);
             if (!fileExists) {
                 console.error('PDF file not found');
@@ -216,7 +215,6 @@ const Prescription = ({ item, showModal, setModal }) => {
                 social: Share.Social.WHATSAPP,
                 type: 'application/pdf',
             };
-
             await Share.shareSingle(shareOptions);
         } catch (error) {
             console.error(error);
@@ -254,7 +252,7 @@ const Prescription = ({ item, showModal, setModal }) => {
                                 <Text style={[styles.button, { backgroundColor: '#fff', color: "#4B1AFF", borderColor: '#4B1AFF', borderWidth: 1 }]} >Cancel</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={sharePdfToWhatsApp} >
+                        <TouchableOpacity disabled={!isGenerated} onPress={sharePdfToWhatsApp} >
                             <View style={styles.buttonContainer}>
                                 <Text style={[styles.button, { backgroundColor: '#4B1AFF', color: "#fff", borderColor: '#4B1AFF', borderWidth: 1 }]} >Share</Text>
                             </View>

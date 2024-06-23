@@ -1,19 +1,18 @@
 import React, { memo, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TextInput, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { STATIC_URL } from '../utils/api';
 import CasePaper from './CasePaper';
-const CaseItemReport = ({ item }) => {
+const CaseItemReport = ({ item, color }) => {
 
     const handlePress = (item) => {
         setVisible(true);
     };
     const [visible, setVisible] = useState(false);
-
     return (
         <>
             <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress(item)}>
                 <View style={styles.itemCard}>
-                    <View style={styles.image}>
+                    <View style={[styles.image, { backgroundColor: color }]}>
                         <Image source={{ uri: `${STATIC_URL}AnimalType/${item.ANIMAL_TYPE_IMAGE}` }} style={{ width: 40, height: 40 }} />
                     </View>
                     <View style={{ flex: 1 }}>
@@ -43,11 +42,17 @@ const CaseItemReport = ({ item }) => {
                                 </View>
                             </View>
                             <View style={{ width: '18%' }}>
-                                <TouchableOpacity activeOpacity={0.7} onPress={() => setVisible(true)}>
-                                    <View style={styles.closeButton}>
-                                        <Image source={require('../assets/document.png')} style={{ width: 35, height: 35 }} />
-                                    </View>
-                                </TouchableOpacity>
+                                <View style={styles.closeButton}>
+                                    {item.IS_CLOSED ?
+                                        <>
+                                            <Text style={{ color: '#000', fontWeight: '500', marginBottom: 5 }}>Closed</Text>
+                                            <View style={{ width: 15, backgroundColor: 'red', height: 15, borderRadius: 15 }} />
+                                        </> : <>
+                                            <Text style={{ color: '#000', fontWeight: '500', marginBottom: 5 }}>Active</Text>
+                                            <View style={{ width: 15, backgroundColor: '#02bc02', height: 15, borderRadius: 15 }} />
+                                        </>
+                                    }
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -81,18 +86,11 @@ const styles = StyleSheet.create({
     closeButton: {
         height: 45,
         width: 45,
-        backgroundColor: '#fff',
-        borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#4B1AFF',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.70,
-        shadowRadius: 3.84,
-        elevation: 5,
     },
     image: {
-        backgroundColor: '#89db8a',
         width: 50,
         height: 50,
         borderRadius: 25,

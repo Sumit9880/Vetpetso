@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, FlatList, StyleSheet, View, TextInput, Image, TouchableOpacity, Modal, Text, ToastAndroid } from 'react-native';
+import { ScrollView, FlatList, StyleSheet, View, TextInput, Image, TouchableOpacity, Modal, Text, ToastAndroid, TextBase } from 'react-native';
 import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 import VectorIcon from '../utils/VectorIcon';
@@ -20,7 +20,10 @@ const CaseReport = () => {
   const [dataSearch, setDataSearch] = useState([]);
   const [exportData, setExportData] = useState({
     isVisible: false,
-    data: [],
+    data: {
+      api: "api/detailed/caseExport",
+      name: "Case_Report"
+    }
   });
   const [search, setSearch] = useState({
     isOn: false,
@@ -36,6 +39,8 @@ const CaseReport = () => {
     FROM_DATE: '',
     TO_DATE: ''
   })
+  let count = filter.TALUKA.length + filter.DISTRICT.length + filter.ANIMAL_BREED.length + filter.ANIMAL_TYPE.length + (filter.FROM_DATE && filter.TO_DATE ? 1 : 0)
+
   const [dropdownData, setDropdownData] = useState({
     breed: [],
     type: [],
@@ -61,7 +66,7 @@ const CaseReport = () => {
       if (search.pageIndex === 1) {
         setIsLoading(true);
       }
-      const res = await apiPost("api/patientHistory/get", {
+      const res = await apiPost("api/detailed/caseReport", {
         pageIndex: index,
         sortKey: "ID",
         sortValue: "ASC",
@@ -101,12 +106,12 @@ const CaseReport = () => {
       if (pageIndex == 1) {
         setIsLoading(true);
       }
-      const res = await apiPost("api/patientHistory/get", {
+      const res = await apiPost("api/detailed/caseReport", {
         pageIndex: pageIndex,
         sortKey: "ID",
         sortValue: "DESC",
         pageSize: 50,
-        filter: " aND MEMBER_ID = " + user.ID
+        filter: " AND MEMBER_ID = " + user.ID
       });
       if (res && res.code === 200) {
         let updatedData = [...data, ...res.data];
@@ -194,21 +199,23 @@ const CaseReport = () => {
           />
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 40, backgroundColor: '#fff', paddingVertical: 5 }}>
-          {/* <VectorIcon type="Octicons" name="filter" size={30} color="#4B1AFF" /> */}
-          <TouchableOpacity activeOpacity={0.7} onPress={() => setFilter({ ...filter, isOn: !filter.isOn })}>
-            <Image source={require('../assets/setting.png')} style={{ width: 35, height: 35 }} />
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} activeOpacity={0.7} onPress={() => setFilter({ ...filter, isOn: !filter.isOn })}>
+            <Image source={require('../assets/adjust.png')} style={{ width: 35, height: 35 }} />
+            {
+              count > 0 &&
+              <Text style={{ marginLeft: 10, fontSize: 16, fontWeight: '500', color: '#4B1AFF' }}>({count})</Text>
+            }
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => setExportData({ isVisible: true, data: [] })}>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => setExportData({ ...exportData, isVisible: true })}>
             <Image source={require('../assets/exelfile.png')} style={{ width: 35, height: 35 }} />
           </TouchableOpacity>
-          {/* <VectorIcon type="AntDesign" name="export" size={30} color="#4B1AFF" /> */}
         </View>
         {(search.isOn && dataSearch.length > 0) || (!search.isOn && data.length > 0) ?
           <FlatList
             data={search.isOn || filter.isOn ? dataSearch : data}
             initialNumToRender={6}
             renderItem={({ item }) => (
-              <CaseItemReport item={item} />
+              <CaseItemReport item={item} color="#89db8a" />
             )}
             keyExtractor={item => item.ID}
             contentContainerStyle={{ paddingVertical: 10 }}
@@ -223,7 +230,7 @@ const CaseReport = () => {
         }
       </View>
       <Loader isLoading={isLoading} />
-      <ExportReport item={{}} showModal={exportData.isVisible} setModal={() => setDropdownData({ isVisible: false, data: {} })} />
+      <ExportReport item={exportData.data} showModal={exportData.isVisible} setModal={() => setExportData({ ...exportData, isVisible: false })} />
       <Modal
         animationType="slide"
         transparent={true}
@@ -232,7 +239,13 @@ const CaseReport = () => {
         <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <View style={{ height: '75%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 15 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingBottom: 10, borderBottomWidth: 0.5 }}>
-              <Text style={{ color: "#4B1AFF", fontSize: 20, fontWeight: '600' }}>Filters</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: "#4B1AFF", fontSize: 20, fontWeight: '600' }}>Filters</Text>
+                {
+                  count > 0 &&
+                  <Text style={{ marginLeft: 10, color: "#4B1AFF", fontSize: 18, fontWeight: '600' }}>({count})</Text>
+                }
+              </View>
               <VectorIcon type="AntDesign" name="closecircleo" size={26} color="red" onPress={() => setFilter({ ...filter, isOn: false })} />
             </View>
             <ScrollView contentContainerStyle={{ alignItems: 'center', marginTop: 10, paddingBottom: 20 }} showsVerticalScrollIndicator={false}>

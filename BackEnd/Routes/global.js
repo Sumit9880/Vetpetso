@@ -48,6 +48,7 @@ router
 
   // Reports
   .use('/api/summary', require('./Reports/summary'))
+  .use('/api/detailed', require('./Reports/detailed'))
 
   // Upload Files
   .post("/upload/events", globalService.events)
