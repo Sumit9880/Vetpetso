@@ -13,7 +13,7 @@ const CasePaper = ({ visible, setVisible, item }) => {
     const [pdf, setPDF] = useState(null)
     const [loader, setLoader] = useState(false)
     let CHECKUP_DETAILS = JSON.parse(item.CHECKUP_DETAILS || "[]")
-    console.log(item.CHECKUP_DETAILS);
+
     const generatePDF = async () => {
         setLoader(true);
         let rows = ''
@@ -44,10 +44,6 @@ const CasePaper = ({ visible, setVisible, item }) => {
         }
         // border: 1px solid #000;
         // border - radius: 4px;
-        console.log(CHECKUP_DETAILS)
-        console.log(CHECKUP_DETAILS.length > 0)
-        console.log(rows)
-        console.log(rows1);
         const options = {
             html: `<!DOCTYPE html>
 <html>
@@ -371,7 +367,7 @@ const CasePaper = ({ visible, setVisible, item }) => {
                 <span class="details-label" style="text-align: center;">Veterinary Person under I. V. C. Act 1984</span>
             </div>
             <div class="label" style="width: 50%; margin-left:20px; display: flex; flex-direction: column; align-items: center;">
-                <img src="${STATIC_URL}memberSign/${item.MEMBER_SIGN}" style="width: 100px; height: 60px;" alt="Sign" />
+                <img src="${STATIC_URL}MemberSign/${item.MEMBER_SIGN}" style="width: 100px; height: 60px;" alt="Sign" />
                 <span style="margin-top: 2px;">Sign of Prescriber</span>
             </div>
         </div>

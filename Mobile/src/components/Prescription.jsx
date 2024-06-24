@@ -166,7 +166,7 @@ const Prescription = ({ item, showModal, setModal }) => {
                                         <span class="details-label" style="text-align: center;">Veterinary Person under I. V. C. Act 1984</span>
                                     </div>
                                     <div class="label" style="width: 50%; display: flex; flex-direction: column; align-items: center;">
-                                        <img src="${STATIC_URL}memberSign/${item.MEMBER_SIGN}" style="width: 130px; height: 80px;" alt="Sign"/>
+                                        <img src="${STATIC_URL}MemberSign/${item.MEMBER_SIGN}" style="width: 130px; height: 80px;" alt="Sign"/>
                                         <span style="margin-top: 5px;">Sign of Prescriber</span>
                                     </div>
                             </div>

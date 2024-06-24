@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json({ limit: '50mb', extended: true }));
-app.use('/static', express.static(path.join(__dirname, './uploads')));
+app.use('/static', express.static(path.join(__dirname, './Uploads')));
 app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
