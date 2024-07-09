@@ -15,7 +15,7 @@ function Home() {
     const getData = async () => {
         try {
             const res = await apiPost("api/banner/get", {
-                filter : " AND STATUS = 1",
+                filter: " AND STATUS = 1",
                 sortKey: "LASTUPDATED",
                 sortValue: "DESC"
             });
@@ -83,10 +83,17 @@ function Home() {
                     <img className="w-96" src="https://i.ibb.co/5BCcDYB/Remote2.png" alt="image1" />
                 </div>
             </aside>
-            <div className="grid  place-items-center h-300 sm:mt-20">
-                <img className="sm:w-96 lg:w-94" src="banner.jpg" alt="image2" />
+            <aside>
+                <div>
+                    
+                </div>
+            </aside>
+            <div>
+                <div className="grid  place-items-center h-300 sm:mt-20">
+                    <img className="sm:w-96 lg:w-94" src="banner.jpg" alt="image2" />
+                </div>
+                <h1 className="text-center text-2xl sm:text-5xl py-10 font-medium">पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.</h1>
             </div>
-            <h1 className="text-center text-2xl sm:text-5xl py-10 font-medium">पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.</h1>
         </div>
     );
 }

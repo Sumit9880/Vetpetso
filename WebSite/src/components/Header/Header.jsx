@@ -46,14 +46,14 @@ function Header() {
                     </div>
                     <div
                         className={`${menuOpen ? 'block' : 'hidden'
-                            } w-full lg:flex lg:w-auto lg:order-1 rounded-full`}
+                            } w-full lg:flex lg:w-auto lg:order-1`}
                     >
-                                                <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                        <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0 lg:items-center">
                             <li>
                                 <NavLink
                                     to="/"
                                     onClick={closeMenu}
-                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0 rounded-full`}
+                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`}
                                 >
                                     Home
                                 </NavLink>
@@ -62,7 +62,7 @@ function Header() {
                                 <NavLink
                                     to="/about"
                                     onClick={closeMenu}
-                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0 rounded-full`}
+                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`}
                                 >
                                     About
                                 </NavLink>
@@ -71,16 +71,43 @@ function Header() {
                                 <NavLink
                                     to="/events"
                                     onClick={closeMenu}
-                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0 rounded-full`}
+                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`}
                                 >
                                     Events
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
+                                    to="/gallery"
+                                    onClick={closeMenu}
+                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`}
+                                >
+                                    Gallery
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/history"
+                                    onClick={closeMenu}
+                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`}
+                                >
+                                    History
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/donate"
+                                    onClick={closeMenu}
+                                    className={({ isActive }) => ` ${isActive ? 'bg-white text-orange-700' : 'bg-orange-700 text-white'} block py-2 pr-4 pl-3 duration-200 border border-orange-700 hover:bg-white hover:text-orange-700 lg:py-2 lg:px-6 rounded-2xl`}
+                                >
+                                    Donate Us
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
                                     to="/contact"
                                     onClick={closeMenu}
-                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0 rounded-full`}
+                                    className={({ isActive }) => ` ${isActive ? 'text-orange-700' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`}
                                 >
                                     Contact Us
                                 </NavLink>
