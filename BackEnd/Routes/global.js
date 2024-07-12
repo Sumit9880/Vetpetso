@@ -4,8 +4,8 @@ var globalService = require("../Services/global");
 
 router
   // Validation
-  // .use('*', globalService.checkAuthorization)
-  // .use("/api", globalService.checkToken)
+  .use('*', globalService.checkAuthorization)
+  .use("/api", globalService.checkToken)
 
   // Admin
   .use("/api/user", require("./Masters/user"))
@@ -14,8 +14,6 @@ router
   // Web Forms
   .use("/api/banner", require("./Masters/banner"))
   .use("/api/events", require("./Masters/events"))
-  .use("/banner/get", require("../Services/Masters/banner").get)
-  .use("/events/get", require("../Services/Masters/events").get)
 
   // Masters Forms
   .use('/api/plan', require('./Masters/plan'))
@@ -45,6 +43,14 @@ router
   .use('/api/patient', require('./PatientManagement/patient'))
   .use('/api/aiDetails', require('./PatientManagement/aiDetails'))
   .use('/api/vaccinationDetails', require('./PatientManagement/vaccinationDetails'))
+
+  // Open APIs
+  .use("/banner/get", require("../Services/Masters/banner").get)
+  .use("/events/get", require("../Services/Masters/events").get)
+  .use("/cast/get", require("../Services/Masters/cast").get)
+  .use("/taluka/get", require("../Services/Masters/taluka").get)
+  .use("/university/get", require("../Services/Masters/university").get)
+  .use("/district/get", require("../Services/Masters/district").get)
 
   // Reports
   .use('/api/summary', require('./Reports/summary'))
