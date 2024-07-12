@@ -58,7 +58,7 @@ const EducationalInfoModal = () => {
     const getDropDownData = async () => {
         try {
             const resCourse = await apiPost("api/university/get", { filter: ` AND IS_ACTIVE = 1` });
-            setCourse(resCourse.data)
+            resCourse.code === 200 ? setCourse(resCourse.data) : null
         } catch (error) {
             console.error(error);
         }

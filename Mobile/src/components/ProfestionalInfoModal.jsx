@@ -60,8 +60,8 @@ const ProfestionalInfoModal = () => {
         try {
             const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
             const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
-            setTaluka(resTaluka.data)
-            setDistrict(resDistrict.data)
+            resTaluka.code === 200 ? setTaluka(resTaluka.data) : null
+            resDistrict.code === 200 ? setDistrict(resDistrict.data) : null
         } catch (error) {
             console.error(error);
         }

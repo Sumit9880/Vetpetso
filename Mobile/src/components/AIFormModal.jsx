@@ -54,10 +54,10 @@ const AIFormModal = () => {
             const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
             const resBreed = await apiPost("api/animalBreed/get", { filter: ` AND IS_ACTIVE = 1` });
             const resAnimalType = await apiPost("api/animalType/get", { filter: ` AND IS_ACTIVE = 1` });
-            setTaluka(resTaluka.data)
-            setDistrict(resDistrict.data)
-            setAnimalBreed(resBreed.data)
-            setAnimalType(resAnimalType.data)
+            resTaluka.code === 200 ? setTaluka(resTaluka.data) : null
+            resDistrict.code === 200 ? setDistrict(resDistrict.data) : null
+            resBreed.code === 200 ? setAnimalBreed(resBreed.data) : null
+            resAnimalType.code === 200 ? setAnimalType(resAnimalType.data) : null
         } catch (error) {
             console.error(error);
         }

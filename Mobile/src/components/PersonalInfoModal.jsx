@@ -70,9 +70,9 @@ const PersonalInfoModal = () => {
             const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
             const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
             const resCast = await apiPost("api/cast/get", { filter: ` AND STATUS = 1` });
-            setTaluka(resTaluka.data)
-            setDistrict(resDistrict.data)
-            setCast(resCast.data)
+            resTaluka.code === 200 ? setTaluka(resTaluka.data) : null
+            resDistrict.code === 200 ? setDistrict(resDistrict.data) : null
+            resCast.code === 200 ? setCast(resCast.data) : null
         } catch (error) {
             console.error(error);
         }

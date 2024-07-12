@@ -105,14 +105,16 @@ const RegistrationScreen = () => {
             const resCourse = await apiPost("api/university/get", { filter: ` AND IS_ACTIVE = 1` });
             const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
             const resCast = await apiPost("api/cast/get", { filter: ` AND STATUS = 1` });
-            setTaluka(resTaluka.data)
-            setDistrict(resDistrict.data)
-            setCourse(resCourse.data)
-            setCast(resCast.data)
+
+            resTaluka.code === 200 ? setTaluka(resTaluka?.data) : null
+            resDistrict.code === 200 ? setDistrict(resDistrict?.data) : null
+            resCourse.code === 200 ? setCourse(resCourse?.data) : null
+            resCast.code === 200 ? setCast(resCast?.data) : null
         } catch (error) {
             console.error(error);
         }
     }
+
 
     const handleModelOpen = (file, api, key) => {
         let uri = STATIC_URL + file

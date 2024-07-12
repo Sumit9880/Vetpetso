@@ -136,10 +136,10 @@ const CaseReport = () => {
       const resBreed = await apiPost("api/animalBreed/get", { filter: ` AND IS_ACTIVE = 1` });
       const resAnimalType = await apiPost("api/animalType/get", { filter: ` AND IS_ACTIVE = 1` });
       setDropdownData({
-        breed: resBreed.data,
-        type: resAnimalType.data,
-        district: resDistrict.data,
-        taluka: resTaluka.data
+        breed: resBreed.data || [],
+        type: resAnimalType.data || [],
+        district: resDistrict.data || [],
+        taluka: resTaluka.data || []
       })
     } catch (error) {
       console.error(error);
