@@ -123,7 +123,7 @@ function Contact() {
 
               <button
                 type="submit"
-                className="w-full mt-6 bg-orange-700 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+                className="w-full mt-6 bg-secondary hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
               >
                 Submit
               </button>

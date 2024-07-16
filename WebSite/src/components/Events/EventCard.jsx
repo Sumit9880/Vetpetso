@@ -24,12 +24,13 @@ const EventCard = ({ data }) => {
             alt="Event Image"
           />
         </div>
-        <div className="bg-gray-300 rounded-full py-1 px-4 mt-2 text-sm text-gray-700 text-left mr-28">
+        <div className="bg-tertiary rounded-full py-1 px-4 mt-2 text-sm text-gray-700 text-left mr-28">
           <p>{formatDate(data.EVENT_DATE)}</p>
         </div>
         <div className="flex flex-col flex-grow justify-between p-2">
-          <h2 className="text-lg text-start font-semibold mt-2">{data.TITLE}</h2>
-          <p className="text-start text-sm">{data.SUMMARY}</p>
+          <h2 className="text-lg text-start font-semibold mt-2 text-secondary">{data.TITLE}</h2>
+          <p className="text-start text-sm">{data.SUMMARY.substring(0, 195)} ...</p>
+
         </div>
       </Link>
     </div>

@@ -71,7 +71,7 @@ const RegistrationScreen = () => {
             const filter = `AND MOBILE_NUMBER = ${userData.MOBILE_NUMBER}`;
             const getData = async () => {
                 try {
-                    const res = await apiPost("api/member/get", { filter });
+                    const res = await apiPost("member/get", { filter });
                     setUserData({ ...userData, ...res.data[0] });
                 } catch (error) {
                     ToastAndroid.show(error.message, ToastAndroid.SHORT);
@@ -101,10 +101,10 @@ const RegistrationScreen = () => {
 
     const getDropDownData = async () => {
         try {
-            const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
-            const resCourse = await apiPost("api/university/get", { filter: ` AND IS_ACTIVE = 1` });
-            const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
-            const resCast = await apiPost("api/cast/get", { filter: ` AND STATUS = 1` });
+            const resDistrict = await apiPost("district/get", { filter: ` AND STATUS = 1` });
+            const resCourse = await apiPost("university/get", { filter: ` AND IS_ACTIVE = 1` });
+            const resTaluka = await apiPost("taluka/get", { filter: ` AND STATUS = 1` });
+            const resCast = await apiPost("cast/get", { filter: ` AND STATUS = 1` });
 
             resTaluka.code === 200 ? setTaluka(resTaluka?.data) : null
             resDistrict.code === 200 ? setDistrict(resDistrict?.data) : null
@@ -173,7 +173,7 @@ const RegistrationScreen = () => {
         if (!errors) {
             setIsLoading(true);
             try {
-                const res = await apiPost("api/member/register", userData);
+                const res = await apiPost("member/register", userData);
                 if (res && res.code === 200) {
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
                     const updatedUserData = { ...userData, STEP_NO: 4 };
@@ -757,6 +757,7 @@ const RegistrationScreen = () => {
                             </Text>
                         </View>
                         <View style={{ alignItems: 'center', flex: 1, marginTop: 10 }}>
+                            <Text style={{ paddingLeft: 10, paddingBottom: 10, alignSelf: 'flex-start', color: "#003", fontSize: 16, fontWeight: '600' }}>Signature :</Text>
                             {
                                 userData.MEMBER_SIGN ?
                                     <Image
@@ -771,40 +772,36 @@ const RegistrationScreen = () => {
                                         confirmText="Save"
                                         color="#4B1AFF"
                                         webStyle={`
-                                            .m-signature-pad { 
-                                                height: 80%;
-                                                width: 100%;
-                                            }
-                                            .m-signature-pad--footer
-                                            .clear {
-                                                background-color: #fff;
-                                                border-color: #20daff;
-                                                color: #8a8a8f;
-                                                width: 100px;
-                                                height: 35px;
-                                                font-size: 16px;
-                                                font-weight: 500;
-                                                border-radius: 50px;
-                                                border-width: 2px;
-                                            }
-                                            .m-signature-pad--footer
-                                            .save {
-                                                background-color: #20daff;
-                                                color: #8a8a8f;
-                                                width: 100px;
-                                                height: 35px;
-                                                font-size: 16px;
-                                                font-weight: 500;
-                                                border-radius: 50px;
-                                            }
-                                            .m-signature-pad--footer{
-                                                padding: 5px;
-                                                display: flex;
-                                                justify-content: space-between;
-                                                align-items: center;
-                                            }
-                                            
-                                            `}
+                                                    .m-signature-pad {
+                                                    height: 80vh;
+                                                    width: 100%;
+                                                    }
+                                                    .m-signature-pad--footer .button {
+                                                    background-color: #fff;
+                                                    border-color: #20daff;
+                                                    color: #8a8a8f;
+                                                    width: 80px;
+                                                    height: 30px;
+                                                    font-size: 14px;
+                                                    font-weight: 500;
+                                                    border-radius: 50px;
+                                                    border-width: 2px;
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                    }
+                                                    .m-signature-pad--footer .button.save {
+                                                    background-color: #20daff;
+                                                    color: #fff;
+                                                    }
+                                                    .m-signature-pad--footer {
+                                                    width: 85%;
+                                                    padding: 10px;
+                                                    display: flex;
+                                                    justify-content: space-between;
+                                                    align-items: center;
+                                                    }
+                                                `}
                                     />
                             }
                         </View>

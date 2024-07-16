@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     height: '30%',
     backgroundColor: '#7c97f9',
     padding: 20,
-    marginTop: 35,
+    marginTop: 20,
     marginBottom: 20,
     borderRadius: 15,
     shadowColor: 'black',

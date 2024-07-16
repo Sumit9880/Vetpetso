@@ -14,6 +14,7 @@ router
   // Web Forms
   .use("/api/banner", require("./Masters/banner"))
   .use("/api/events", require("./Masters/events"))
+  .use("/api/history", require("./Masters/history"))
 
   // Masters Forms
   .use('/api/plan', require('./Masters/plan'))
@@ -31,6 +32,7 @@ router
   .use('/api/member', require('./MemberManagement/member'))
   .use('/api/memberPlanMapping', require('./MemberManagement/memberPlanMapping'))
   .post("/member/login", require("../Services/MemberManagement/member").login)
+  .post("/member/register", require("../Services/MemberManagement/member").register)
   .post("/member/sendRegistrationOtp", require("../Services/MemberManagement/member").sendRegistrationOtp)
   .post("/member/verifyRegistrationOtp", require("../Services/MemberManagement/member").verifyRegistrationOtp)
   .post("/member/sendForgotOtp", require("../Services/MemberManagement/member").sendForgotOtp)
@@ -45,12 +47,14 @@ router
   .use('/api/vaccinationDetails', require('./PatientManagement/vaccinationDetails'))
 
   // Open APIs
-  .use("/banner/get", require("../Services/Masters/banner").get)
-  .use("/events/get", require("../Services/Masters/events").get)
-  .use("/cast/get", require("../Services/Masters/cast").get)
-  .use("/taluka/get", require("../Services/Masters/taluka").get)
-  .use("/university/get", require("../Services/Masters/university").get)
-  .use("/district/get", require("../Services/Masters/district").get)
+  .post("/banner/get", require("../Services/Masters/banner").get)
+  .post("/events/get", require("../Services/Masters/events").get)
+  .post("/cast/get", require("../Services/Masters/cast").get)
+  .post("/taluka/get", require("../Services/Masters/taluka").get)
+  .post("/university/get", require("../Services/Masters/university").get)
+  .post("/district/get", require("../Services/Masters/district").get)
+  .post("/member/get", require("../Services/MemberManagement/member").get)
+  .post("/history/get", require("../Services/Masters/history").get)
 
   // Reports
   .use('/api/summary', require('./Reports/summary'))

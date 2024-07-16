@@ -3,11 +3,11 @@ import axios from 'axios';
 
 export const API_KEY = 'PiuRcts9gYsh8CMwAIwApvNL4PayKIaR';
 
-export const BASE_URL = 'http://192.168.29.209:2003/';
 // export const BASE_URL = 'http://13.232.134.32:2003/';
+export const BASE_URL = 'http://192.168.29.218:2003/';
 
-export const STATIC_URL = 'http://192.168.29.209:2003/static/';
 // export const STATIC_URL = 'http://13.232.134.32:2003/static/';
+export const STATIC_URL = 'http://192.168.29.218:2003/static/';
 
 const getHeaders = async () => {
   const user = await AsyncStorage.getItem('LOGININFO');

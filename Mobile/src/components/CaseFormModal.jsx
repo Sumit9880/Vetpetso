@@ -635,40 +635,36 @@ const CaseFormModal = () => {
                             confirmText="Save"
                             color="#4B1AFF"
                             webStyle={`
-                                .m-signature-pad { 
-                                    height: 80%;
-                                    width: 100%;
-                                }
-                                .m-signature-pad--footer
-                                .clear {
-                                    background-color: #fff;
-                                    border-color: #20daff;
-                                    color: #8a8a8f;
-                                    width: 100px;
-                                    height: 35px;
-                                    font-size: 16px;
-                                    font-weight: 500;
-                                    border-radius: 50px;
-                                    border-width: 2px;
-                                }
-                                .m-signature-pad--footer
-                                .save {
-                                    background-color: #20daff;
-                                    color: #8a8a8f;
-                                    width: 100px;
-                                    height: 35px;
-                                    font-size: 16px;
-                                    font-weight: 500;
-                                    border-radius: 50px;
-                                }
-                                .m-signature-pad--footer{
-                                    padding: 5px;
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                }
-                                
-                            `}
+                                                    .m-signature-pad {
+                                                    height: 80vh;
+                                                    width: 100%;
+                                                    }
+                                                    .m-signature-pad--footer .button {
+                                                    background-color: #fff;
+                                                    border-color: #20daff;
+                                                    color: #8a8a8f;
+                                                    width: 80px;
+                                                    height: 30px;
+                                                    font-size: 14px;
+                                                    font-weight: 500;
+                                                    border-radius: 50px;
+                                                    border-width: 2px;
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                    }
+                                                    .m-signature-pad--footer .button.save {
+                                                    background-color: #20daff;
+                                                    color: #fff;
+                                                    }
+                                                    .m-signature-pad--footer {
+                                                    width: 85%;
+                                                    padding: 10px;
+                                                    display: flex;
+                                                    justify-content: space-between;
+                                                    align-items: center;
+                                                    }
+                                                `}
                         />
                     </View>
                 </View>

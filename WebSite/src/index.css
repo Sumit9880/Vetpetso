@@ -32,3 +32,34 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/* for line after heading */
+.heading_section::after {
+  content: '';
+  display: block;
+  margin: 4px auto;
+  width: 96%;
+  background: #4FB846;
+  border-radius: 18px;
+  height: 3px;
+}
+
+.history_right::after {
+  content: '';
+  display: block;
+  margin: 4px auto;
+  width: 96%;
+  background: #bd255b;
+  border-radius: 18px;
+  height: 3px;
+}
+
+.history_left::after {
+  content: '';
+  display: block;
+  margin: 4px auto;
+  width: 96%;
+  background: #ffad19;
+  border-radius: 18px;
+  height: 3px;
+}

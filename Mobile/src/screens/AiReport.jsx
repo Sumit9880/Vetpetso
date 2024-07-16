@@ -11,7 +11,7 @@ import MultiSelectComponent from '../components/MultiSelectComponent';
 import DatePick from '../components/DatePick';
 import ExportReport from '../components/ExportReport';
 
-const CaseReport = () => {
+const AiReport = () => {
   const user = useSelector(state => state.user.userInfo);
   const [data, setData] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
@@ -364,4 +364,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CaseReport;
+export default AiReport;
