@@ -62,6 +62,11 @@ const Events = () => {
 
     return (
         <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 pt-10">
+            <div className="mb-6 flex justify-center items-center">
+                <h3 className="text-3xl text-center text-primary font-poppins font-semibold relative heading_section inline-block max-w-full" >
+                    Events
+                </h3>
+            </div>
             {latestEvent && (
                 <div className="bg-white shadow-lg rounded-lg overflow-hidden md:flex md:space-x-6">
                     <div className="md:w-5/12 lg:w-5/12 flex items-center justify-center">
@@ -72,7 +77,7 @@ const Events = () => {
                         />
                     </div>
                     <div className="p-6 md:w-7/12 lg:w-6/12 flex flex-col justify-center">
-                        <h2 className="text-2xl text-primary font-bold md:text-3xl mb-4">
+                        <h2 className="text-xl text-quinary italic font-bold md:text-2xl mb-4">
                             {latestEvent?.TITLE}
                         </h2>
                         <div className="flex items-center mb-4 text-sm text-gray-500">

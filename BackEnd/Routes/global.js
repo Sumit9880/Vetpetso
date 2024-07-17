@@ -15,6 +15,7 @@ router
   .use("/api/banner", require("./Masters/banner"))
   .use("/api/events", require("./Masters/events"))
   .use("/api/history", require("./Masters/history"))
+  .use("/api/gallery", require("./Masters/gallery"))
 
   // Masters Forms
   .use('/api/plan', require('./Masters/plan'))
@@ -55,6 +56,7 @@ router
   .post("/district/get", require("../Services/Masters/district").get)
   .post("/member/get", require("../Services/MemberManagement/member").get)
   .post("/history/get", require("../Services/Masters/history").get)
+  .post("/gallery/get", require("../Services/Masters/gallery").get)
 
   // Reports
   .use('/api/summary', require('./Reports/summary'))

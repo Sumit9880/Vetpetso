@@ -6,7 +6,7 @@ import "aos/dist/aos.css";
 import { apiPost } from "../../utils/api";
 
 function History() {
-    const [historysData, sethistorysData] = useState([]);
+    const [historysData, setHistorysData] = useState([]);
     const [disableLoadMore, setDisableLoadMore] = useState(false);
     const pageSize = 6;
     const [pageIndex, setPageIndex] = useState(1);
@@ -28,7 +28,7 @@ function History() {
 
             if (res.code === 200) {
                 const historyData = res.data;
-                sethistorysData(prevData => [...prevData, ...historyData]);
+                setHistorysData(prevData => [...prevData, ...historyData]);
                 if (res.count <= historysData.length + historyData.length) {
                     setDisableLoadMore(true);
                 }
@@ -57,7 +57,7 @@ function History() {
 
 
     return (
-        <div className="">
+        <div>
             <div>
                 <img src='./hist.jpg' alt="history" />
             </div>

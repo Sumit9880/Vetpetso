@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [galleryOpen, setGalleryOpen] = useState(false);
 
     const toggleMenu = () => {
         setMenuOpen((prev) => !prev);
@@ -10,6 +11,11 @@ function Header() {
 
     const closeMenu = () => {
         setMenuOpen(false);
+        setGalleryOpen(false);
+    };
+
+    const toggleGallery = () => {
+        setGalleryOpen((prev) => !prev);
     };
 
     return (
@@ -76,14 +82,35 @@ function Header() {
                                     Events
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink
-                                    to="/gallery"
-                                    onClick={closeMenu}
-                                    className={({ isActive }) => ` font-bold ${isActive ? 'text-secondary' : 'text-gray-600'} block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-secondary lg:p-0`}
+                            <li className="relative">
+                                <button
+                                    onClick={toggleGallery}
+                                    className="font-bold text-gray-600 block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-secondary lg:p-0"
                                 >
                                     Gallery
-                                </NavLink>
+                                </button>
+                                {galleryOpen && (
+                                    <ul className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <li>
+                                            <NavLink
+                                                to="/videogallery"
+                                                onClick={closeMenu}
+                                                className={({ isActive }) => `block px-4 py-2 text-sm font-bold ${isActive ? 'text-secondary' : 'text-gray-600'} hover:bg-gray-50 hover:text-secondary`}
+                                            >
+                                                Video Gallery
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/photogallery"
+                                                onClick={closeMenu}
+                                                className={({ isActive }) => `block px-4 py-2 text-sm font-bold ${isActive ? 'text-secondary' : 'text-gray-600'} hover:bg-gray-50 hover:text-secondary`}
+                                            >
+                                                Photo Gallery
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                )}
                             </li>
                             <li>
                                 <NavLink

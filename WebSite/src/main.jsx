@@ -9,7 +9,8 @@ import Contact from './components/Contact/Contact.jsx'
 import Events from './components/Events/Events.jsx'
 import EventDetails from './components/Events/EventDetails.jsx'
 import History from './components/History/History.jsx'
-import Gallery from './components/Gallery/Gallery.jsx'
+import PhotoGallery from './components/Gallery/PhotoGallery.jsx'
+import VideoGallery from './components/Gallery/VideoGallery.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +22,8 @@ const router = createBrowserRouter(
         <Route path="contact" element={<Contact />} />
         <Route path="eventdetails" element={<EventDetails />} />
         <Route path="history" element={<History />} />
-        <Route path="gallery" element={<Gallery />} />
+        <Route path="photogallery" element={<PhotoGallery />} />
+        <Route path="videogallery" element={<VideoGallery />} />
       </Route>
     </Route>
   )
