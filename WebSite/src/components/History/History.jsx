@@ -4,12 +4,14 @@ import RightSide from './RightSide'
 import aos from "aos";
 import "aos/dist/aos.css";
 import { apiPost } from "../../utils/api";
+import Loader from "../Others/Loader";
 
 function History() {
     const [historysData, setHistorysData] = useState([]);
     const [disableLoadMore, setDisableLoadMore] = useState(false);
     const pageSize = 6;
     const [pageIndex, setPageIndex] = useState(1);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         aos.init();
@@ -17,6 +19,7 @@ function History() {
     }, []);
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const res = await apiPost("history/get", {
                 filter: ` AND STATUS = 1`,
@@ -38,6 +41,8 @@ function History() {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [historysData, pageIndex]);
 
@@ -70,7 +75,15 @@ function History() {
                 <div className="mb-6 flex justify-center items-center">
                     <img src='./start.png' alt="start" data-aos="zoom-in-down" data-aos-duration="1000" className='w-12' />
                 </div>
-                {renderHistories()}
+                {
+                    loader && pageIndex === 1 ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            {renderHistories()}
+                        </>
+                    )
+                }
             </div>
             <div className="flex justify-center">
                 {!disableLoadMore ? (

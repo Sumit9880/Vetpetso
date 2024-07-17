@@ -9,7 +9,7 @@ function LeftSide({ data }) {
             <div className="flex flex-col md:flex-row items-center justify-center" data-aos="zoom-in-left" data-aos-duration="1000">
                 <div className="md:w-1/2 p-10 flex flex-col justify-center items-center">
                     <div className="w-full max-w-md text-center">
-                        <h2 className="text-3xl text-left font-bold text-senary mb-4">{data.DATE}</h2>
+                        <h2 className="text-3xl text-left font-bold text-senary mb-4">{new Date(data.DATE).getFullYear()}</h2>
                         <p className="text-lg text-left leading-relaxed text-gray-700">
                             {data.SUMMARY}
                         </p>

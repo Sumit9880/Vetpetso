@@ -4,6 +4,7 @@ import aos from "aos";
 import "aos/dist/aos.css";
 import { apiPost, STATIC_URL } from "../../utils/api";
 import { FaCalendarAlt } from "react-icons/fa";
+import Loader from "../Others/Loader";
 
 const Events = () => {
     const [latestEvent, setLatestEvent] = useState(null);
@@ -11,6 +12,7 @@ const Events = () => {
     const [disableLoadMore, setDisableLoadMore] = useState(false);
     const pageSize = 6;
     const [pageIndex, setPageIndex] = useState(1);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         aos.init();
@@ -18,6 +20,7 @@ const Events = () => {
     }, []);
 
     const getData = useCallback(async () => {
+        setLoader(true);
         try {
             const res = await apiPost("events/get", {
                 filter: ` AND STATUS = 1`,
@@ -42,6 +45,8 @@ const Events = () => {
             }
         } catch (error) {
             console.error("API call failed:", error);
+        } finally {
+            setLoader(false);
         }
     }, [eventsData, pageIndex]);
 
@@ -96,9 +101,15 @@ const Events = () => {
                 </h1>
             </div>
             <div className="my-8 items-center flex flex-col">
-                <div className="flex flex-wrap justify-center gap-6">
-                    {renderEventCards()}
-                </div>
+                {
+                    loader && pageIndex === 1 ? (
+                        <Loader />
+                    ) : (
+                        <div className="flex flex-wrap justify-center gap-6">
+                            {renderEventCards()}
+                        </div>
+                    )
+                }
                 {!disableLoadMore && (
                     <button
                         className="text-center text-white bg-secondary p-2 hover:bg-green-600 transition-colors hover:duration-500 rounded-md w-24 mt-10"

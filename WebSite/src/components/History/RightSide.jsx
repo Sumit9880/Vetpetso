@@ -16,7 +16,7 @@ function RightSide({ data }) {
                 </div>
                 <div className="md:w-1/2 p-10 flex flex-col justify-center items-center">
                     <div className="w-full max-w-md text-center">
-                        <h2 className="text-3xl text-left font-bold text-quinary mb-4">{data.DATE}</h2>
+                        <h2 className="text-3xl text-left font-bold text-quinary mb-4">{new Date(data.DATE).getFullYear()}</h2>
                         <p className="text-lg text-left leading-relaxed text-gray-700">
                             {data.SUMMARY}
                         </p>

@@ -121,7 +121,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div className="container mx-auto px-6 pb-12 bg-white rounded-lg ">
+            <div className="container mx-auto px-6 py-10 bg-quaternary rounded-2xl ">
                 <div className="mb-6 flex justify-center items-center">
                     <h3 className="text-3xl text-center text-primary font-poppins font-semibold relative heading_section inline-block max-w-full" data-aos="zoom-in-right" data-aos-duration="1000">
                         Our Statistics
@@ -136,7 +136,7 @@ function Home() {
                     ].map((item, index) => (
                         <div
                             key={index}
-                            className="flex items-center justify-center bg-white rounded-lg shadow-lg p-6 space-x-4 transform hover:scale-105 transition-transform duration-300 bg-quaternary"
+                            className="flex items-center justify-center rounded-lg shadow-lg p-6 space-x-4 transform hover:scale-105 transition-transform duration-300 bg-white"
                             data-aos="zoom-in-right"
                             data-aos-duration="1000"
                         >
@@ -150,13 +150,26 @@ function Home() {
                     ))}
                 </div>
             </div>
-
-
-            <div>
-                <div className="grid  place-items-center h-300 sm:mt-20">
-                    <img className="sm:w-96 lg:w-94" src="banner.jpg" alt="image2" />
+            <div className="flex justify-center items-center py-4">
+                <img src='./floral.png' className="h-16" />
+            </div>
+            <div className="bg-primary h-96">
+                <div className="py-6 flex justify-center items-center">
+                    <h3 className="text-3xl text-center text-white font-poppins font-semibold relative heading_section inline-block max-w-full" data-aos="zoom-in-up" data-aos-duration="1000">
+                        Hear from our Commite
+                    </h3>
                 </div>
-                <h1 className="text-center text-2xl sm:text-5xl py-10 font-medium">पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.</h1>
+                <Slider {...carouselSettings} className="overflow-hidden mt-2 bg-white">
+                    {images.map((image) => (
+                        <div key={image.ID} className="relative rounded-lg overflow-hidden">
+                            <img
+                                className="w-64"
+                                src={`${STATIC_URL}Banners/${image.URL}`}
+                                alt={image.NAME}
+                            />
+                        </div>
+                    ))}
+                </Slider>
             </div>
         </div>
     );

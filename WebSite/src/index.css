@@ -63,3 +63,94 @@ body {
   border-radius: 18px;
   height: 3px;
 }
+
+.flower-loader {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.flower-loader div {
+  display: inline-block;
+  position: absolute;
+  left: 48px;
+  width: 13px;
+  background: #3498db;
+  animation: flower-loader 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+.flower-loader div:nth-child(1) {
+  top: 37px;
+  left: 66px;
+  width: 13px;
+  height: 26px;
+  animation-delay: -0.24s;
+}
+
+.flower-loader div:nth-child(2) {
+  top: 22px;
+  left: 62px;
+  width: 26px;
+  height: 13px;
+  animation-delay: -0.12s;
+}
+
+.flower-loader div:nth-child(3) {
+  top: 11px;
+  left: 52px;
+  width: 36px;
+  height: 13px;
+  animation-delay: 0s;
+}
+
+.flower-loader div:nth-child(4) {
+  top: 22px;
+  left: 38px;
+  width: 26px;
+  height: 13px;
+  animation-delay: -0.12s;
+}
+
+.flower-loader div:nth-child(5) {
+  top: 37px;
+  left: 34px;
+  width: 13px;
+  height: 26px;
+  animation-delay: -0.24s;
+}
+
+.flower-loader div:nth-child(6) {
+  top: 53px;
+  left: 38px;
+  width: 26px;
+  height: 13px;
+  animation-delay: -0.36s;
+}
+
+.flower-loader div:nth-child(7) {
+  top: 64px;
+  left: 52px;
+  width: 36px;
+  height: 13px;
+  animation-delay: -0.48s;
+}
+
+.flower-loader div:nth-child(8) {
+  top: 53px;
+  left: 62px;
+  width: 26px;
+  height: 13px;
+  animation-delay: -0.6s;
+}
+
+@keyframes flower-loader {
+  0% {
+    transform: scale(1);
+  }
+
+  50%,
+  100% {
+    transform: scale(0);
+  }
+}
