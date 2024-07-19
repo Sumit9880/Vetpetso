@@ -39,7 +39,7 @@ function Home() {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 5000,
+        autoplaySpeed: 3000,
     };
 
     let counts = {
@@ -63,6 +63,26 @@ function Home() {
                     </div>
                 ))}
             </Slider>
+            {/* Privacy Policy <br />
+            Terms of Use <br />
+            Refund Policy <br />
+            Donate US <br />
+            About Us <br />
+            Find some good banners <br />
+            Banner for app <br /> */}
+            <div className="flex flex-col justify-center items-center py-12 px-6 bg-white">
+                <div className="max-w-4xl text-center">
+                    <h1 className="text-5xl font-extrabold text-gray-800 mb-4 leading-tight">
+                        Welcome to <span className="text-primary" data-aos="zoom-in-right" data-aos-duration="1000">पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.</span>
+                    </h1>
+                    <p className="text-2xl text-secondary mb-6 font-semibold" data-aos="zoom-in-left" data-aos-duration="2000">
+                        Caring for Animals, Supporting Communities
+                    </p>
+                    <p className="text-lg text-black leading-relaxed">
+                        We are a dedicated group of veterinary professionals committed to improving the lives of animals and the communities they live in. Our mission is to provide compassionate care, essential medical services, and educational resources to ensure the well-being of animals everywhere.
+                    </p>
+                </div>
+            </div>
             <div className="relative overflow-hidden text-black sm:px-16 px-2 sm:py-6 bg-tertiary">
                 <div className="relative z-10 max-w-screen-xl px-4  pb-20 pt-10 sm:py-24 mx-auto sm:px-6 lg:px-8">
                     <div className="max-w-xl sm:mt-1 mt-80 space-y-8 text-center sm:text-right sm:ml-auto">
@@ -153,23 +173,43 @@ function Home() {
             <div className="flex justify-center items-center py-4">
                 <img src='./floral.png' className="h-16" />
             </div>
-            <div className="bg-primary h-96">
+            <div className="bg-primary flex-row justify-center items-center pb-8">
                 <div className="py-6 flex justify-center items-center">
                     <h3 className="text-3xl text-center text-white font-poppins font-semibold relative heading_section inline-block max-w-full" data-aos="zoom-in-up" data-aos-duration="1000">
                         Hear from our Commite
                     </h3>
                 </div>
-                <Slider {...carouselSettings} className="overflow-hidden mt-2 bg-white">
+                <Slider {...carouselSettings} className="overflow-hidden">
                     {images.map((image) => (
-                        <div key={image.ID} className="relative rounded-lg overflow-hidden">
-                            <img
-                                className="w-64"
-                                src={`${STATIC_URL}Banners/${image.URL}`}
-                                alt={image.NAME}
-                            />
+                        <div
+                            key={image.ID}
+                            className="justify-center"
+                        >
+                            <div className="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-16">
+                                <div className="w-40 h-40 flex justify-center items-center">
+                                    <img
+                                        className="w-40 h-40 object-cover rounded-full shadow-lg"
+                                        src={`${STATIC_URL}Banners/${image.URL}`}
+                                        alt={image.NAME}
+                                    />
+                                </div>
+                                <div className="text-center md:text-left md:w-1/2">
+                                    <p className="text-m leading-relaxed mb-4 text-white">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus dolore quisquam quam, doloribus omnis harum asperiores odit enim quas nam, expedita sunt distinctio excepturi quia mollitia aperiam, blanditiis inventore? Eveniet.
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus dolore quisquam quam, doloribus omnis harum asperiores odit enim quas nam, expedita sunt distinctio excepturi quia mollitia aperiam, blanditiis inventore? Eveniet.
+                                    </p>
+                                    <h2 className="text-secondary font-poppins font-semibold text-xl mb-1">
+                                        Mr. Chinnswami Iyyar
+                                    </h2>
+                                    <p className="text-senary font-poppins text-md">Director</p>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </Slider>
+            </div>
+            <div className="flex justify-center items-center py-4">
+                <img src='./floral.png' className="h-16" />
             </div>
         </div>
     );
