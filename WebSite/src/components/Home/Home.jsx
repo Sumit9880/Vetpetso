@@ -8,7 +8,16 @@ import aos from "aos";
 import "aos/dist/aos.css";
 
 function Home() {
+
     const [images, setImages] = useState([]);
+    const [commitees, setCommitees] = useState([]);
+    const [counts, setCounts] = useState({
+        MEMBERS: 0,
+        AI: 0,
+        VACCINATIONS: 0,
+        CASES: 0
+    });
+
     useEffect(() => {
         getData();
         aos.init();
@@ -21,12 +30,13 @@ function Home() {
                 sortKey: "LASTUPDATED",
                 sortValue: "DESC"
             });
+            const resCount = await apiPost("summary/getDashboardCount", {});
+            const resCommitee = await apiPost("commitee/get", {});
 
-            if (res.code === 200) {
-                setImages(res.data);
-            } else {
-                console.error("Failed to fetch events:", res.message);
-            }
+            res.code === 200 ? setImages(res.data) : setImages([]);
+            resCount.code === 200 ? setCounts(resCount.data) : setCounts({});
+            resCommitee.code === 200 ? setCommitees(resCommitee.data) : setCommitees([]);
+
         } catch (error) {
             console.error("API call failed:", error);
         }
@@ -41,14 +51,6 @@ function Home() {
         autoplay: true,
         autoplaySpeed: 3000,
     };
-
-    let counts = {
-        MEMBERS: 0,
-        EVENTS: 0,
-        AI: 0,
-        VACCINATIONS: 0,
-        CASES: 0
-    }
 
     return (
         <div className="mx-auto w-full max-w-7xl">
@@ -112,7 +114,7 @@ function Home() {
                     <img className="w-96" src="https://i.ibb.co/5BCcDYB/Remote2.png" alt="image1" />
                 </div>
             </div>
-            <div className="container mx-auto px-6 py-6 bg-white rounded-lg " data-aos="zoom-in-right" data-aos-duration="1000">
+            <div className="container mx-auto px-6 py-6 bg-white" data-aos="zoom-in-right" data-aos-duration="1000">
                 <div className="mb-6 flex justify-center items-center">
                     <h3 className="text-3xl text-center text-primary font-poppins font-semibold relative heading_section inline-block max-w-full" data-aos="zoom-in-right" data-aos-duration="1000">
                         Who We Are
@@ -128,7 +130,7 @@ function Home() {
                         <img
                             src="./vetpetso.jpg"
                             alt="logo"
-                            className="rounded-lg mx-auto max-w-xs"
+                            className="mx-auto max-w-xs "
                         />
                     </div>
                     <div className="md:w-1/2">
@@ -138,6 +140,36 @@ function Home() {
                         <p className="text-lg leading-relaxed text-gray-700">
                             Nobis minus voluptatibus pariatur dignissimos libero quaerat iure expedita at? Asperiores nemo possimus nesciunt dicta veniam aspernatur quam mollitia.
                         </p>
+                    </div>
+                </div>
+                <div className="mx-10 my-6 flex-row justify-center items-center" data-aos="slide-up" data-aos-duration="1000">
+                    <div className="mb-6 flex justify-center items-center">
+                        <h3 className="text-3xl text-center text-secondary font-poppins font-semibold relative history_right inline-block max-w-full" data-aos="zoom-in-left" data-aos-duration="1000">
+                            Our Mission
+                        </h3>
+                    </div>
+                    <div className="flex flex-col space-y-4">
+                        <div className="flex items-start space-x-4">
+                            <span className="text-secondary text-xl font-bold">•</span>
+                            <div>
+                                <h3 className="text-lg font-semibold text-quinary">Provide High-Quality Veterinary Care :</h3>
+                                <p className="text-gray-700">From routine check-ups to emergency treatments, our team is here to ensure every animal receives the best care possible.</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start space-x-4">
+                            <span className="text-secondary text-xl font-bold">•</span>
+                            <div>
+                                <h3 className="text-lg font-semibold text-quinary">Promote Animal Welfare :</h3>
+                                <p className="text-gray-700">We advocate for humane treatment and the rights of all animals, working tirelessly to prevent cruelty and neglect.</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start space-x-4">
+                            <span className="text-secondary text-xl font-bold">•</span>
+                            <div>
+                                <h3 className="text-lg font-semibold text-quinary">Educate and Support :</h3>
+                                <p className="text-gray-700">We offer educational programs and resources to pet owners and communities to promote responsible pet ownership and animal welfare.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,28 +212,27 @@ function Home() {
                     </h3>
                 </div>
                 <Slider {...carouselSettings} className="overflow-hidden">
-                    {images.map((image) => (
+                    {commitees.map((commitee) => (
                         <div
-                            key={image.ID}
+                            key={commitee.ID}
                             className="justify-center"
                         >
                             <div className="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-16">
                                 <div className="w-40 h-40 flex justify-center items-center">
                                     <img
                                         className="w-40 h-40 object-cover rounded-full shadow-lg"
-                                        src={`${STATIC_URL}Banners/${image.URL}`}
-                                        alt={image.NAME}
+                                        src={`${STATIC_URL}Commitee/${commitee.URL}`}
+                                        alt={commitee.NAME}
                                     />
                                 </div>
                                 <div className="text-center md:text-left md:w-1/2">
                                     <p className="text-m leading-relaxed mb-4 text-white">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus dolore quisquam quam, doloribus omnis harum asperiores odit enim quas nam, expedita sunt distinctio excepturi quia mollitia aperiam, blanditiis inventore? Eveniet.
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus dolore quisquam quam, doloribus omnis harum asperiores odit enim quas nam, expedita sunt distinctio excepturi quia mollitia aperiam, blanditiis inventore? Eveniet.
+                                        {commitee.MESSAGE}
                                     </p>
                                     <h2 className="text-secondary font-poppins font-semibold text-xl mb-1">
-                                        Mr. Chinnswami Iyyar
+                                        {commitee.NAME}
                                     </h2>
-                                    <p className="text-senary font-poppins text-md">Director</p>
+                                    <p className="text-senary font-poppins text-md">{commitee.POSITION}</p>
                                 </div>
                             </div>
                         </div>

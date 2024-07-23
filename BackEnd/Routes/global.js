@@ -16,6 +16,8 @@ router
   .use("/api/events", require("./Masters/events"))
   .use("/api/history", require("./Masters/history"))
   .use("/api/gallery", require("./Masters/gallery"))
+  .use("/api/commitee", require("./Masters/commitee"))
+  .use("/api/contactUs", require("./Masters/contactUs"))
 
   // Masters Forms
   .use('/api/plan', require('./Masters/plan'))
@@ -57,25 +59,32 @@ router
   .post("/member/get", require("../Services/MemberManagement/member").get)
   .post("/history/get", require("../Services/Masters/history").get)
   .post("/gallery/get", require("../Services/Masters/gallery").get)
+  .post("/commitee/get", require("../Services/Masters/commitee").get)
+  .post("/summary/getDashboardCount", require("../Services/Reports/summary").getDashboardCount)
+  .post("/contactUs/create", require("../Services/Masters/contactUs").create)
 
   // Reports
-  .use('/api/summary', require('./Reports/summary'))
   .use('/api/detailed', require('./Reports/detailed'))
+  .use('/api/summary', require('./Reports/summary'))
 
   // Upload Files
-  .post("/upload/events", globalService.events)
-  .post("/upload/banners", globalService.banners)
-  .post("/upload/experienceLetter", globalService.experienceLetter)
-  .post("/upload/panCard", globalService.panCard)
   .post("/upload/adharCard", globalService.adharCard)
-  .post("/upload/profilePhoto", globalService.profilePhoto)
+  .post("/upload/animalType", globalService.animalType)
+  .post("/upload/banners", globalService.banners)
+  .post("/upload/commitee", globalService.commitee)
   .post("/upload/educationalCretificate", globalService.educationalCretificate)
+  .post("/upload/events", globalService.events)
+  .post("/upload/experienceLetter", globalService.experienceLetter)
+  .post("/upload/gallery", globalService.gallery)
+  .post("/upload/history", globalService.history)
   .post("/upload/leavingCretificate", globalService.leavingCretificate)
   .post("/upload/memberSign", globalService.memberSign)
-  .post("/upload/ownerSign", globalService.ownerSign)
-  .post("/upload/patientImage", globalService.patientImage)
-  .post("/upload/animalType", globalService.animalType)
   .post("/upload/notice", globalService.notice)
+  .post("/upload/ownerSign", globalService.ownerSign)
+  .post("/upload/panCard", globalService.panCard)
+  .post("/upload/patientImage", globalService.patientImage)
+  .post("/upload/planImage", globalService.planImage)
+  .post("/upload/profilePhoto", globalService.profilePhoto)
 
 
 module.exports = router;

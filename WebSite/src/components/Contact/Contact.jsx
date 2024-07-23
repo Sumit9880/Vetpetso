@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { apiPost } from '../../utils/api';
 import Loader from '../Others/Loader';
 
@@ -25,12 +26,12 @@ function Contact() {
     setLoader(true);
     e.preventDefault();
     try {
-      const res = await apiPost('animalType/create', formData);
+      const res = await apiPost('contactUs/create', formData);
       if (res.code === 200) {
-        toast.success(res.message)
+        toast.success("Thank you for your message. We will get back to you soon.")
         setFormData(initialFormData);
       } else {
-        toast.error(res.message)
+        toast.error("Failed to send message. Please try again.")
         console.error(res.message);
       }
     } catch (error) {
@@ -43,6 +44,7 @@ function Contact() {
 
   return (
     <div className="my-10 px-4 flex justify-center">
+      <ToastContainer />
       <div className="w-full max-w-6xl">
         <div className="mb-6 text-center">
           <h3 className="text-3xl text-primary font-poppins font-semibold relative heading_section inline-block">

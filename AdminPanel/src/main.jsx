@@ -20,6 +20,10 @@ import Cast from './pages/Cast.jsx'
 import AnimalSample from './pages/AnimalSample.jsx'
 import AnimalType from './pages/AnimalType.jsx'
 import Notice from './pages/Notice.jsx'
+import Commitee from './pages/Commitee.jsx'
+import Contact from './pages/Contact.jsx'
+import History from './pages/History.jsx'
+import Gallery from './pages/Gallery.jsx'
 
 const isAuthenticated = () => {
   return sessionStorage.getItem('token') !== null;
@@ -46,6 +50,10 @@ const router = createBrowserRouter(
         <Route path="/members" element={<Members />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/memberrequest" element={<MemberRequsets />} />
+        <Route path="/commitee" element={<Commitee />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/contactUs" element={<Contact />} />
       </Route>
     </Route>
   )

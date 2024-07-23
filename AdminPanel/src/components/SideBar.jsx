@@ -72,6 +72,18 @@ const Sidebar = () => {
                             <li>
                                 <Link to="/notice" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/notice' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/notice')}>Notice</Link>
                             </li>
+                            <li>
+                                <Link to="/gallery" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/gallery' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/gallery')}>Gallery</Link>
+                            </li>
+                            <li>
+                                <Link to="/history" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/history' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/history')}>History</Link>
+                            </li>
+                            <li>
+                                <Link to="/commitee" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/commitee' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/commitee')}>Commitee</Link>
+                            </li>
+                            <li>
+                                <Link to="/contactUs" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/contactUs' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/contactUs')}>Contact Us</Link>
+                            </li>
                         </ul>
                     </li>
                     <li>

@@ -842,3 +842,167 @@ exports.notice = function (req, res) {
         });
     }
 }
+
+exports.commitee = function (req, res) {
+    try {
+        const form = new formidable.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                console.error(err);
+                res.send({
+                    "code": 400,
+                    "message": "failed to upload.."
+                });
+            } else {
+                var oldPath = files.Image[0].filepath;
+                var newPath = path.join(__dirname, '../Uploads/Commitee/') + fields.Name;
+                var rawData = fs.readFileSync(oldPath)
+                fs.writeFile(newPath, rawData, function (err) {
+                    if (!err) {
+                        res.send({
+                            "code": 200,
+                            "message": "success",
+                        });
+                    }
+                    else {
+                        console.error(err);
+                        res.send({
+                            "code": 400,
+                            "message": "failed to upload.."
+                        });
+                    }
+                })
+            }
+        })
+    }
+    catch (err) {
+        console.error(err);
+        res.send({
+            "code": 500,
+            "message": "Network error..."
+        });
+    }
+}
+
+exports.gallery = function (req, res) {
+    try {
+        const form = new formidable.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                console.error(err);
+                res.send({
+                    "code": 400,
+                    "message": "failed to upload.."
+                });
+            } else {
+                var oldPath = files.Image[0].filepath;
+                var newPath = path.join(__dirname, '../Uploads/Gallery/') + fields.Name;
+                var rawData = fs.readFileSync(oldPath)
+                fs.writeFile(newPath, rawData, function (err) {
+                    if (!err) {
+                        res.send({
+                            "code": 200,
+                            "message": "success",
+                        });
+                    }
+                    else {
+                        console.error(err);
+                        res.send({
+                            "code": 400,
+                            "message": "failed to upload.."
+                        });
+                    }
+                })
+            }
+        })
+    }
+    catch (err) {
+        console.error(err);
+        res.send({
+            "code": 500,
+            "message": "Network error..."
+        });
+    }
+}
+
+exports.history = function (req, res) {
+    try {
+        const form = new formidable.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                console.error(err);
+                res.send({
+                    "code": 400,
+                    "message": "failed to upload.."
+                });
+            } else {
+                var oldPath = files.Image[0].filepath;
+                var newPath = path.join(__dirname, '../Uploads/History/') + fields.Name;
+                var rawData = fs.readFileSync(oldPath)
+                fs.writeFile(newPath, rawData, function (err) {
+                    if (!err) {
+                        res.send({
+                            "code": 200,
+                            "message": "success",
+                        });
+                    }
+                    else {
+                        console.error(err);
+                        res.send({
+                            "code": 400,
+                            "message": "failed to upload.."
+                        });
+                    }
+                })
+            }
+        })
+    }
+    catch (err) {
+        console.error(err);
+        res.send({
+            "code": 500,
+            "message": "Network error..."
+        });
+    }
+}
+
+exports.planImage = function (req, res) {
+    try {
+        const form = new formidable.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                console.error(err);
+                res.send({
+                    "code": 400,
+                    "message": "failed to upload.."
+                });
+            } else {
+                var oldPath = files.Image[0].filepath;
+                var newPath = path.join(__dirname, '../Uploads/PlanImage/') + fields.Name;
+                var rawData = fs.readFileSync(oldPath)
+                fs.writeFile(newPath, rawData, function (err) {
+                    if (!err) {
+                        res.send({
+                            "code": 200,
+                            "message": "success",
+                        });
+                    }
+                    else {
+                        console.error(err);
+                        res.send({
+                            "code": 400,
+                            "message": "failed to upload.."
+                        });
+                    }
+                })
+            }
+        })
+    }
+    catch (err) {
+        console.error(err);
+        res.send({
+            "code": 500,
+            "message": "Network error..."
+        });
+    }
+}
