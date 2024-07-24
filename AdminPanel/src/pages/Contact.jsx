@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { apiPost } from "../utils/api";
-import { LiaEditSolid } from "react-icons/lia";
+import { IoEyeOutline } from "react-icons/io5";
 import ContactDrawer from '../components/ContactDrawer';
 import Pagination from '../components/Pagination';
 import Loader from '../components/Loader';
@@ -14,18 +14,18 @@ function Contact() {
         current: 1,
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [notice, setContact] = useState([]);
+    const [contact, setContact] = useState([]);
     const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         getData();
-    }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
+    }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]);
 
     const getData = useCallback(async () => {
         setLoader(true);
         try {
             const filter = searchTerm ? `AND (TITLE LIKE '%${searchTerm}%' OR SUMMARY LIKE '%${searchTerm}%')` : '';
-            const res = await apiPost("api/notice/get", {
+            const res = await apiPost("api/contactUs/get", {
                 filter,
                 pageSize,
                 pageIndex: pageIndex.current,
@@ -45,7 +45,7 @@ function Contact() {
             }
         } catch (error) {
             console.error("API call failed:", error);
-        }finally {
+        } finally {
             setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
@@ -68,52 +68,53 @@ function Contact() {
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
-                <h1 className="text-2xl font-bold mb-2 text-start">Contact Master</h1>
+                <h1 className="text-2xl font-bold mb-2 text-start">Contacts</h1>
                 <div className="flex justify-end mb-2">
                     <input
                         type="text"
                         placeholder="Search contacts..."
-                        id='noticeSearch'
+                        id='contactSearch'
                         value={searchTerm}
                         onChange={handleSearch}
                         className="w-64 h-9 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 px-2 py-1"
                     />
-                    <button
+                    {/* <button
                         className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
                         onClick={() => handleOpenDrawer(null)}
                     >
                         Add Contact
-                    </button>
-                    <ContactDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={notice} />
+                    </button> */}
+                    <ContactDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={contact} />
                 </div>
             </div>
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
                 {/* <div className="max-h-96 overflow-y-auto"> */}
-                    <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
-                        <thead>
-                            <tr className="bg-gray-200 rounded-lg">
-                                <th className="px-2 py-2 border border-gray-300">Title</th>
-                                <th className="px-2 py-2 border border-gray-300">Summary</th>
-                                <th className="px-2 py-2 border border-gray-300">Contact Date</th>
-                                <th className="px-2 py-2 border border-gray-300">Status</th>
-                                <th className="px-2 py-2 border border-gray-300">Actions</th>
+                <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
+                    <thead>
+                        <tr className="bg-gray-200 rounded-lg">
+                            <th className="px-2 py-2 border border-gray-300">Name</th>
+                            <th className="px-2 py-2 border border-gray-300">Email</th>
+                            <th className="px-2 py-2 border border-gray-300">Mobile No</th>
+                            <th className="px-2 py-2 border border-gray-300">Message</th>
+                            <th className="px-2 py-2 border border-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {contacts?.map(contact => (
+                            <tr key={contact.ID} className="bg-white">
+                                <td className="px-2 border border-gray-200">{contact.NAME}</td>
+                                <td className="px-2 border border-gray-200 text-center">{contact.EMAIL}</td>
+                                <td className="px-2 border border-gray-200 text-center">{contact.MOBILE}</td>
+                                <td className="px-2 border border-gray-200">{contact.MESSAGE.length > 50 ? contact.MESSAGE.substring(0, 50) + "..." : contact.MESSAGE}</td>
+                                {/* <td className={`px-2 border border-gray-200 text-center${contact.STATUS ? " text-green-500" : " text-red-500"}`}>{contact.STATUS ? "On" : "Off"}</td> */}
+                                <td className="px-2 border border-gray-200 text-center">
+                                    <button className="py-2 text-center" onClick={() => handleOpenDrawer(contact)}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {contacts?.map(notice => (
-                                <tr key={notice.ID} className="bg-white">
-                                    <td className="px-2 border border-gray-200">{notice.TITLE}</td>
-                                    <td className="px-2 border border-gray-200">{notice.SUMMARY.substring(0, 60)}...</td>
-                                    <td className="px-2 border border-gray-200 text-center">{notice.EVENT_DATE}</td>
-                                    <td className={`px-2 border border-gray-200 text-center${notice.STATUS ? " text-green-500" : " text-red-500"}`}>{notice.STATUS ? "On" : "Off"}</td>
-                                    <td className="px-2 border border-gray-200 text-center">
-                                        <button className="py-2 text-center" onClick={() => handleOpenDrawer(notice)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {contacts.length > 0 || loader ? null :
+                        ))}
+                    </tbody>
+                </table>
+                {contacts.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -123,7 +124,7 @@ function Contact() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
-                    {
+                {
                     loader && <Loader />
                 }
                 {/* </div> */}

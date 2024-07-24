@@ -68,7 +68,7 @@ function AnimalType() {
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
-                <h1 className="text-2xl font-bold mb-2 text-start">Animal Type Master</h1>
+                <h1 className="text-2xl font-bold mb-2 text-start">Animal Types</h1>
                 <div className="flex justify-end mb-2">
                     <input
                         type="text"
@@ -103,7 +103,9 @@ function AnimalType() {
                         {animalTypes?.map(animalType => (
                             <tr key={animalType.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200">
-                                    <img src={STATIC_URL + "AnimalType/" + animalType.IMAGE} alt={animalType.NAME} className="w-10 h-10 rounded-full" />
+                                    <div className="flex items-center justify-center">
+                                        <img src={STATIC_URL + "AnimalType/" + animalType.IMAGE} alt={animalType.NAME} className="w-10 h-10 rounded-full" />
+                                    </div>
                                 </td>
                                 <td className="px-2 border border-gray-200">{animalType.NAME}</td>
                                 <td className="px-2 border border-gray-200">{animalType.NAME_MR}</td>

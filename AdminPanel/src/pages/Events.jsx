@@ -45,7 +45,7 @@ function Events() {
             }
         } catch (error) {
             console.error("API call failed:", error);
-        }finally {
+        } finally {
             setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
@@ -68,7 +68,7 @@ function Events() {
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
-                <h1 className="text-2xl font-bold mb-2 text-start">Event Master</h1>
+                <h1 className="text-2xl font-bold mb-2 text-start">Events</h1>
                 <div className="flex justify-end mb-2">
                     <input
                         type="text"
@@ -89,31 +89,31 @@ function Events() {
             </div>
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
                 {/* <div className="max-h-96 overflow-y-auto"> */}
-                    <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
-                        <thead>
-                            <tr className="bg-gray-200 rounded-lg">
-                                <th className="px-2 py-2 border border-gray-300">Title</th>
-                                <th className="px-2 py-2 border border-gray-300">Summary</th>
-                                <th className="px-2 py-2 border border-gray-300">Event Date</th>
-                                <th className="px-2 py-2 border border-gray-300">Status</th>
-                                <th className="px-2 py-2 border border-gray-300">Actions</th>
+                <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
+                    <thead>
+                        <tr className="bg-gray-200 rounded-lg">
+                            <th className="px-2 py-2 border border-gray-300">Title</th>
+                            <th className="px-2 py-2 border border-gray-300">Summary</th>
+                            <th className="px-2 py-2 border border-gray-300">Event Date</th>
+                            <th className="px-2 py-2 border border-gray-300">Status</th>
+                            <th className="px-2 py-2 border border-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {events?.map(event => (
+                            <tr key={event.ID} className="bg-white">
+                                <td className="px-2 border border-gray-200">{event.TITLE}</td>
+                                <td className="px-2 border border-gray-200">{event.SUMMARY.length > 80 ? event.SUMMARY.slice(0, 80) + "..." : event.SUMMARY}</td>
+                                <td className="px-2 border border-gray-200 text-center">{new Date(event.EVENT_DATE).toLocaleDateString("en-GB")}</td>
+                                <td className={`px-2 border border-gray-200 text-center${event.STATUS ? " text-green-500" : " text-red-500"}`}>{event.STATUS ? "On" : "Off"}</td>
+                                <td className="px-2 border border-gray-200 text-center">
+                                    <button className="py-2 text-center" onClick={() => handleOpenDrawer(event)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {events?.map(event => (
-                                <tr key={event.ID} className="bg-white">
-                                    <td className="px-2 border border-gray-200">{event.TITLE}</td>
-                                    <td className="px-2 border border-gray-200">{event.SUMMARY.substring(0, 60)}...</td>
-                                    <td className="px-2 border border-gray-200 text-center">{event.EVENT_DATE}</td>
-                                    <td className={`px-2 border border-gray-200 text-center${event.STATUS ? " text-green-500" : " text-red-500"}`}>{event.STATUS ? "On" : "Off"}</td>
-                                    <td className="px-2 border border-gray-200 text-center">
-                                        <button className="py-2 text-center" onClick={() => handleOpenDrawer(event)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {events.length > 0 || loader ? null :
+                        ))}
+                    </tbody>
+                </table>
+                {events.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -123,7 +123,7 @@ function Events() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
-                    {
+                {
                     loader && <Loader />
                 }
                 {/* </div> */}

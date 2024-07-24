@@ -64,10 +64,10 @@ const Sidebar = () => {
                         </div>
                         <ul className={`${tabs.website ? 'block' : 'hidden'} ml-4 `}>
                             <li>
-                                <Link to="/events" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''} ${activeLink === '/events' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/events')}>Event Master</Link>
+                                <Link to="/events" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''} ${activeLink === '/events' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/events')}>Events</Link>
                             </li>
                             <li>
-                                <Link to="/banners" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/banners' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/banners')}>Banner Master</Link>
+                                <Link to="/banners" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/banners' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/banners')}>Banners</Link>
                             </li>
                             <li>
                                 <Link to="/notice" className={`block px-7 text-gray-400 hover:text-white py-1  rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/notice' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/notice')}>Notice</Link>
@@ -95,7 +95,7 @@ const Sidebar = () => {
                         </div>
                         <ul className={`${tabs.member ? 'block' : 'hidden'} ml-4 `}>
                             <li>
-                                <Link to="/members" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/members' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/members')}>Member Master</Link>
+                                <Link to="/members" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/members' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/members')}>Members</Link>
                             </li>
                             <li>
                                 <Link to="/memberrequest" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/memberrequest' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/memberrequest')}>Member Requests</Link>

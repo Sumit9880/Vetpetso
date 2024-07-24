@@ -38,7 +38,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
         e.preventDefault();
         try {
             setLoader(true);
-            const method = formData.ID ? 'api/notice/update' : 'api/notice/create';
+            const method = formData.ID ? 'api/gallery/update' : 'api/gallery/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
                 toast.success(res.message)
@@ -52,7 +52,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
-        }finally{
+        } finally {
             setLoader(false);
         }
     };
@@ -70,7 +70,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
             setLoader(true);
             e.preventDefault();
             const file = e.target.files[0];
-            const res = await apiUpload('upload/notice', file);
+            const res = await apiUpload('upload/gallery', file);
             if (res.code === 200) {
                 setFormData({ ...formData, URL: res.name });
                 toast.success(res.message);
@@ -81,7 +81,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
-        }finally{
+        } finally {
             setLoader(false);
         }
     };
@@ -106,7 +106,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
                                 <ToastContainer />
                                 <div className="px-4 sm:px-6">
                                     <div className="flex h-16 items-center border-b justify-between sticky top-0 bg-white z-10">
-                                        <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Notice' : 'Add Notice'}</h2>
+                                        <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Gallery' : 'Add Gallery'}</h2>
                                         <div className="ml-3 h-7 flex items-center">
                                             <button className="bg-white rounded-md " onClick={resetForm}>
                                                 <IoCloseCircleOutline className="h-7 w-7 hover:text-red-500 text-gray-500" />
@@ -120,28 +120,55 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
                                         <div className="mt-4">
-                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
+                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Title</label>
                                             <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
                                         </div>
-                                        <div className="mt-1 flex justify-between">
-                                            <div>
-                                                <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
-                                                <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
-                                                <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
-                                                    {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
-                                                </button>
-                                            </div>
+                                        <div className="mt-1">
+                                            <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                            <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
+                                                {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
+                                            </button>
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
-                                            <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
+                                            <label htmlFor="TYPE" className="block text-sm font-medium text-gray-700">District</label>
+                                            <select id="TYPE" name="TYPE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TYPE} onChange={handleChange}>
+                                                <option value="" className="bg-blue-200">Select</option>
+                                                <option key="P" value="P" className="bg-blue-200">Photo</option>
+                                                <option key="V" value="V" className="bg-blue-200">Video</option>
+                                            </select>
                                         </div>
                                         <div className="mt-1">
-                                            <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
-                                            <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
+                                            {
+                                                formData.TYPE === "P" ? (
+                                                    <>
+                                                        <label className="block text-sm font-medium text-gray-700">Upload Photo</label>
+                                                        {
+                                                            formData.URL && <div className="flex items-center justify-center">
+                                                                <img src={STATIC_URL + "Gallery/" + formData.URL} alt="Image" className="h-16 rounded-lg" />
+                                                            </div>
+                                                        }
+                                                        <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
+                                                    </>
+                                                ) : formData.TYPE === "V" ? (
+                                                    <>
+                                                        <label htmlFor="URL" className="block text-sm font-medium text-gray-700">Video Url</label>
+                                                        {
+                                                            formData.URL && <div className="flex items-center justify-center">
+                                                                <iframe
+                                                                    width="100"
+                                                                    height="70"
+                                                                    src={formData.URL}
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                    allowFullScreen
+                                                                    className="rounded-xl hover:scale-105 transition duration-300"
+                                                                />
+                                                            </div>
+                                                        }
+                                                        <input type="text" name="URL" id="URL" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.URL} onChange={handleChange} />
+                                                    </>
+                                                ) : null
+                                            }
+
                                         </div>
                                     </form>
                                 </div>

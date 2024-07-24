@@ -10,9 +10,9 @@ import Loader from './Loader';
 const CommiteeDrawer = ({ isOpen, onClose, data }) => {
     const initialFormData = {
         ID: '',
-        TITLE: '',
-        DATE: '',
-        SUMMARY: '',
+        NAME: '',
+        MESSAGE: '',
+        POSITION: '',
         // DESCRIPTION: '',
         STATUS: false,
         URL: ''
@@ -38,7 +38,7 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
         e.preventDefault();
         try {
             setLoader(true);
-            const method = formData.ID ? 'api/notice/update' : 'api/notice/create';
+            const method = formData.ID ? 'api/commitee/update' : 'api/commitee/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
                 toast.success(res.message)
@@ -52,7 +52,7 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
-        }finally{
+        } finally {
             setLoader(false);
         }
     };
@@ -70,7 +70,7 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
             setLoader(true);
             e.preventDefault();
             const file = e.target.files[0];
-            const res = await apiUpload('upload/notice', file);
+            const res = await apiUpload('upload/commitee', file);
             if (res.code === 200) {
                 setFormData({ ...formData, URL: res.name });
                 toast.success(res.message);
@@ -81,7 +81,7 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
-        }finally{
+        } finally {
             setLoader(false);
         }
     };
@@ -106,7 +106,7 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
                                 <ToastContainer />
                                 <div className="px-4 sm:px-6">
                                     <div className="flex h-16 items-center border-b justify-between sticky top-0 bg-white z-10">
-                                        <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Notice' : 'Add Notice'}</h2>
+                                        <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Commitee' : 'Add Commitee'}</h2>
                                         <div className="ml-3 h-7 flex items-center">
                                             <button className="bg-white rounded-md " onClick={resetForm}>
                                                 <IoCloseCircleOutline className="h-7 w-7 hover:text-red-500 text-gray-500" />
@@ -120,13 +120,13 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
                                         <div className="mt-4">
-                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
-                                            <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
+                                            <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
+                                            <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1 flex justify-between">
                                             <div>
-                                                <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
-                                                <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
+                                                <label htmlFor="POSITION" className="block text-sm font-medium text-gray-700">Position</label>
+                                                <input type="text" name="POSITION" id="POSITION" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.POSITION} onChange={handleChange} />
                                             </div>
                                             <div>
                                                 <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
@@ -136,11 +136,16 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
                                             </div>
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
-                                            <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
+                                            <label htmlFor="MESSAGE" className="block text-sm font-medium text-gray-700">Message</label>
+                                            <textarea name="MESSAGE" id="MESSAGE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.MESSAGE} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1">
-                                            <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
+                                            <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+                                            {
+                                                formData.URL && <div className="flex items-center justify-center">
+                                                    <img src={STATIC_URL + "Commitee/" + formData.URL} alt={formData.NAME} className="h-16 rounded-lg" />
+                                                </div>
+                                            }
                                             <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
                                         </div>
                                     </form>

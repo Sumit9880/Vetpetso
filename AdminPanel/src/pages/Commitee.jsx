@@ -82,7 +82,7 @@ function Commitee() {
                         className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
                         onClick={() => handleOpenDrawer(null)}
                     >
-                        Add Commitee
+                        Add New
                     </button>
                     <CommiteeDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={commitee} />
                 </div>
@@ -92,8 +92,8 @@ function Commitee() {
                 <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
-                            <th className="px-2 py-2 border border-gray-300">Image</th>
-                            <th className="px-2 py-2 border border-gray-300">Name</th>
+                            <th className="px-2 py-2 border border-gray-300 w-24">Image</th>
+                            <th className="px-2 py-2 border border-gray-300 w-52">Name</th>
                             <th className="px-2 py-2 border border-gray-300">Message</th>
                             <th className="px-2 py-2 border border-gray-300">Position</th>
                             <th className="px-2 py-2 border border-gray-300">Status</th>
@@ -109,7 +109,7 @@ function Commitee() {
                                     </div>
                                 </td>
                                 <td className="px-2 border border-gray-200">{commitee.NAME}</td>
-                                <td className="px-2 border border-gray-200">{commitee.MESSAGE?.substring(0, 60)}...</td>
+                                <td className="px-2 border border-gray-200">{commitee.MESSAGE.length > 170 ? commitee.MESSAGE.substring(0, 170) + "..." : commitee.MESSAGE}</td>
                                 <td className="px-2 border border-gray-200 text-center">{commitee.POSITION}</td>
                                 <td className={`px-2 border border-gray-200 text-center${commitee.STATUS ? " text-green-500" : " text-red-500"}`}>{commitee.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">

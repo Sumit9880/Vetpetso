@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { apiPost } from "../utils/api";
+import { apiPost, STATIC_URL } from "../utils/api";
 import { LiaEditSolid } from "react-icons/lia";
 import HistoryDrawer from '../components/HistoryDrawer';
 import Pagination from '../components/Pagination';
@@ -14,7 +14,7 @@ function History() {
         current: 1,
     });
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [notice, setHistory] = useState([]);
+    const [history, setHistory] = useState([]);
     const [loader, setLoader] = useState(false);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function History() {
         setLoader(true);
         try {
             const filter = searchTerm ? `AND (TITLE LIKE '%${searchTerm}%' OR SUMMARY LIKE '%${searchTerm}%')` : '';
-            const res = await apiPost("api/notice/get", {
+            const res = await apiPost("api/history/get", {
                 filter,
                 pageSize,
                 pageIndex: pageIndex.current,
@@ -45,7 +45,7 @@ function History() {
             }
         } catch (error) {
             console.error("API call failed:", error);
-        }finally {
+        } finally {
             setLoader(false);
         }
     }, [searchTerm, pageIndex.current, pageSize]); // Memoize the getData function
@@ -73,7 +73,7 @@ function History() {
                     <input
                         type="text"
                         placeholder="Search histories..."
-                        id='noticeSearch'
+                        id='historySearch'
                         value={searchTerm}
                         onChange={handleSearch}
                         className="w-64 h-9 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 px-2 py-1"
@@ -84,36 +84,40 @@ function History() {
                     >
                         Add History
                     </button>
-                    <HistoryDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={notice} />
+                    <HistoryDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={history} />
                 </div>
             </div>
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
                 {/* <div className="max-h-96 overflow-y-auto"> */}
-                    <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
-                        <thead>
-                            <tr className="bg-gray-200 rounded-lg">
-                                <th className="px-2 py-2 border border-gray-300">Title</th>
-                                <th className="px-2 py-2 border border-gray-300">Summary</th>
-                                <th className="px-2 py-2 border border-gray-300">History Date</th>
-                                <th className="px-2 py-2 border border-gray-300">Status</th>
-                                <th className="px-2 py-2 border border-gray-300">Actions</th>
+                <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
+                    <thead>
+                        <tr className="bg-gray-200 rounded-lg">
+                            <th className="px-2 py-2 border border-gray-300 w-24">Image</th>
+                            <th className="px-2 py-2 border border-gray-300">Summary</th>
+                            <th className="px-2 py-2 border border-gray-300">History Date</th>
+                            <th className="px-2 py-2 border border-gray-300">Status</th>
+                            <th className="px-2 py-2 border border-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {histories?.map(history => (
+                            <tr key={history.ID} className="bg-white">
+                                <td className="p-2 border border-gray-200">
+                                    <div className="flex items-center justify-center">
+                                        <img src={STATIC_URL + "History/" + history.URL} alt="history" className="w-16 h-16 rounded-full" />
+                                    </div>
+                                </td>
+                                <td className="px-2 border border-gray-200">{history.SUMMARY.length > 170 ? history.SUMMARY.substring(0, 170) + "..." : history.SUMMARY}</td>
+                                <td className="px-2 border border-gray-200 text-center">{new Date(history.DATE).toLocaleDateString("en-GB")}</td>
+                                <td className={`px-2 border border-gray-200 text-center${history.STATUS ? " text-green-500" : " text-red-500"}`}>{history.STATUS ? "On" : "Off"}</td>
+                                <td className="px-2 border border-gray-200 text-center">
+                                    <button className="py-2 text-center" onClick={() => handleOpenDrawer(history)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {histories?.map(notice => (
-                                <tr key={notice.ID} className="bg-white">
-                                    <td className="px-2 border border-gray-200">{notice.TITLE}</td>
-                                    <td className="px-2 border border-gray-200">{notice.SUMMARY.substring(0, 60)}...</td>
-                                    <td className="px-2 border border-gray-200 text-center">{notice.EVENT_DATE}</td>
-                                    <td className={`px-2 border border-gray-200 text-center${notice.STATUS ? " text-green-500" : " text-red-500"}`}>{notice.STATUS ? "On" : "Off"}</td>
-                                    <td className="px-2 border border-gray-200 text-center">
-                                        <button className="py-2 text-center" onClick={() => handleOpenDrawer(notice)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {histories.length > 0 || loader ? null :
+                        ))}
+                    </tbody>
+                </table>
+                {histories.length > 0 || loader ? null :
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -123,7 +127,7 @@ function History() {
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
                     </div>}
-                    {
+                {
                     loader && <Loader />
                 }
                 {/* </div> */}

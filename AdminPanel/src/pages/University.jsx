@@ -100,8 +100,8 @@ function University() {
                     <tbody>
                         {universitys?.map(university => (
                             <tr key={university.ID} className="bg-white">
-                                <td className="px-2 border border-gray-200">{university.NAME}</td>
-                                <td className="px-2 border border-gray-200">{university.NAME_MR}</td>
+                                <td className="px-2 border border-gray-200">{university.NAME.length > 50 ? `${university.NAME.slice(0, 50)}...` : university.NAME}</td>
+                                <td className="px-2 border border-gray-200">{university.NAME_MR.length > 50 ? `${university.NAME_MR.slice(0, 50)}...` : university.NAME_MR}</td>
                                 <td className={`px-2 border border-gray-200 text-center${university.IS_ACTIVE ? " text-green-500" : " text-red-500"}`}>{university.IS_ACTIVE ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">
                                     <button className="py-2 text-center" onClick={() => handleOpenDrawer(university)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>

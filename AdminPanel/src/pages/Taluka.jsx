@@ -92,7 +92,7 @@ function Taluka() {
                 <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
-                            <th className="px-2 py-2 border border-gray-300">Seq No.</th>
+                            <th className="px-2 py-2 border border-gray-300 w-20">Seq No.</th>
                             <th className="px-2 py-2 border border-gray-300">Name</th>
                             <th className="px-2 py-2 border border-gray-300">Status</th>
                             <th className="px-2 py-2 border border-gray-300">Actions</th>
@@ -101,7 +101,7 @@ function Taluka() {
                     <tbody>
                         {talukas?.map(taluka => (
                             <tr key={taluka.ID} className="bg-white">
-                                <td className="px-2 border border-gray-200">{taluka.ID}</td>
+                                <td className="px-2 border border-gray-200 text-center">{taluka.ID}</td>
                                 <td className="px-2 border border-gray-200">{taluka.NAME}</td>
                                 <td className={`px-2 border border-gray-200 text-center${taluka.STATUS ? " text-green-500" : " text-red-500"}`}>{taluka.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">

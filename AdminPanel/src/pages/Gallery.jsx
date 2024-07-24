@@ -19,7 +19,7 @@ function Gallery() {
 
     useEffect(() => {
         getData();
-    }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
+    }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); 
 
     const getData = useCallback(async () => {
         setLoader(true);
@@ -82,7 +82,7 @@ function Gallery() {
                         className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
                         onClick={() => handleOpenDrawer(null)}
                     >
-                        Add Gallery
+                        Add New
                     </button>
                     <GalleryDrawer isOpen={isDrawerOpen} onClose={handleCloseDrawer} data={gallery} />
                 </div>
@@ -92,11 +92,11 @@ function Gallery() {
                 <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
-                            <th className="px-2 py-2 border border-gray-300">View</th>
+                            <th className="px-2 py-2 border border-gray-300 w-36">View</th>
                             <th className="px-2 py-2 border border-gray-300">Title</th>
-                            <th className="px-2 py-2 border border-gray-300">Type</th>
-                            <th className="px-2 py-2 border border-gray-300">Status</th>
-                            <th className="px-2 py-2 border border-gray-300">Actions</th>
+                            <th className="px-2 py-2 border border-gray-300 w-28">Type</th>
+                            <th className="px-2 py-2 border border-gray-300 w-28">Status</th>
+                            <th className="px-2 py-2 border border-gray-300 w-28">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,8 +119,8 @@ function Gallery() {
                                         }
                                     </div>
                                 </td>
-                                <td className="px-2 border border-gray-200">{gallery.TITLE?.substring(0, 40)}...</td>
-                                <td className="px-2 border border-gray-200">{gallery.TYPE == "P" ? "Photo" : (gallery.TYPE == "V" ? "Video" : "Both")}</td>
+                                <td className="px-2 border border-gray-200">{gallery.TITLE.length > 170 ? gallery.TITLE.substring(0, 170) + "..." : gallery.TITLE}</td>
+                                <td className="px-2 border border-gray-200 text-center">{gallery.TYPE == "P" ? "Photo" : (gallery.TYPE == "V" ? "Video" : "Both")}</td>
                                 <td className={`px-2 border border-gray-200 text-center${gallery.STATUS ? " text-green-500" : " text-red-500"}`}>{gallery.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">
                                     <button className="py-2 text-center" onClick={() => handleOpenDrawer(gallery)}><LiaEditSolid className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>

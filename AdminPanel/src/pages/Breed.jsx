@@ -68,7 +68,7 @@ function Breed() {
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
-                <h1 className="text-2xl font-bold mb-2 text-start">Animal Breed Master</h1>
+                <h1 className="text-2xl font-bold mb-2 text-start">Animal Breeds</h1>
                 <div className="flex justify-end mb-2">
                     <input
                         type="text"
@@ -102,7 +102,7 @@ function Breed() {
                     <tbody>
                         {breeds?.map(breed => (
                             <tr key={breed.ID} className="bg-white">
-                                <td className="px-2 border border-gray-200">{breed.ANIMAL_TYPE}</td>
+                                <td className="px-2 border border-gray-200 text-center">{breed.ANIMAL_TYPE}</td>
                                 <td className="px-2 border border-gray-200">{breed.NAME}</td>
                                 <td className="px-2 border border-gray-200">{breed.NAME_MR}</td>
                                 <td className={`px-2 border border-gray-200 text-center${breed.IS_ACTIVE ? " text-green-500" : " text-red-500"}`}>{breed.IS_ACTIVE ? "On" : "Off"}</td>

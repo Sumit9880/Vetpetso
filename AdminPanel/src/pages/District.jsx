@@ -68,7 +68,7 @@ function District() {
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
-                <h1 className="text-2xl font-bold mb-2 text-start">District Master</h1>
+                <h1 className="text-2xl font-bold mb-2 text-start">Districts</h1>
                 <div className="flex justify-end mb-2">
                     <input
                         type="text"
@@ -92,7 +92,7 @@ function District() {
                 <table className="table-auto w-full border-collapse border border-gray-400 rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
-                            <th className="px-2 py-2 border border-gray-300">Seq No.</th>
+                            <th className="px-2 py-2 border border-gray-300 w-20">Seq No.</th>
                             <th className="px-2 py-2 border border-gray-300">Name</th>
                             <th className="px-2 py-2 border border-gray-300">Status</th>
                             <th className="px-2 py-2 border border-gray-300">Actions</th>
@@ -101,7 +101,7 @@ function District() {
                     <tbody>
                         {districts?.map(district => (
                             <tr key={district.ID} className="bg-white">
-                                <td className="px-2 border border-gray-200">{district.ID}</td>
+                                <td className="px-2 border border-gray-200 text-center">{district.ID}</td>
                                 <td className="px-2 border border-gray-200">{district.NAME}</td>
                                 <td className={`px-2 border border-gray-200 text-center${district.STATUS ? " text-green-500" : " text-red-500"}`}>{district.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">

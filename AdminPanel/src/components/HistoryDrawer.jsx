@@ -38,7 +38,7 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
         e.preventDefault();
         try {
             setLoader(true);
-            const method = formData.ID ? 'api/notice/update' : 'api/notice/create';
+            const method = formData.ID ? 'api/history/update' : 'api/history/create';
             const res = await (formData.ID ? apiPut(method, formData) : apiPost(method, formData));
             if (res.code === 200) {
                 toast.success(res.message)
@@ -52,7 +52,7 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
-        }finally{
+        } finally {
             setLoader(false);
         }
     };
@@ -70,7 +70,7 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
             setLoader(true);
             e.preventDefault();
             const file = e.target.files[0];
-            const res = await apiUpload('upload/notice', file);
+            const res = await apiUpload('upload/history', file);
             if (res.code === 200) {
                 setFormData({ ...formData, URL: res.name });
                 toast.success(res.message);
@@ -81,7 +81,7 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
         } catch (error) {
             toast.error('Somthing Went Wrong')
             console.error('API call failed:', error);
-        }finally{
+        } finally {
             setLoader(false);
         }
     };
@@ -106,7 +106,7 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
                                 <ToastContainer />
                                 <div className="px-4 sm:px-6">
                                     <div className="flex h-16 items-center border-b justify-between sticky top-0 bg-white z-10">
-                                        <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update Notice' : 'Add Notice'}</h2>
+                                        <h2 className="text-lg font-bold text-gray-900">{formData.ID ? 'Update History' : 'Add History'}</h2>
                                         <div className="ml-3 h-7 flex items-center">
                                             <button className="bg-white rounded-md " onClick={resetForm}>
                                                 <IoCloseCircleOutline className="h-7 w-7 hover:text-red-500 text-gray-500" />
@@ -119,13 +119,13 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
                                         loader && <Loader />
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
-                                        <div className="mt-4">
-                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Notice Title</label>
+                                        {/* <div className="mt-4">
+                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">History Title</label>
                                             <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
-                                        </div>
-                                        <div className="mt-1 flex justify-between">
+                                        </div> */}
+                                        <div className="mt-4 flex justify-between">
                                             <div>
-                                                <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">Notice Date</label>
+                                                <label htmlFor="DATE" className="block text-sm font-medium text-gray-700">History Date</label>
                                                 <input type="date" name="DATE" id="DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DATE} onChange={handleChange} />
                                             </div>
                                             <div>
@@ -141,6 +141,11 @@ const HistoryDrawer = ({ isOpen, onClose, data }) => {
                                         </div>
                                         <div className="mt-1">
                                             <label className="block text-sm font-medium text-gray-700">Upload PDF</label>
+                                            {
+                                                formData.URL && <div className="flex items-center justify-center">
+                                                    <img src={STATIC_URL + "History/" + formData.URL} alt={formData.NAME} className="h-16 rounded-lg" />
+                                                </div>
+                                            }
                                             <input ref={fileInputRef} type="file" name="file" id="file" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" onChange={handleUpload} />
                                         </div>
                                     </form>
