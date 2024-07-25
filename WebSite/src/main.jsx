@@ -11,6 +11,8 @@ import EventDetails from './components/Events/EventDetails.jsx'
 import History from './components/History/History.jsx'
 import PhotoGallery from './components/Gallery/PhotoGallery.jsx'
 import VideoGallery from './components/Gallery/VideoGallery.jsx'
+import PrivacyPolicy from './components/Others/PrivacyPolicy.jsx'
+import TermsOfUse from './components/Others/TermsOfUse.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +26,8 @@ const router = createBrowserRouter(
         <Route path="history" element={<History />} />
         <Route path="photogallery" element={<PhotoGallery />} />
         <Route path="videogallery" element={<VideoGallery />} />
+        <Route path="privacypolicy" element={<PrivacyPolicy />} />
+        <Route path="termsofuse" element={<TermsOfUse />} />
       </Route>
     </Route>
   )

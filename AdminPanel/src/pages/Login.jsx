@@ -38,6 +38,7 @@ const LoginPage = () => {
                     className="mx-auto h-36 w-auto"
                     src="./vetpetso.jpg"
                     alt="VetPetSo"
+                    style={{mixBlendMode: 'multiply'}}
                 />
             </div>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

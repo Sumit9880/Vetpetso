@@ -19,7 +19,7 @@ function Header() {
     };
 
     return (
-        <header className="shadow-md sticky z-50 top-0 rounded-lg bg-white">
+        <header className="shadow-md sticky z-50 top-0 rounded-b-lg bg-white">
             <nav className="border-b border-gray-200 px-4 lg:px-6 py-2.5">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <Link to="/" className="flex items-center">
@@ -27,6 +27,7 @@ function Header() {
                             src="./vetpetso.jpg"
                             className="mr-3 h-12 rounded-full"
                             alt="Logo"
+                            style={{mixBlendMode: 'multiply'}}
                         />
                     </Link>
                     <div className="lg:hidden">

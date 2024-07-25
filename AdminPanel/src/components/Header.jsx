@@ -22,6 +22,7 @@ function Header() {
                             src="./vetpetso.jpg"
                             className="mr-3 h-10 rounded-lg"
                             alt="Logo"
+                            style={{mixBlendMode: 'multiply'}}
                         />
                     </Link>
                 </div>

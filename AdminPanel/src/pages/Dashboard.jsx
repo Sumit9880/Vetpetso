@@ -8,6 +8,7 @@ function Dashboard() {
                 src="./vetpetso.jpg"
                 className="h-48 rounded-lg mx-auto mb-8"
                 alt="Logo"
+                style={{mixBlendMode: 'multiply'}}
             />
             <div className="text-center">
                 <h2 className="text-lg font-bold text-gray-900">Welcome to Dashboard</h2>
