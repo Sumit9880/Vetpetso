@@ -12,7 +12,7 @@ function Footer() {
                                 src="./vetpetso.jpg"
                                 className="h-24 md:h-28 lg:h-32"
                                 alt="Logo"
-                                style={{mixBlendMode: 'multiply'}}
+                                style={{ mixBlendMode: 'multiply' }}
                             />
                         </Link>
                         <div className="text-center lg:text-center flex flex-col items-center lg:items-center">
@@ -148,7 +148,7 @@ function Footer() {
                             </svg>
                             <span className="sr-only">LinkedIn page</span>
                         </a>
-                        <a
+                        {/* <a
                             href="https://twitter.com/"
                             className="hover:text-blue-500"
                             target="_blank"
@@ -163,6 +163,25 @@ function Footer() {
                             >
                                 <path
                                     d="M22.46 6.003c-.807.358-1.675.598-2.577.705a4.516 4.516 0 0 0 1.98-2.482 9.026 9.026 0 0 1-2.87 1.096A4.516 4.516 0 0 0 16.116 5c-2.494 0-4.52 2.028-4.52 4.52 0 .354.04.699.117 1.031A12.857 12.857 0 0 1 3.423 4.623a4.495 4.495 0 0 0-.61 2.268c0 1.567.798 2.947 2.01 3.762a4.505 4.505 0 0 1-2.05-.566v.057c0 2.184 1.552 4.006 3.605 4.42a4.526 4.526 0 0 1-2.045.078c.578 1.807 2.245 3.127 4.224 3.162a9.058 9.058 0 0 1-5.62 1.945c-.364 0-.722-.021-1.075-.061a12.798 12.798 0 0 0 6.905 2.021c8.28 0 12.812-6.868 12.812-12.812 0-.196-.004-.392-.014-.586a9.17 9.17 0 0 0 2.256-2.334z"
+                                />
+                            </svg>
+                            <span className="sr-only">Twitter page</span>
+                        </a> */}
+                        <a
+                            href="https://twitter.com/"
+                            className="hover:text-blue-500"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <svg
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
                                 />
                             </svg>
                             <span className="sr-only">Twitter page</span>

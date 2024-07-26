@@ -27,6 +27,7 @@ import ProfestionalInfoModal from '../components/ProfestionalInfoModal';
 import VaccinationReport from '../screens/VaccinationReport';
 import CaseReport from '../screens/CaseReport';
 import AiReport from '../screens/AiReport';
+import PolicyScreen from '../screens/PolicyScreen';
 
 const AppRouter = () => {
   const Tab = createBottomTabNavigator();
@@ -149,6 +150,7 @@ const AppRouter = () => {
         <Stack.Screen name="VaccinationReport" component={VaccinationReport} />
         <Stack.Screen name="CaseReport" component={CaseReport} />
         <Stack.Screen name="AiReport" component={AiReport} />
+        <Stack.Screen name="PolicyScreen" component={PolicyScreen} />
       </Stack.Navigator>
     </>
   )

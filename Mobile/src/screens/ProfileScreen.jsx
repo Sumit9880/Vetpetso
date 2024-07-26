@@ -34,6 +34,11 @@ const ProfileScreen = () => {
     dispatch(setStatusBar({ backgroundColor: "#E6F4FE", barStyle: "dark-content" }))
   }
 
+  const policyPage = () => {
+    navigation.navigate('PolicyScreen')
+    dispatch(setStatusBar({ backgroundColor: "#E6F4FE", barStyle: "dark-content" }))
+  }
+
   return (
 
     <View style={styles.container}>
@@ -182,15 +187,35 @@ const ProfileScreen = () => {
               </View>
             </ScrollView>
           </View>
+          <TouchableOpacity style={styles.profileContent} onPress={policyPage}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15, alignItems: 'center' }}>
+              <VectorIcon
+                type="FontAwesome"
+                name="mobile"
+                color={'#5a5a5a'}
+                size={34}
+              />
+              <View style={{ width: '80%' }}>
+                <Text style={{ color: "#000", fontSize: 13, fontWeight: 'bold', textAlign: 'left' }}>About Vetpetso</Text>
+                <Text style={{ color: "#7a7a7a", fontSize: 10, fontWeight: 'bold' }}>Privacy Policy, Terms & Conditions</Text>
+              </View>
+              <VectorIcon
+                type="Feather"
+                name="chevron-right"
+                color={'#5a5a5a'}
+                size={20}
+              />
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.buttonContainer, { borderColor: 'red', borderWidth: 1.5, marginBottom: 20 }]}
+            style={[styles.buttonContainer, { borderColor: 'red', borderWidth: 1.5, marginVertical: 20 }]}
             onPress={() => LogOut()}
           >
             <Text style={[styles.buttonText, { color: 'red', fontWeight: 'bold', fontSize: 15, }]}>Sign Out</Text>
           </TouchableOpacity>
-          <Text style={{ color: "#7a7a7a", fontSize: 12, fontWeight: 'bold', paddingTop: 10 }}>Version 1.0.0</Text>
-          <Text style={{ color: "#7a7a7a", fontSize: 10, fontWeight: 'bold', paddingTop: 10 }}>Developed By</Text>
-          <Text style={{ fontWeight: 'bold', color: '#5a5a5a', paddingTop: 1 }}>Eternal Tech Services</Text>
+          <Text style={{ color: "#7a7a7a", fontSize: 12, fontWeight: 'bold' }}>Version 1.0.0</Text>
+          <Text style={{ color: "#7a7a7a", fontSize: 10, fontWeight: 'bold', paddingTop: 5 }}>Developed By</Text>
+          <Text style={{ fontWeight: 'bold', color: '#4B1AFF', paddingTop: 1 }}>Eternal Tech Services</Text>
         </View >
       </ScrollView >
     </View >

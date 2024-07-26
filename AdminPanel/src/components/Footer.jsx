@@ -54,7 +54,7 @@ function Footer() {
                         </svg>
                         <span className="sr-only">LinkedIn page</span>
                     </a>
-                    <a
+                    {/* <a
                         href="https://twitter.com/"
                         className="hover:text-blue-500"
                         target="_blank"
@@ -72,6 +72,25 @@ function Footer() {
                             />
                         </svg>
                         <span className="sr-only">Twitter page</span>
+                    </a> */}
+                    <a
+                        href="https://twitter.com/"
+                        className="hover:text-blue-500"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <svg
+                            className="w-4 h-4"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                            />
+                        </svg>
+                        <span className="sr-only">Twitter page</span>
                     </a>
                 </div>
             </div>
@@ -80,3 +99,73 @@ function Footer() {
 }
 
 export default Footer;
+
+`Privacy Policy
+
+ Introduction
+Welcome to Vetpetso, developed by पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.
+
+ Information We Collect
+-Personal Information: When you register for a subscription, we collect personal information such as your name, email address, payment information, and veterinary license details.
+-Case Data: Information regarding the cases you manage, including patient details, diagnosis, treatment, and reports.
+-Usage Data: Information on how you use the app, including access times, pages viewed, and the actions taken within the app.
+
+ How We Use Your Information
+-To Provide Services: We use your personal and case data to offer our subscription services, including case management, report generation, and data export.
+-To Improve Our Services: We analyze usage data to understand how our app is used and to enhance its functionality and user experience.
+-To Communicate with You: We may use your contact information to send you updates, support messages, and other information related to your subscription.
+-To Ensure Data Security: Your data is stored in a secure MySQL database on a VPS, and we implement strict security measures to protect it from unauthorized access or disclosure.
+
+ Data Sharing and Disclosure
+-Third-Party Service Providers: We may share your data with third-party service providers who perform services on our behalf, such as payment processing and data storage.
+-Legal Compliance: We may disclose your information if required by law or in response to legal requests.
+
+ Data Security
+We prioritize the security of your data and employ various measures, including encryption, firewalls, and secure server facilities, to protect it. Regular audits and security updates are conducted to ensure the safety of your information.
+
+ Your Rights
+-Access and Update: You can access your personal information within the app settings. However, updates and deletions of data are not permitted as the records are maintained for governmental proof and compliance purposes.
+
+ Changes to this Privacy Policy
+We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on our app and informing you via email.
+
+ Contact Us
+If you have any questions about this Privacy Policy or our data practices, please contact us at sumitghatage4@gmail.com or +91 8618749880.
+
+
+
+Terms of Use
+
+ Introduction
+These Terms of Use ("Terms") govern your access to and use of Vetpetso, developed by पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.. By using our app, you agree to comply with these Terms.
+
+ Subscription Plans
+-Paid Membership: Our app offers two subscription plans for veterinary professionals who are members of पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.. The details of each plan, including features and pricing, are available on our subscription page.
+-Payment: Subscription fees are billed on a monthly or annual basis, depending on the chosen plan. Payment is processed securely via our third-party payment provider.
+
+ User Responsibilities
+-Account Security: You are responsible for maintaining the confidentiality of your account information, including your username and password.
+-Accurate Information: You must provide accurate and complete information when registering for a subscription and using the app.
+-Compliance: You agree to use the app in compliance with all applicable laws and regulations.
+
+ Use of the App
+-Case Management: Our app allows you to record, categorize, and save case information, generate reports, share prescriptions and case papers in PDF format, and export reports in Excel sheets.
+-Data Storage: All data is stored in a secure MySQL database on a VPS managed by पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ.. We take reasonable measures to ensure the security of your data.
+
+ Prohibited Activities
+-Unauthorized Access: You must not attempt to gain unauthorized access to any part of the app or its underlying systems.
+-Malicious Activity: You must not use the app to engage in any activity that is harmful, unlawful, or violates the rights of others.
+
+ Termination
+-Termination by You: You may cancel your subscription at any time through the app settings.
+-Termination by Us: We reserve the right to terminate your access to the app if you violate these Terms or engage in any prohibited activity.
+
+ Limitation of Liability
+To the maximum extent permitted by law, Vetpetso and पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ. are not liable for any direct, indirect, incidental, or consequential damages arising from your use of the app.
+
+ Changes to these Terms
+We may update these Terms from time to time. We will notify you of any significant changes by posting the new terms on our app and informing you via email.
+
+ Contact Us
+If you have any questions about these Terms of Use, please contact us at sumitghatage4@gmail.com or +91 8618749880.
+` 
