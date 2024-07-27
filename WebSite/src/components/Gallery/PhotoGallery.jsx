@@ -46,7 +46,7 @@ function PhotoGallery() {
 
     return (
         <div className="my-10 px-4">
-            <div className="mb-6 flex justify-center items-center">
+            <div className="mb-6 flex justify-center items-center" data-aos="zoom-in-right" data-aos-duration="1000">
                 <h3 className="text-3xl text-center text-primary font-poppins font-semibold relative heading_section inline-block">
                     Photo Gallery
                 </h3>

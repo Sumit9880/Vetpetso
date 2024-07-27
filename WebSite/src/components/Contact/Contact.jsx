@@ -46,7 +46,7 @@ function Contact() {
     <div className="my-10 px-4 flex justify-center">
       <ToastContainer />
       <div className="w-full max-w-6xl">
-        <div className="mb-6 text-center">
+        <div className="mb-6 text-center" data-aos="zoom-in-right" data-aos-duration="1000">
           <h3 className="text-3xl text-primary font-poppins font-semibold relative heading_section inline-block">
             Contact Us
           </h3>

@@ -67,7 +67,7 @@ const Events = () => {
 
     return (
         <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 pt-10">
-            <div className="mb-6 flex justify-center items-center">
+            <div className="mb-6 flex justify-center items-center" data-aos="zoom-in-right" data-aos-duration="1000">
                 <h3 className="text-3xl text-center text-primary font-poppins font-semibold relative heading_section inline-block max-w-full" >
                     Events
                 </h3>
