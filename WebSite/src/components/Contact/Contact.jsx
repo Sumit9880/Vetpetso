@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { apiPost } from '../../utils/api';
 import Loader from '../Others/Loader';
+import aos from "aos";
+import "aos/dist/aos.css";
 
 function Contact() {
 
@@ -12,6 +14,10 @@ function Contact() {
     MOBILE: '',
     MESSAGE: '',
   };
+
+  useEffect(() => {
+    aos.init();
+  }, []);
 
   const [formData, setFormData] = useState(initialFormData);
   const [loader, setLoader] = useState(false);
@@ -85,7 +91,7 @@ function Contact() {
                   </svg>
                 </div>
                 <div className="ml-4 text-m font-semibold">
-                  Basav Nagar Factory Road, Kagwad, <br />Karnataka - 591223
+                  C/o Flat No. 804 'D' wing, Kakade City, <br /> Karve Nagar, Pune-411052
                 </div>
               </div>
               <div className="flex items-center mt-2 text-gray-600">
@@ -108,7 +114,7 @@ function Contact() {
                   </svg>
                 </div>
                 <div className="ml-4 text-m font-semibold">
-                  +91 8618749880
+                  +91 9800067881
                 </div>
               </div>
               <div className="flex items-center mt-2 text-gray-600">
@@ -131,14 +137,14 @@ function Contact() {
                   </svg>
                 </div>
                 <div className="ml-4 text-m font-semibold">
-                  sumitghatage2001@gmail.com
+                  ngovetprof@gmail.com
                 </div>
               </div>
             </div>
           </div>
           <div className="p-6 bg-white rounded-xl shadow-lg">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2801.4412043267585!2d74.71547927576681!3d16.695994345823316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc0d99d7d5a8133%3A0xa67c070e3df0f690!2sAradhya%20Restaurant!5e0!3m2!1sen!2sin!4v1721380231071!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.936988295509!2d73.80994265309323!3d18.486513188786237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf555daed9a7%3A0xa480aff65cb51c5c!2sKakade%20City!5e0!3m2!1sen!2sin!4v1722159737111!5m2!1sen!2sin"
               width="100%"
               height="300"
               style={{ border: 0 }}

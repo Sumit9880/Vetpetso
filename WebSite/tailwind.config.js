@@ -11,6 +11,7 @@ export default {
         sans: ['Arial', 'Helvetica', 'sans-serif'],
         mono: ['Consolas', 'monospace'],
         poppins : ['Poppins', 'sans-serif'],
+        marathi: ['"Baloo Bhai 2"', 'sans-serif'],
       },
       colors: {
         'primary': '#024e92',

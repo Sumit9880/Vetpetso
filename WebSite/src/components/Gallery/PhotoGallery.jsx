@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { apiPost, STATIC_URL } from "../../utils/api";
 import Pagination from '../Others/Pagination';
 import Loader from '../Others/Loader';
+import aos from "aos";
+import "aos/dist/aos.css";
 
 function PhotoGallery() {
     const [photos, setPhotos] = useState([]);
@@ -14,6 +16,7 @@ function PhotoGallery() {
 
     useEffect(() => {
         getData();
+        aos.init();
     }, [pageIndex.current, pageSize]);
 
     const getData = useCallback(async () => {
@@ -52,8 +55,8 @@ function PhotoGallery() {
                 </h3>
             </div>
             <div className="text-center mb-8">
-                <p className="text-gray-700 max-w-3xl mx-auto">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum beatae delectus nulla, quia magnam eaque labore consectetur, debitis vitae esse possimus, quam similique saepe ratione placeat numquam velit. Magni, distinctio!
+                <p className="text-gray-700 max-w-6xl mx-auto">
+                Explore our image gallery to see the impactful work of VetPetSo, where we showcase highlights from our past meetings, events, and movements. From heartwarming rescues and community outreach to educational workshops and advocacy campaigns, these images capture the dedication of our team and volunteers as they work to improve animal welfare. Discover inspiring moments from our journey and learn how you can join us in making a difference.
                 </p>
             </div>
             {loader ? (

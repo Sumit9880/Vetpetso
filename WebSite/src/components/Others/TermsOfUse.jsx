@@ -59,7 +59,7 @@ const TermsOfUse = () => {
 
                 <h2 className="text-xl font-semibold mb-3 text-black">9. Contact Us</h2>
                 <p className="text-gray-800 leading-relaxed">
-                    If you have any questions about these Terms of Use, please contact us at <a href="mailto:sumitghatage4@gmail.com" className="text-blue-500 hover:underline">sumitghatage4@gmail.com</a> or +91 8618749880.
+                    If you have any questions about these Terms of Use, please contact us at <a href="mailto:ngovetprof@gmail.com" className="text-blue-500 hover:underline">ngovetprof@gmail.com</a> or +91 9800067881.
                 </p>
             </div>
         </div>

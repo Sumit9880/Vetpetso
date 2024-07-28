@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { apiPost } from "../../utils/api";
 import Pagination from '../Others/Pagination';
 import Loader from '../Others/Loader';
+import aos from "aos";
+import "aos/dist/aos.css";
 
 function VideoGallery() {
     const [videos, setVideos] = useState([]);
@@ -14,6 +16,7 @@ function VideoGallery() {
 
     useEffect(() => {
         getData();
+        aos.init();
     }, [pageIndex.current, pageSize]);
 
     const getData = useCallback(async () => {
@@ -52,8 +55,8 @@ function VideoGallery() {
                 </h3>
             </div>
             <div className="text-center mb-8">
-                <p className="text-gray-700 max-w-3xl mx-auto">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum beatae delectus nulla, quia magnam eaque labore consectetur, debitis vitae esse possimus, quam similique saepe ratione placeat numquam velit. Magni, distinctio!
+                <p className="text-gray-700 max-w-6xl mx-auto">
+                Explore our video gallery to witness the impactful work of VetPetSo, where we highlight our past meetings, events, and movements. From community outreach and educational workshops to advocacy campaigns, see how our dedicated team and volunteers come together to advance animal welfare and support our mission. Join us in celebrating these inspiring moments and learn how you can be a part of our journey.
                 </p>
             </div>
             {loader ? (
