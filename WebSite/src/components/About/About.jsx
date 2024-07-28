@@ -41,7 +41,7 @@ function About() {
                     </div>
                 </div>
             </div>
-            <div className="bg-gray-50 p-8 sm:p-8 md:p-12 rounded-lg shadow-lg mx-3 md:mx-8 lg:mx-16 font-marathi">
+            <div className="bg-gray-50 p-8 sm:p-4 md:p-12 rounded-lg shadow-lg mx-3 md:mx-8 lg:mx-16 font-marathi">
             <div className="mb-6 text-center" data-aos="zoom-in-right" data-aos-duration="1000">
                     <h3 className="text-3xl text-primary font-poppins font-semibold relative heading_section inline-block">
                         Founder's Bio
