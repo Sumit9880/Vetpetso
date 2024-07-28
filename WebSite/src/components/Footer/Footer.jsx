@@ -99,7 +99,7 @@ function Footer() {
                     </div>
                 </div>
                 <hr className="my-6 border-gray-700 sm:mx-auto " />
-                <div className="flex flex-col items-center sm:flex-row sm:justify-between px-10">
+                <div className="flex flex-col items-center sm:flex-row sm:justify-between px-6">
                     <span className="text-sm mb-4 sm:text-xs sm:mb-0">
                         Designed & Developed by{' '}
                         <a href="https://etenraltechservices.com/" className="hover:underline text-blue-400">
