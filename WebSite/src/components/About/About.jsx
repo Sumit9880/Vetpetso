@@ -67,7 +67,7 @@ function About() {
                         </p>
                     </div>
                 </div>
-                <div className="text-justify">
+                <div>
                     <h4 className="text-xl text-primary font-semibold mt-6 mb-2">संस्थापक:</h4>
                     <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2 pl-5 md:pl-6">
                         <li className="text-black">
