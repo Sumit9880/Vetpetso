@@ -50,7 +50,7 @@ function Footer() {
                                     </Link>
                                 </li>
                                 <li className="mb-2">
-                                    <Link to="/contactUs" className="hover:underline">
+                                    <Link to="/contact" className="hover:underline">
                                         Contact Us
                                     </Link>
                                 </li>
@@ -108,7 +108,7 @@ function Footer() {
                     </span>
                     <div className="flex space-x-4 md:space-x-6">
                         <a
-                            href="https://instagram.com/"
+                            href="https://www.instagram.com/eternal_tech_services/"
                             className="hover:text-pink-600"
                             target="_blank"
                             rel="noreferrer"
@@ -130,7 +130,7 @@ function Footer() {
                             <span className="sr-only">Instagram page</span>
                         </a>
                         <a
-                            href="https://linkedin.com/"
+                            href="https://www.linkedin.com/in/eternal-tech-services-bb9307320/"
                             className="hover:text-blue-700"
                             target="_blank"
                             rel="noreferrer"
@@ -168,7 +168,7 @@ function Footer() {
                             <span className="sr-only">Twitter page</span>
                         </a> */}
                         <a
-                            href="https://twitter.com/"
+                            href="https://x.com/Eternal_Tech24"
                             className="hover:text-blue-500"
                             target="_blank"
                             rel="noreferrer"

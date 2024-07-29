@@ -113,7 +113,7 @@ function Header() {
                                     </ul>
                                 )}
                             </li>
-                            <li>
+                            {/* <li>
                                 <NavLink
                                     to="/history"
                                     onClick={closeMenu}
@@ -121,14 +121,14 @@ function Header() {
                                 >
                                     History
                                 </NavLink>
-                            </li>
+                            </li> */}
                             <li>
                                 <NavLink
-                                    to="/donate"
+                                    to="/history"
                                     onClick={closeMenu}
                                     className={({ isActive }) => ` font-bold ${isActive ? 'bg-white text-secondary' : 'bg-secondary text-white'} block py-2 pr-4 pl-3 duration-200 border border-secondary hover:bg-white hover:text-secondary lg:py-2 lg:px-6 rounded-2xl`}
                                 >
-                                    Donate Us
+                                   History
                                 </NavLink>
                             </li>
                             <li>

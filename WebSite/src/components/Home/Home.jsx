@@ -128,10 +128,13 @@ function Home() {
                     </div>
                     <div className="md:w-1/2">
                         <p className="text-lg leading-relaxed mb-4 text-gray-700">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum omnis voluptatem accusantium nemo perspiciatis delectus atque autem! Voluptatum tenetur beatae unde aperiam, repellat expedita consequatur! Officiis id consequatur atque doloremque!
+                            Welcome to <span className='text-primary font-bold'>पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ</span>, a trusted name in veterinary care and animal husbandry. Established under the Veterinary Animal Husbandry and Dairy Farm Management Services Organisation (Regd.), <span className='text-primary font-bold'>पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ</span> adheres to the highest standards of care and the Indian Veterinary Council Act of 1984.
                         </p>
-                        <p className="text-lg leading-relaxed text-gray-700">
-                            Nobis minus voluptatibus pariatur dignissimos libero quaerat iure expedita at? Asperiores nemo possimus nesciunt dicta veniam aspernatur quam mollitia.
+                        <p className="text-lg leading-relaxed mb-4 text-gray-700">
+                            Our certified veterinary professionals provide essential services like treating ailments, artificial insemination, and pregnancy diagnosis, following guidelines from the Government of India and Maharashtra. We prioritize animal health and responsible husbandry, guided by the Ministry of Agriculture's Standard Operating Procedures.
+                        </p>
+                        <p className="text-lg leading-relaxed mb-4 text-gray-700">
+                            Join us in advancing animal health and welfare with expert care and dedication.
                         </p>
                     </div>
                 </div>
