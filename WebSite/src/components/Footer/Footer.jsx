@@ -76,7 +76,7 @@ function Footer() {
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        Intagram
+                                        Instagram
                                     </a>
                                 </li>
                             </ul>

@@ -104,7 +104,8 @@ function Home() {
                     </div>
                 </div>
                 <div className="absolute inset-0 w-full sm:my-20 sm:pt-1 pt-12 h-full " data-aos="zoom-in-left" data-aos-duration="1000">
-                    <img className="w-96" src="https://i.ibb.co/5BCcDYB/Remote2.png" alt="image1" />
+                    <img className="w-96 sm:w-1/2" src="mobileapp.png" alt="image1" />
+                    {/* <img className="w-96" src="mobile1.png" alt="image1" /> */}
                 </div>
             </div>
             <div className="container mx-auto px-6 py-6 bg-white" data-aos="zoom-in-right" data-aos-duration="1000">
@@ -128,14 +129,14 @@ function Home() {
                     </div>
                     <div className="md:w-1/2">
                         <p className="text-lg leading-relaxed mb-4 text-gray-700">
-                            Welcome to <span className='text-primary font-bold'>पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ</span>, a trusted name in veterinary care and animal husbandry. Established under the Veterinary Animal Husbandry and Dairy Farm Management Services Organisation (Regd.), <span className='text-primary font-bold'>पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ</span> adheres to the highest standards of care and the Indian Veterinary Council Act of 1984.
+                            We are a trusted name in veterinary care and animal husbandry. Established under the Veterinary Animal Husbandry and Dairy Farm Management Services Organisation (Regd.), <span className='text-primary font-bold'>पशुवैद्यकीय, पशुसंवर्धन आणि दुग्ध व्यवस्थापन सेवा संघ</span> adheres to the highest standards of care and the Indian Veterinary Council Act of 1984.
                         </p>
                         <p className="text-lg leading-relaxed mb-4 text-gray-700">
                             Our certified veterinary professionals provide essential services like treating ailments, artificial insemination, and pregnancy diagnosis, following guidelines from the Government of India and Maharashtra. We prioritize animal health and responsible husbandry, guided by the Ministry of Agriculture's Standard Operating Procedures.
                         </p>
-                        <p className="text-lg leading-relaxed mb-4 text-gray-700">
+                        {/* <p className="text-lg leading-relaxed mb-4 text-gray-700">
                             Join us in advancing animal health and welfare with expert care and dedication.
-                        </p>
+                        </p> */}
                     </div>
                 </div>
                 <div className="mx-10 my-6 flex-row justify-center items-center" data-aos="slide-up" data-aos-duration="1000">
@@ -217,7 +218,8 @@ function Home() {
                                 <div className="w-40 h-40 flex justify-center items-center">
                                     <img
                                         className="w-40 h-40 object-cover rounded-full shadow-lg"
-                                        src={`${STATIC_URL}Commitee/${commitee.URL}`}
+                                        // src={`${STATIC_URL}Commitee/${commitee.URL}`}
+                                        src={`./profile.jpg`}
                                         alt={commitee.NAME}
                                     />
                                 </div>
