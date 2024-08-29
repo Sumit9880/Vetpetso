@@ -54,7 +54,7 @@ function Home() {
 
     return (
         <div className="mx-auto w-full max-w-7xl">
-            <Slider {...carouselSettings} className="rounded-lg overflow-hidden mt-2">
+            {/* <Slider {...carouselSettings} className="rounded-lg overflow-hidden mt-2">
                 {images.map((image) => (
                     <div key={image.ID} className="relative rounded-lg overflow-hidden">
                         <img
@@ -64,7 +64,14 @@ function Home() {
                         />
                     </div>
                 ))}
-            </Slider>
+            </Slider> */}
+                    <div className="relative rounded-lg overflow-hidden">
+                        <img
+                            className="w-full max-w-[1600px] h-auto max-h-[900px] object-contain transition-transform duration-300 transform hover:scale-105"
+                            src='./banner.jpg'
+                            alt="Banner"
+                        />
+                    </div>
             <div className="flex flex-col justify-center items-center py-12 px-6 bg-white">
                 <div className="max-w-4xl text-center">
                     <h1 className="text-5xl font-extrabold text-gray-800 mb-4 leading-tight">
@@ -218,8 +225,8 @@ function Home() {
                                 <div className="w-40 h-40 flex justify-center items-center">
                                     <img
                                         className="w-40 h-40 object-cover rounded-full shadow-lg"
-                                        // src={`${STATIC_URL}Commitee/${commitee.URL}`}
-                                        src={`./profile.jpg`}
+                                        src={`${STATIC_URL}Commitee/${commitee.URL}`}
+                                        // src={`./profile.jpg`}
                                         alt={commitee.NAME}
                                     />
                                 </div>

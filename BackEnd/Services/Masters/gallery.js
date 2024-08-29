@@ -150,7 +150,7 @@ exports.update = (req, res) => {
     }
     else {
         try {
-            dm.runDataQuery(`UPTYPE gallery_master SET ${setData} LASTUPTYPED = ? where ID = ?;`, recordData, req, (error, results) => {
+            dm.runDataQuery(`UPTYPE gallery_master SET ${setData} LASTUPDATED = ? where ID = ?;`, recordData, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     res.send({
