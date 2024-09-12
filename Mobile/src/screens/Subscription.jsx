@@ -8,6 +8,9 @@ import VectorIcon from '../utils/VectorIcon';
 import { apiPost, STATIC_URL } from '../utils/api';
 import LinearGradient from 'react-native-linear-gradient';
 import Loader from '../components/Loader';
+import PhonePePaymentSDK from 'react-native-phonepe-pg'
+import Base64 from 'react-native-base64';
+import sha256 from 'sha256';
 
 const Subscription = () => {
 
@@ -58,25 +61,74 @@ const Subscription = () => {
         dispatch(setStatusBar({ backgroundColor: "#4B1AFF", barStyle: "light-content" }))
         return true;
     };
+
+
     const submit = async () => {
-        setIsLoading(true);
+        const parameters = {
+            environment: "SANDBOX",
+            merchantId: "PGTESTPAYUAT86",
+            appId: null,
+            enableLogging: true,
+        }
         try {
-            const response = await apiPost('api/memberPlanMapping/mapPlan', { PLAN_ID: selectedPlan.ID, MEMBER_ID: user.ID, TYPE: selectedPlan.TYPE });
-            if (response.code === 200) {
-                ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                const userData = { ...user, PLAN_DETAILS: response.data };
-                dispatch(setUser(userData));
-                setModalVisible(false)
-            } else {
-                ToastAndroid.show(response.message, ToastAndroid.SHORT);
-            }
+            PhonePePaymentSDK.init(parameters.environment, parameters.merchantId, parameters.appId, parameters.enableLogging).then(resp => {
+                const saltKey = "96434309-7796-489d-8924-ab56988a6076";
+                const saltIndex = 1;
+
+                const request = {
+                    merchantId: parameters.merchantId,
+                    merchantTransactionId: "T" + Date.now(),
+                    merchantUserId: "MUID123",
+                    amount: 100,
+                    callbackUrl: "",
+                    mobileNumber: user.MOBILE_NUMBER,
+                    paymentInstrument: {
+                        type: "PAY_PAGE"
+                    }
+                };
+
+                const payload = Base64.encode(JSON.stringify(request));
+                const checksum = sha256(payload + "/pg/v1/pay" + saltKey) + "###" + saltIndex;
+
+                PhonePePaymentSDK.startTransaction(
+                    payload,
+                    checksum,
+                    null,
+                    null
+                ).then(res => {
+                    console.log("res", res);
+                }).catch(error => {
+                    console.log(error);
+                });
+
+            }).catch(error => {
+                console.log(error);
+            });
         } catch (error) {
             console.error(error);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
-        } finally {
-            setIsLoading(false);
         }
     };
+
+    // const submit = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const response = await apiPost('api/memberPlanMapping/mapPlan', { PLAN_ID: selectedPlan.ID, MEMBER_ID: user.ID, TYPE: selectedPlan.TYPE });
+    //         if (response.code === 200) {
+    //             ToastAndroid.show(response.message, ToastAndroid.SHORT);
+    //             const userData = { ...user, PLAN_DETAILS: response.data };
+    //             dispatch(setUser(userData));
+    //             setModalVisible(false)
+    //         } else {
+    //             ToastAndroid.show(response.message, ToastAndroid.SHORT);
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         ToastAndroid.show(error.message, ToastAndroid.SHORT);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
     const Plan = ({ item }) => {
         return (
