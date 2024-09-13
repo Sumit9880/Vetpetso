@@ -98,7 +98,6 @@ const RegistrationScreen = () => {
         getDropDownData()
     }, [data])
 
-
     const getDropDownData = async () => {
         try {
             const resDistrict = await apiPost("district/get", { filter: ` AND STATUS = 1` });
@@ -114,7 +113,6 @@ const RegistrationScreen = () => {
             console.error(error);
         }
     }
-
 
     const handleModelOpen = (file, api, key) => {
         let uri = STATIC_URL + file
@@ -202,6 +200,7 @@ const RegistrationScreen = () => {
             ToastAndroid.show('Please fill all required fields', ToastAndroid.SHORT);
         }
     }
+
     const handleSignatureSaved = async (signature) => {
         setIsLoading(true);
         try {
@@ -778,7 +777,7 @@ const RegistrationScreen = () => {
                                                     }
                                                     .m-signature-pad--footer .button {
                                                     background-color: #fff;
-                                                    border-color: #20daff;
+                                                    border-color: #f44336;
                                                     color: #8a8a8f;
                                                     width: 80px;
                                                     height: 30px;
@@ -791,11 +790,12 @@ const RegistrationScreen = () => {
                                                     align-items: center;
                                                     }
                                                     .m-signature-pad--footer .button.save {
-                                                    background-color: #20daff;
+                                                    background-color: #01c001;
+                                                    border-color: #01c001;
                                                     color: #fff;
                                                     }
                                                     .m-signature-pad--footer {
-                                                    width: 85%;
+                                                    width: 60%;
                                                     padding: 10px;
                                                     display: flex;
                                                     justify-content: space-between;

@@ -8,7 +8,7 @@ const Header = ({ name }) => {
     const navigation = useNavigation();
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: '#4B1AFF' }]}>
             <View style={styles.innerContainer}>
                 {name == 'Home' ? (
                     null
@@ -24,6 +24,18 @@ const Header = ({ name }) => {
                 }
                 <Text style={styles.username}>{name}</Text>
             </View>
+            {name == 'Home' ? (
+                <VectorIcon
+                    name="notifications"
+                    type="Ionicons"
+                    size={24}
+                    color={Colors.white}
+                    style={styles.iconStyle}
+                />
+            ) : (
+                null
+            )
+            }
         </View>
     );
 };
