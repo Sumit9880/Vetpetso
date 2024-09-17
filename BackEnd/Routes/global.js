@@ -68,22 +68,23 @@ router
   .use('/api/summary', require('./Reports/summary'))
 
   // Upload Files
-  .post("/upload/adharCard", globalService.adharCard)
   .post("/upload/animalType", globalService.animalType)
   .post("/upload/banners", globalService.banners)
   .post("/upload/commitee", globalService.commitee)
-  .post("/upload/educationalCretificate", globalService.educationalCretificate)
-  .post("/upload/events", globalService.events)
-  .post("/upload/experienceLetter", globalService.experienceLetter)
   .post("/upload/gallery", globalService.gallery)
   .post("/upload/history", globalService.history)
+  .post("/upload/events", globalService.events)
+  .post("/upload/notice", globalService.notice)
+  .post("/upload/planImage", globalService.planImage)
+
+  .post("/upload/adharCard", globalService.adharCard)
+  .post("/upload/educationalCretificate", globalService.educationalCretificate)
+  .post("/upload/experienceLetter", globalService.experienceLetter)
   .post("/upload/leavingCretificate", globalService.leavingCretificate)
   .post("/upload/memberSign", globalService.memberSign)
-  .post("/upload/notice", globalService.notice)
   .post("/upload/ownerSign", globalService.ownerSign)
   .post("/upload/panCard", globalService.panCard)
   .post("/upload/patientImage", globalService.patientImage)
-  .post("/upload/planImage", globalService.planImage)
   .post("/upload/profilePhoto", globalService.profilePhoto)
 
 

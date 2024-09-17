@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import VectorIcon from '../utils/VectorIcon';
 import Header from './Header';
 import { STATIC_URL, apiUpload, apiPut, apiPost } from '../utils/api';
-import { launchCamera } from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import Signature from "react-native-signature-canvas";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import InputBox from './InputBox';
@@ -155,62 +155,83 @@ const CaseFormModal = () => {
         }
     };
 
-    const openCamera = async () => {
+    const handleImageSelection = async (source) => {
         try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.CAMERA,
-                {
-                    title: "Cool Photo App Camera Permission",
-                    message: "Cool Photo App needs access to your camera so you can take awesome pictures.",
-                    buttonNeutral: "Ask Me Later",
-                    buttonNegative: "Cancel",
-                    buttonPositive: "OK"
+            let image;
+
+            if (source === 'camera') {
+                const cameraPermission = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    {
+                        title: "Camera Permission",
+                        message: "App needs access to your camera to take pictures.",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                );
+
+                if (cameraPermission !== PermissionsAndroid.RESULTS.GRANTED) {
+                    ToastAndroid.show("Camera permission denied", ToastAndroid.SHORT);
+                    return;
                 }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                const options = {
-                    storageOptions: {
-                        skipBackup: true,
-                        path: 'images'
-                    }
-                };
-                launchCamera(options, async (response) => {
-                    if (response.didCancel) {
-                        console.log('User cancelled image picker');
-                        return;
-                    }
-                    if (response.error) {
-                        console.log('ImagePicker Error: ', response.error);
-                        return;
-                    }
-                    if (response.customButton) {
-                        console.log('User tapped custom button: ', response.customButton);
-                        return;
-                    }
-                    try {
-                        setIsLoading(true)
-                        const apiResponse = await apiUpload('upload/patientImage', response.assets[0], caseData.ID);
-                        if (apiResponse.code === 200) {
-                            ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
-                            const updatedUserData = { ...caseData, PATIENT_IMAGE: apiResponse.name };
-                            setCaseData(updatedUserData);
-                        } else {
-                            ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
-                        }
-                    } catch (error) {
-                        console.error('Error uploading image:', error);
-                        ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
-                    } finally {
-                        setIsLoading(false)
-                    }
+
+                image = await ImagePicker.openCamera({
+                    cropping: true,
+                    includeBase64: false,
+                    compressImageQuality: 0.5,
+                    mediaType: 'photo',
                 });
-            } else {
-                ToastAndroid.show("Permission Denied", ToastAndroid.SHORT);
+            } else if (source === 'gallery') {
+                image = await ImagePicker.openPicker({
+                    cropping: true,
+                    includeBase64: false,
+                    compressImageQuality: 0.5,
+                    mediaType: 'photo',
+                });
             }
-        } catch (err) {
-            console.error('Error requesting camera permission:', err);
-            ToastAndroid.show('Error requesting camera permission', ToastAndroid.SHORT);
+
+            if (!image) {
+                ToastAndroid.show('Image selection was canceled', ToastAndroid.SHORT);
+                return;
+            }
+
+            setIsLoading(true);
+
+            const imageFile = {
+                uri: image.path,
+                type: image.mime,
+                name: `patientImage-${caseData.ID}.${image.mime.split('/')[1]}`,
+            };
+
+            const apiResponse = await apiUpload('upload/patientImage', imageFile, caseData.ID);
+
+            if (apiResponse.code === 200) {
+                ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+                const updatedUserData = { ...caseData, PATIENT_IMAGE: apiResponse.name };
+                setCaseData(updatedUserData);
+            } else {
+                ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+            }
+        } catch (error) {
+            console.error('Error handling image selection:', error);
+            ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const chooseImageSource = () => {
+        Alert.alert(
+            'Select Image Source',
+            'Please select an image source',
+            [
+                { text: 'Camera', onPress: () => handleImageSelection('camera') },
+                { text: 'Gallery', onPress: () => handleImageSelection('gallery') },
+                { text: 'Cancel', style: 'cancel' },
+            ],
+            { cancelable: true }
+        );
     };
 
     const handleSignatureSaved = async (signature) => {
@@ -394,7 +415,7 @@ const CaseFormModal = () => {
                                 </View>
                                 <View style={[styles.splitContainer, { marginTop: 15 }]}>
                                     <View style={[styles.dropdown, { height: 165, justifyContent: 'center', alignItems: 'center', padding: 10, paddingBottom: 0 }]}>
-                                        <TouchableOpacity disabled={caseData.ID ? true : false} onPress={openCamera}>
+                                        <TouchableOpacity disabled={caseData.ID ? true : false} onPress={chooseImageSource}>
                                             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                                 {caseData.PATIENT_IMAGE ?
                                                     <Image source={{ uri: `${STATIC_URL}PatientImage/${caseData.PATIENT_IMAGE}` }} style={{ width: 120, height: 120 }} /> :

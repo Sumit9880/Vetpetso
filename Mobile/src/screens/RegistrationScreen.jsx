@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { AppState, View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid, ScrollView, Modal } from 'react-native';
+import { Alert, AppState, View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid, ScrollView, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setSplashscreen } from '../reduxStore/userSlice';
 import { apiPost } from '../utils/api';
-import DocumentPicker from 'react-native-document-picker';
+import { PermissionsAndroid } from 'react-native';
 import { apiUpload, STATIC_URL } from '../utils/api';
+import ImagePicker from 'react-native-image-crop-picker';
 import VectorIcon from '../utils/VectorIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputBox from '../components/InputBox';
@@ -140,31 +141,90 @@ const RegistrationScreen = () => {
         dispatch(setSplashscreen(true))
     }
 
-    const pickFile = async (api, key) => {
+    const handleImageSelection = async (source, api, key) => {
         try {
-            setIsLoading(true)
-            const file = await DocumentPicker.pick({
-                type: [DocumentPicker.types.allFiles],
-            });
-            const response = await apiUpload(api, file[0]);
-            if (response.code === 200) {
-                ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                const updatedUserData = { ...userData, [key]: response.name };
-                setUserData(updatedUserData);
-                dispatch(setLogin(updatedUserData));
-            } else {
-                ToastAndroid.show(response.message, ToastAndroid.SHORT);
+            let image;
+
+            // Request permission if using the camera
+            if (source === 'camera') {
+                const cameraPermission = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    {
+                        title: "Camera Permission",
+                        message: "App needs access to your camera to take pictures.",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                );
+
+                if (cameraPermission !== PermissionsAndroid.RESULTS.GRANTED) {
+                    ToastAndroid.show("Camera permission denied", ToastAndroid.SHORT);
+                    return;
+                }
+
+                image = await ImagePicker.openCamera({
+                    cropping: true,
+                    includeBase64: false,
+                    compressImageQuality: 0.5,
+                    mediaType: 'photo',
+                });
+            } else if (source === 'gallery') {
+                image = await ImagePicker.openPicker({
+                    cropping: true,
+                    includeBase64: false,
+                    compressImageQuality: 0.5,
+                    mediaType: 'photo',
+                });
             }
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                console.log('User cancelled the file picker');
-            } else {
-                console.error('Error picking file:', err);
+
+            if (!image) {
+                ToastAndroid.show('Image selection was canceled', ToastAndroid.SHORT);
+                return;
             }
+
+            setIsLoading(true);
+
+            // Prepare the image file for upload
+            const imageFile = {
+                uri: image.path,
+                type: image.mime,
+                name: `${key}-${Date.now()}.${image.mime.split('/')[1]}`,
+            };
+
+            // Upload the image file
+            const apiResponse = await apiUpload(api, imageFile);
+
+            if (apiResponse.code === 200) {
+                ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+                // Update the user data or case data
+                const updatedData = { ...userData, [key]: apiResponse.name };
+                setUserData(updatedData);
+                dispatch(setLogin(updatedData)); // Assuming you're using redux or similar
+            } else {
+                ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+            }
+        } catch (error) {
+            console.error('Error handling image selection:', error);
+            ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
+
+    const pickFile = (api, key) => {
+        Alert.alert(
+            'Select Image Source',
+            'Please select an image source',
+            [
+                { text: 'Camera', onPress: () => handleImageSelection('camera', api, key) },
+                { text: 'Gallery', onPress: () => handleImageSelection('gallery', api, key) },
+                { text: 'Cancel', style: 'cancel' },
+            ],
+            { cancelable: true }
+        );
+    };
+
 
     const handleSubmit = async () => {
         let errors = await validate()
