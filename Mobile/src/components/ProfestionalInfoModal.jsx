@@ -1,12 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView, ToastAndroid } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../reduxStore/userSlice';
-import VectorIcon from '../utils/VectorIcon';
 import Header from '../components/Header';
-import DocumentPicker from 'react-native-document-picker';
-import { STATIC_URL, apiUpload, apiPut, apiPost } from '../utils/api';
+import { apiPut, apiPost } from '../utils/api';
 import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
 import * as Yup from 'yup';
@@ -17,12 +15,12 @@ const ProfestionalInfoModal = () => {
     const navigation = useNavigation();
     const user = useSelector(state => state.user.userInfo)
     const [userData, setUserData] = useState({ ...user })
-    const [preview, setPreview] = useState({
-        isVisible: false,
-        uri: '',
-        api: '',
-        key: ''
-    })
+    // const [preview, setPreview] = useState({
+    //     isVisible: false,
+    //     uri: '',
+    //     api: '',
+    //     key: ''
+    // })
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [district, setDistrict] = useState([]);
@@ -96,42 +94,42 @@ const ProfestionalInfoModal = () => {
     };
 
 
-    const handleModelOpen = (file, api, key) => {
-        let uri = STATIC_URL + file
-        setPreview({
-            isVisible: true,
-            uri: uri,
-            api: api,
-            key: key
-        })
-    }
+    // const handleModelOpen = (file, api, key) => {
+    //     let uri = STATIC_URL + file
+    //     setPreview({
+    //         isVisible: true,
+    //         uri: uri,
+    //         api: api,
+    //         key: key
+    //     })
+    // }
 
-    const pickFile = async () => {
-        setIsLoading(true)
-        try {
-            const file = await DocumentPicker.pick({
-                type: [DocumentPicker.types.allFiles],
-            });
-            const response = await apiUpload(preview.api, file[0], userData.ID);
-            if (response.code === 200) {
-                ToastAndroid.show(response.message, ToastAndroid.SHORT);
-                const updatedUserData = { ...userData, [preview.key]: response.name };
-                setUserData(updatedUserData);
-                dispatch(setUser(updatedUserData))
-                setPreview({ ...preview, isVisible: false, uri: '', api: '', key: '' })
-            } else {
-                ToastAndroid.show(response.message, ToastAndroid.SHORT);
-            }
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                console.log('User cancelled the file picker');
-            } else {
-                console.error('Error picking file:', err);
-            }
-        } finally {
-            setIsLoading(false)
-        }
-    };
+    // const pickFile = async () => {
+    //     setIsLoading(true)
+    //     try {
+    //         const file = await DocumentPicker.pick({
+    //             type: [DocumentPicker.types.allFiles],
+    //         });
+    //         const response = await apiUpload(preview.api, file[0], userData.ID);
+    //         if (response.code === 200) {
+    //             ToastAndroid.show(response.message, ToastAndroid.SHORT);
+    //             const updatedUserData = { ...userData, [preview.key]: response.name };
+    //             setUserData(updatedUserData);
+    //             dispatch(setUser(updatedUserData))
+    //             setPreview({ ...preview, isVisible: false, uri: '', api: '', key: '' })
+    //         } else {
+    //             ToastAndroid.show(response.message, ToastAndroid.SHORT);
+    //         }
+    //     } catch (err) {
+    //         if (DocumentPicker.isCancel(err)) {
+    //             console.log('User cancelled the file picker');
+    //         } else {
+    //             console.error('Error picking file:', err);
+    //         }
+    //     } finally {
+    //         setIsLoading(false)
+    //     }
+    // };
 
     return (
 
@@ -238,7 +236,7 @@ const ProfestionalInfoModal = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <Modal
+            {/* <Modal
                 animationType="slide"
                 transparent={true}
                 visible={preview.isVisible}
@@ -265,7 +263,7 @@ const ProfestionalInfoModal = () => {
                         </View>
                     </View>
                 </View>
-            </Modal>
+            </Modal> */}
             <Loader isLoading={isLoading} />
         </>
     );

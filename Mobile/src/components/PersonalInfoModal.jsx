@@ -1,11 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid, PermissionsAndroid } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../reduxStore/userSlice';
 import VectorIcon from '../utils/VectorIcon';
 import Header from '../components/Header';
-import DocumentPicker from 'react-native-document-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import { STATIC_URL, apiUpload, apiPut, apiPost } from '../utils/api';
 import InputBox from './InputBox';
 import DropdownComponent from './DropdownComponent';
@@ -117,13 +117,83 @@ const PersonalInfoModal = () => {
         })
     }
 
-    const pickFile = async () => {
+    // const pickFile = async () => {
+    //     try {
+    //         setIsLoading(true)
+    //         const file = await DocumentPicker.pick({
+    //             type: [DocumentPicker.types.allFiles],
+    //         });
+    //         const response = await apiUpload(preview.api, file[0], userData.ID);
+    //         if (response.code === 200) {
+    //             ToastAndroid.show(response.message, ToastAndroid.SHORT);
+    //             const updatedUserData = { ...userData, [preview.key]: response.name };
+    //             setUserData(updatedUserData);
+    //             dispatch(setUser(updatedUserData))
+    //             setPreview({ ...preview, isVisible: false, uri: '', api: '', key: '' })
+    //         } else {
+    //             ToastAndroid.show(response.message, ToastAndroid.SHORT);
+    //         }
+    //     } catch (err) {
+    //         if (DocumentPicker.isCancel(err)) {
+    //             console.log('User cancelled the file picker');
+    //         } else {
+    //             console.error('Error picking file:', err);
+    //         }
+    //     } finally {
+    //         setIsLoading(false)
+    //     }
+    // };
+
+    const handleImageSelection = async (source) => {
         try {
-            setIsLoading(true)
-            const file = await DocumentPicker.pick({
-                type: [DocumentPicker.types.allFiles],
-            });
-            const response = await apiUpload(preview.api, file[0], userData.ID);
+            let image;
+
+            if (source === 'camera') {
+                const cameraPermission = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    {
+                        title: "Camera Permission",
+                        message: "App needs access to your camera to take pictures.",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                );
+
+                if (cameraPermission !== PermissionsAndroid.RESULTS.GRANTED) {
+                    ToastAndroid.show("Camera permission denied", ToastAndroid.SHORT);
+                    return;
+                }
+
+                image = await ImagePicker.openCamera({
+                    cropping: true,
+                    includeBase64: false,
+                    compressImageQuality: 0.5,
+                    mediaType: 'photo',
+                });
+            } else if (source === 'gallery') {
+                image = await ImagePicker.openPicker({
+                    cropping: true,
+                    includeBase64: false,
+                    compressImageQuality: 0.5,
+                    mediaType: 'photo',
+                });
+            }
+
+            if (!image) {
+                ToastAndroid.show('Image selection was canceled', ToastAndroid.SHORT);
+                return;
+            }
+
+            setIsLoading(true);
+
+            const imageFile = {
+                uri: image.path,
+                type: image.mime,
+                name: `${preview.key}-${Date.now()}.${image.mime.split('/')[1]}`,
+            };
+
+            const response = await apiUpload(preview.api, imageFile, userData.ID);
             if (response.code === 200) {
                 ToastAndroid.show(response.message, ToastAndroid.SHORT);
                 const updatedUserData = { ...userData, [preview.key]: response.name };
@@ -133,15 +203,25 @@ const PersonalInfoModal = () => {
             } else {
                 ToastAndroid.show(response.message, ToastAndroid.SHORT);
             }
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                console.log('User cancelled the file picker');
-            } else {
-                console.error('Error picking file:', err);
-            }
+        } catch (error) {
+            console.error('Error handling image selection:', error);
+            ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
+    };
+
+    const pickFile = () => {
+        Alert.alert(
+            'Select Image Source',
+            'Please select an image source',
+            [
+                { text: 'Camera', onPress: () => handleImageSelection('camera') },
+                { text: 'Gallery', onPress: () => handleImageSelection('gallery') },
+                { text: 'Cancel', style: 'cancel' },
+            ],
+            { cancelable: true }
+        );
     };
 
     return (

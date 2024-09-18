@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Alert, AppState, View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid, ScrollView, Modal } from 'react-native';
+import { Alert, AppState, View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid, ScrollView, Modal, PermissionsAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setSplashscreen } from '../reduxStore/userSlice';
 import { apiPost } from '../utils/api';
-import { PermissionsAndroid } from 'react-native';
 import { apiUpload, STATIC_URL } from '../utils/api';
 import ImagePicker from 'react-native-image-crop-picker';
 import VectorIcon from '../utils/VectorIcon';
@@ -145,7 +144,6 @@ const RegistrationScreen = () => {
         try {
             let image;
 
-            // Request permission if using the camera
             if (source === 'camera') {
                 const cameraPermission = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -185,22 +183,19 @@ const RegistrationScreen = () => {
 
             setIsLoading(true);
 
-            // Prepare the image file for upload
             const imageFile = {
                 uri: image.path,
                 type: image.mime,
                 name: `${key}-${Date.now()}.${image.mime.split('/')[1]}`,
             };
 
-            // Upload the image file
             const apiResponse = await apiUpload(api, imageFile);
 
             if (apiResponse.code === 200) {
                 ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
-                // Update the user data or case data
                 const updatedData = { ...userData, [key]: apiResponse.name };
                 setUserData(updatedData);
-                dispatch(setLogin(updatedData)); // Assuming you're using redux or similar
+                dispatch(setLogin(updatedData));
             } else {
                 ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
             }
@@ -798,8 +793,8 @@ const RegistrationScreen = () => {
                 transparent={true}
                 visible={modalVisible}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, borderRadius: 10, margin: 8, marginVertical: 20 }}>
+                {/* <View style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}> */}
+                    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
                         <Text style={[styles.heading, { fontWeight: 'bold', fontSize: 24, fontFamily: "Poppins-Regular", color: '#4B1AFF' }]}>Terms and Conditions</Text>
                         <View style={{ margin: 10, marginVertical: 5 }}>
                             <Text style={{ color: "#003", fontSize: 13, fontWeight: '600' }}>    महाराष्ट्र राज्यातील खाजगी क्षेत्रात कार्यरत असलेल्या पशु वैद्यकीय पशु संवर्धन व दुग्ध व्यवस्थापन पदवि -
@@ -901,7 +896,7 @@ const RegistrationScreen = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                {/* </View> */}
             </Modal >
             <Loader isLoading={isLoading} />
         </View >

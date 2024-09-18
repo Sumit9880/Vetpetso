@@ -627,68 +627,70 @@ const CaseFormModal = () => {
                 transparent={true}
                 visible={signPad}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ height: '90%', width: '95%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 15 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingBottom: 10, paddingRight: 10 }}>
-                            <VectorIcon
-                                name="closecircleo"
-                                type="AntDesign"
-                                size={35}
-                                color={'red'}
-                                onPress={() => setSignPad(false)}
-                            />
-                        </View>
-                        <View style={{ width: '100%', marginBottom: 15 }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black', fontFamily: "Poppins-Regular", letterSpacing: 1 }}>लघुपशुवैद्यकीय औषधोपचार-लघुशल्यक्रियासाठी / कृत्रीम रेतन-गर्भधारणा तपासणीसाठी संमती पत्र.</Text>
-                            <Text style={{ fontSize: 13, color: 'black', fontFamily: "Poppins-Regular", margin: 5 }}>
-                                अ)  माझ्या मालकीचे रुग्ण गाय / बैल / रेडा / म्हैस / वासरू / कोंबडी / शेळी / मेंढी / कुत्रे / मांजर / पक्षी इत्यादीं, यांच्यावर आवश्यक ते लघु पशुवैद्यकीय औषधोपचार, रोग प्रतिबंधक उपाय योजना; तसेच, लघुशल्य क्रिया व कृत्रीम रेतन- गर्भनिदान करण्यास मी या संमती पत्राद्वारे स्वखुषीने संमती देत आहे.
-                            </Text>
-                            <Text style={{ fontSize: 13, color: 'black', fontFamily: "Poppins-Regular", margin: 5 }}>
-                                ब)  मुंबई राज्य शासनाच्या नागरी पशुवैद्यकीय सेवा संचालनालय परिपत्रक क्रमांक ३६, दिनांक १८ डिसेंबर १९१४
-                                (संदर्भ पान क्र. ५४३, मॅन्युअल ऑफ ऑफिस प्रोसिजर पशुसंवर्धन खाते १९६७) मधील तरतुदीनुसार रुग्णावर योग्य ती काळजी घेऊनसुद्धा रुग्णास इजा, अपाय किंवा रुग्ण दगावल्यास झालेल्या नुकसानीबद्दल संबंधीत लघु पशुवैद्यकीय व्यावसायीक किंवा त्यांचा कर्मचारी यास जबाबदार धरले जाणार नाही याची जाणीव मला स्पष्टपणे करून देण्यात आली आहे.
-                            </Text>
-                        </View>
-                        <Signature
-                            ref={signatureRef}
-                            onOK={handleSignatureSaved}
-                            descriptionText=""
-                            clearText="Clear"
-                            confirmText="Save"
-                            color="#4B1AFF"
-                            webStyle={`
-                                                    .m-signature-pad {
-                                                    height: 80vh;
-                                                    width: 100%;
-                                                    }
-                                                    .m-signature-pad--footer .button {
-                                                    background-color: #fff;
-                                                    border-color: #20daff;
-                                                    color: #8a8a8f;
-                                                    width: 80px;
-                                                    height: 30px;
-                                                    font-size: 14px;
-                                                    font-weight: 500;
-                                                    border-radius: 50px;
-                                                    border-width: 2px;
-                                                    display: flex;
-                                                    justify-content: center;
-                                                    align-items: center;
-                                                    }
-                                                    .m-signature-pad--footer .button.save {
-                                                    background-color: #20daff;
-                                                    color: #fff;
-                                                    }
-                                                    .m-signature-pad--footer {
-                                                    width: 85%;
-                                                    padding: 10px;
-                                                    display: flex;
-                                                    justify-content: space-between;
-                                                    align-items: center;
-                                                    }
-                                                `}
+                {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}> */}
+                <View style={{ flex: 1, backgroundColor: 'white', padding: 8, borderRadius: 10 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingRight: 10 }}>
+                        <VectorIcon
+                            name="closecircleo"
+                            type="AntDesign"
+                            size={35}
+                            color={'red'}
+                            onPress={() => setSignPad(false)}
                         />
                     </View>
+                    <View style={{ width: '100%', marginBottom: 15 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black', fontFamily: "Poppins-Regular", letterSpacing: 1 }}>लघुपशुवैद्यकीय औषधोपचार-लघुशल्यक्रियासाठी / कृत्रीम रेतन-गर्भधारणा तपासणीसाठी संमती पत्र.</Text>
+                        <Text style={{ fontSize: 13, color: 'black', fontFamily: "Poppins-Regular", margin: 5 }}>
+                            अ)  माझ्या मालकीचे रुग्ण गाय / बैल / रेडा / म्हैस / वासरू / कोंबडी / शेळी / मेंढी / कुत्रे / मांजर / पक्षी इत्यादीं, यांच्यावर आवश्यक ते लघु पशुवैद्यकीय औषधोपचार, रोग प्रतिबंधक उपाय योजना; तसेच, लघुशल्य क्रिया व कृत्रीम रेतन- गर्भनिदान करण्यास मी या संमती पत्राद्वारे स्वखुषीने संमती देत आहे.
+                        </Text>
+                        <Text style={{ fontSize: 13, color: 'black', fontFamily: "Poppins-Regular", margin: 5 }}>
+                            ब)  मुंबई राज्य शासनाच्या नागरी पशुवैद्यकीय सेवा संचालनालय परिपत्रक क्रमांक ३६, दिनांक १८ डिसेंबर १९१४
+                            (संदर्भ पान क्र. ५४३, मॅन्युअल ऑफ ऑफिस प्रोसिजर पशुसंवर्धन खाते १९६७) मधील तरतुदीनुसार रुग्णावर योग्य ती काळजी घेऊनसुद्धा रुग्णास इजा, अपाय किंवा रुग्ण दगावल्यास झालेल्या नुकसानीबद्दल संबंधीत लघु पशुवैद्यकीय व्यावसायीक किंवा त्यांचा कर्मचारी यास जबाबदार धरले जाणार नाही याची जाणीव मला स्पष्टपणे करून देण्यात आली आहे.
+                        </Text>
+                    </View>
+                    <Text style={{ fontSize: 16, color: 'black', fontFamily: "Poppins-Regular", marginBottom: 5 }}>Signature:</Text>
+                    <Signature
+                        ref={signatureRef}
+                        onOK={handleSignatureSaved}
+                        descriptionText=""
+                        clearText="Clear"
+                        confirmText="Save"
+                        color="#4B1AFF"
+                        webStyle={`
+                                .m-signature-pad {
+                                height: 80vh;
+                                width: 100%;
+                                }
+                                .m-signature-pad--footer .button {
+                                background-color: #fff;
+                                border-color: #f44336;
+                                color: #8a8a8f;
+                                width: 80px;
+                                height: 30px;
+                                font-size: 14px;
+                                font-weight: 500;
+                                border-radius: 50px;
+                                border-width: 2px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                }
+                                .m-signature-pad--footer .button.save {
+                                background-color: #01c001;
+                                border-color: #01c001;
+                                color: #fff;
+                                }
+                                .m-signature-pad--footer {
+                                width: 60%;
+                                padding: 10px;
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                }
+                            `}
+                    />
                 </View>
+                {/* </View> */}
             </Modal>
             <Loader isLoading={isLoading} />
         </>

@@ -31,10 +31,10 @@ const DatePick = ({ label, validation, value, setDate, options }) => {
                 visible={selecteDate.show}
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ backgroundColor: 'white', borderRadius: 10, width: '90%', padding: 10 }}>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10, width: '95%', padding: 10 }}>
                         <DatePicker
                             onDateChange={date => setSelecteDate({ ...selecteDate, date: date })}
-                            options={{ width: 300, height: 400, borderColor: "#20daff" }}
+                            options={{ borderColor: "#20daff" }}
                             mode="calendar"
                             selected={value}
                         />
