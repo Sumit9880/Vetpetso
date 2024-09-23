@@ -28,13 +28,16 @@ function Members() {
     const [member, setMember] = useState({});
     const [loader, setLoader] = useState(false);
 
-    const [filters, setFilters] = useState({
+    let defaulFilter = {
         isDrawerOpen: false,
         startDate: null,
         endDate: null,
         taluka: null,
         districts: null
-    });
+    }
+    const [filters, setFilters] = useState(defaulFilter);
+    console.log("filters", filters);
+
     const [filterOptions, setFilterOptions] = useState({
         taluka: [],
         districts: [],
@@ -45,8 +48,16 @@ function Members() {
             const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
             const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
             setFilterOptions({
-                taluka: resTaluka.data,
-                districts: resDistrict.data
+                taluka: resTaluka?.data?.map(item => ({
+                    label: item.NAME,
+                    value: item.ID
+                }))
+                ,
+                districts: resDistrict?.data?.map(item => ({
+                    label: item.NAME,
+                    value: item.ID
+                }))
+
             });
         } catch (error) {
             console.error(error);
@@ -56,37 +67,50 @@ function Members() {
     useEffect(() => {
         getData();
         getDropDownData()
-    }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
+    }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen, filters]);
 
     const getData = useCallback(async () => {
         setLoader(true);
         try {
-            let temp = filters.districts ? ` AND DISTRICT_ID IN ${filters.districts}` : '' + filters.taluka ? ` AND TALUKA_ID IN ${filters.taluka}` : '' + filters.startDate && filters.endDate ? ` AND APPROVED_DATE BETWEEN ${filters.startDate} AND ${filters.endDate}` : '';
-            const filter = searchTerm ? ` AND STATUS = "A" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS = "A"' + temp;
+            let filterConditions = ` AND STATUS = "A"`;
+
+            if (filters.districts?.length) {
+                const districtFilter = filters.districts.map(d => `'${d.value}'`).join(',');
+                filterConditions += ` AND DISTRICT IN (${districtFilter})`;
+            }
+            if (filters.taluka?.length) {
+                const talukaFilter = filters.taluka.map(t => `'${t.value}'`).join(',');
+                filterConditions += ` AND TALUKA IN (${talukaFilter})`;
+            }
+            if (filters.startDate && filters.endDate) {
+                filterConditions += ` AND APPROVED_DATE BETWEEN '${new Date(filters.startDate).toISOString().slice(0, 10)}' AND '${new Date(filters.endDate).toISOString().slice(0, 10)}'`
+            }
+            if (searchTerm) {
+                filterConditions += ` AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')`;
+            }
+
             const res = await apiPost("api/member/get", {
-                filter,
+                filter: filterConditions,
                 pageSize,
                 pageIndex: pageIndex.current,
                 sortKey: "LASTUPDATED",
-                sortValue: "DESC"
+                sortValue: "DESC",
             });
 
             if (res.code === 200) {
                 setMembers(res.data);
-                let NPages = Math.ceil(res.count / pageSize) ? Math.ceil(res.count / pageSize) : 1;
-                setPageIndex({
-                    ...pageIndex,
-                    pages: NPages,
-                })
+                const totalPages = Math.ceil(res.count / pageSize) || 1;
+                setPageIndex(prev => ({ ...prev, pages: totalPages }));
             } else {
                 console.error("Failed to fetch Members:", res.message);
             }
         } catch (error) {
-            console.error("API call failed:", error);
+            console.error("Error fetching data:", error);
         } finally {
             setLoader(false);
         }
-    }, [searchTerm, pageIndex.current, pageSize]);
+    }, [searchTerm, pageIndex.current, pageSize, filters]);
+
 
     const handleSearch = useCallback(async (e) => {
         const searchTerm = e.target.value;
@@ -102,7 +126,6 @@ function Members() {
     const handleOpenPreview = (data, type) => {
         setMember(data);
         setPreview({ ...preview, [type]: true });
-        // setPreview({ ...preview, member: true });
     };
 
     const handleCloseDrawer = () => {
@@ -111,6 +134,13 @@ function Members() {
 
     const handleApply = () => {
         setFilters({ ...filters, isDrawerOpen: false });
+        setPageIndex({ pages: 1, current: 1 });
+        getData();
+    };
+
+    const handleClear = () => {
+        setFilters(defaulFilter);
+        setPageIndex({ pages: 1, current: 1 });
     };
 
     return (
@@ -119,8 +149,8 @@ function Members() {
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Member Management</h1>
                 <div className="flex justify-end mb-2">
-                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 p-1 rounded'>
-                        <FiFilter size={20} className='text-gray-600 hover:text-gray-800' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })} />
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 p-1 rounded' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                        <FiFilter size={20} className='text-gray-600 hover:text-gray-800' />
                     </div>
                     <input
                         type="text"
@@ -148,28 +178,18 @@ function Members() {
                         <div className="flex items-center space-x-2">
                             <DatePickerComponent
                                 label=""
-                                selectedDate={filters.fromDate}
-                                onChangeDate={(date) => setFilters({ ...filters, fromDate: date })}
+                                selectedDate={filters.startDate}
+                                onChangeDate={(date) => setFilters({ ...filters, startDate: date })}
                                 placeholder="From Date"
                             />
                             <h1 className="text-center text-gray-500 font-medium">to</h1>
                             <DatePickerComponent
                                 label=""
-                                selectedDate={filters.toDate}
-                                onChangeDate={(date) => setFilters({ ...filters, toDate: date })}
+                                selectedDate={filters.endDate}
+                                onChangeDate={(date) => setFilters({ ...filters, endDate: date })}
                                 placeholder="To Date"
                             />
                         </div>
-                    </div>
-                    <div className='pl-2'>
-                        <MultiSelectComponent
-                            label="Taluka:"
-                            options={filterOptions.taluka}
-                            selectedOptions={filters.taluka}
-                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
-                            placeholder="Select taluka"
-                            isMulti={false}
-                        />
                     </div>
                     <div className='pl-2'>
                         <MultiSelectComponent
@@ -178,19 +198,29 @@ function Members() {
                             selectedOptions={filters.districts}
                             onChangeOptions={(selectedOptions) => setFilters({ ...filters, districts: selectedOptions })}
                             placeholder="Select district"
-                            isMulti={false}
+                            isMulti={true}
+                        />
+                    </div>
+                    <div className='pl-2'>
+                        <MultiSelectComponent
+                            label="Taluka:"
+                            options={filterOptions.taluka}
+                            selectedOptions={filters.taluka}
+                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
+                            placeholder="Select taluka"
+                            isMulti={true}
                         />
                     </div>
                     <div className='flex justify-center items-end pl-2'>
                         <button
                             className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded"
-                            onClick={() => handleApply()}
+                            onClick={handleApply}
                         >
                             Apply
                         </button>
                         <button
                             className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
-                            onClick={() => setFilters({ ...filters, isDrawerOpen: false })}
+                            onClick={handleClear}
                         >
                             Clear
                         </button>
