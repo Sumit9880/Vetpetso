@@ -7,7 +7,10 @@ import MemberPreview from '../components/MemberPreview';
 import { IoEyeOutline } from "react-icons/io5";
 import PlanPreview from '../components/PlanPreview';
 import { ToastContainer } from 'react-toastify';
+import { FiFilter } from "react-icons/fi";
 import Loader from '../components/Loader';
+import DatePickerComponent from '../components/DatePickerComponent';
+import MultiSelectComponent from '../components/MultiSelectComponent';
 
 function Members() {
     const [members, setMembers] = useState([]);
@@ -25,14 +28,41 @@ function Members() {
     const [member, setMember] = useState({});
     const [loader, setLoader] = useState(false);
 
+    const [filters, setFilters] = useState({
+        isDrawerOpen: false,
+        startDate: null,
+        endDate: null,
+        taluka: null,
+        districts: null
+    });
+    const [filterOptions, setFilterOptions] = useState({
+        taluka: [],
+        districts: [],
+    });
+
+    const getDropDownData = async () => {
+        try {
+            const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
+            const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
+            setFilterOptions({
+                taluka: resTaluka.data,
+                districts: resDistrict.data
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         getData();
+        getDropDownData()
     }, [searchTerm, pageIndex.current, pageSize, isDrawerOpen]); // Add isDrawerOpen to dependencies
 
     const getData = useCallback(async () => {
         setLoader(true);
         try {
-            const filter = searchTerm ? ` AND STATUS = "A" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS = "A"';
+            let temp = filters.districts ? ` AND DISTRICT_ID IN ${filters.districts}` : '' + filters.taluka ? ` AND TALUKA_ID IN ${filters.taluka}` : '' + filters.startDate && filters.endDate ? ` AND APPROVED_DATE BETWEEN ${filters.startDate} AND ${filters.endDate}` : '';
+            const filter = searchTerm ? ` AND STATUS = "A" AND (NAME LIKE '%${searchTerm}%' OR EMAIL LIKE '%${searchTerm}%')` : ' AND STATUS = "A"' + temp;
             const res = await apiPost("api/member/get", {
                 filter,
                 pageSize,
@@ -79,12 +109,19 @@ function Members() {
         setIsDrawerOpen(false);
     };
 
+    const handleApply = () => {
+        setFilters({ ...filters, isDrawerOpen: false });
+    };
+
     return (
         <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
             <ToastContainer />
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Member Management</h1>
                 <div className="flex justify-end mb-2">
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 p-1 rounded'>
+                        <FiFilter size={20} className='text-gray-600 hover:text-gray-800' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })} />
+                    </div>
                     <input
                         type="text"
                         placeholder="Search Members..."
@@ -105,7 +142,61 @@ function Members() {
                 </div>
             </div>
             <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)' }}>
-                {/* <div className="overflow-y-auto"> */}
+                <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} flex p-2`}>
+                    <div className="">
+                        <h1 className="text-left pl-2 text-gray-700 font-medium">Joining Date:</h1>
+                        <div className="flex items-center space-x-2">
+                            <DatePickerComponent
+                                label=""
+                                selectedDate={filters.fromDate}
+                                onChangeDate={(date) => setFilters({ ...filters, fromDate: date })}
+                                placeholder="From Date"
+                            />
+                            <h1 className="text-center text-gray-500 font-medium">to</h1>
+                            <DatePickerComponent
+                                label=""
+                                selectedDate={filters.toDate}
+                                onChangeDate={(date) => setFilters({ ...filters, toDate: date })}
+                                placeholder="To Date"
+                            />
+                        </div>
+                    </div>
+                    <div className='pl-2'>
+                        <MultiSelectComponent
+                            label="Taluka:"
+                            options={filterOptions.taluka}
+                            selectedOptions={filters.taluka}
+                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
+                            placeholder="Select taluka"
+                            isMulti={false}
+                        />
+                    </div>
+                    <div className='pl-2'>
+                        <MultiSelectComponent
+                            label="District:"
+                            options={filterOptions.districts}
+                            selectedOptions={filters.districts}
+                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, districts: selectedOptions })}
+                            placeholder="Select district"
+                            isMulti={false}
+                        />
+                    </div>
+                    <div className='flex justify-center items-end pl-2'>
+                        <button
+                            className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded"
+                            onClick={() => handleApply()}
+                        >
+                            Apply
+                        </button>
+                        <button
+                            className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
+                            onClick={() => setFilters({ ...filters, isDrawerOpen: false })}
+                        >
+                            Clear
+                        </button>
+                    </div>
+
+                </div>
                 <table className="table-auto w-full border-collapse rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
