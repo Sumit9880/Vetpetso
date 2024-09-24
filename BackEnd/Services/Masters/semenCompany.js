@@ -7,9 +7,10 @@ const { logError } = require('../../Modules/logger');
 function reqData(req) {
     var data = {
         NAME: req.body.NAME,
-        DISTRICT_ID: req.body.DISTRICT_ID,
         SEQ_NO: req.body.SEQ_NO,
-        STATUS: req.body.STATUS ? '1' : '0'
+        STATUS: req.body.STATUS ? '1' : '0',
+        TYPE: req.body.TYPE
+
     }
     return data;
 }
@@ -17,8 +18,7 @@ function reqData(req) {
 exports.validate = function () {
     return [
         body('NAME', ' parameter missing').exists(),
-        body('DISTRICT_ID', ' parameter missing').exists(),
-        // body('SEQ_NO', ' parameter missing').exists(),
+        body('TYPE', ' parameter missing').exists(),
         body('STATUS', ' parameter missing').exists(),
         body('ID').optional(),
     ]
@@ -48,21 +48,21 @@ exports.get = (req, res) => {
     let countCriteria = filter;
 
     try {
-        dm.runQuery('select count(*) as cnt from view_taluka_master where 1 ' + countCriteria, req, (error, results1) => {
+        dm.runQuery('select count(*) as cnt from view_semen_company_master where 1 ' + countCriteria, req, (error, results1) => {
             if (error) {
                 console.error(error);
                 res.send({
                     "code": 400,
-                    "message": "Failed to get Taluka count.",
+                    "message": "Failed to get Semen Company count.",
                 });
             }
             else {
-                dm.runQuery('select * from view_taluka_master where 1 ' + criteria, req, (error, results) => {
+                dm.runQuery('select * from view_semen_company_master where 1 ' + criteria, req, (error, results) => {
                     if (error) {
                         console.error(error);
                         res.send({
                             "code": 400,
-                            "message": "Failed to get Taluka information."
+                            "message": "Failed to get Semen Company information."
                         });
                     }
                     else {
@@ -101,17 +101,17 @@ exports.create = (req, res) => {
     }
     else {
         try {
-            dm.runDataQuery('INSERT INTO taluka_master SET ?', data, req, (error, results) => {
+            dm.runDataQuery('INSERT INTO semen_company_master SET ?', data, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to save Taluka information..."
+                        "message": "Failed to save Semen Company information..."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "Taluka information saved successfully...",
+                        "message": "Semen Company information saved successfully...",
                     });
                 }
             });
@@ -148,17 +148,17 @@ exports.update = (req, res) => {
     }
     else {
         try {
-            dm.runDataQuery(`UPDATE taluka_master SET ${setData} LASTUPDATED = ? where ID = ?;`, recordData, req, (error, results) => {
+            dm.runDataQuery(`UPDATE semen_company_master SET ${setData} LASTUPDATED = ? where ID = ?;`, recordData, req, (error, results) => {
                 if (error) {
                     console.error(error);
                     res.send({
                         "code": 400,
-                        "message": "Failed to update Taluka information."
+                        "message": "Failed to update Semen Company information."
                     });
                 } else {
                     res.send({
                         "code": 200,
-                        "message": "Taluka information updated successfully...",
+                        "message": "Semen Company information updated successfully...",
                     });
                 }
             });

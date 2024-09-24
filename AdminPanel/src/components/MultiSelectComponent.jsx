@@ -10,7 +10,6 @@ const customStyles = {
         '&:hover': {
             borderColor: '#60a5fa', // Tailwind's blue-400
         },
-        // minHeight: '10px', // Set a consistent height
         borderRadius: '0.375rem', // Tailwind's rounded-md
     }),
     multiValue: (provided) => ({
@@ -35,20 +34,45 @@ const customStyles = {
     }),
 };
 
-const MultiSelectComponent = ({ label, options, selectedOptions, onChangeOptions, placeholder,isMulti }) => {
+const MultiSelectComponent = ({ label, options, selectedOptions, onChangeOptions, placeholder, isMulti }) => {
+    // Custom onChange handler to format selected data
+    const handleChange = (selected) => {
+        if (isMulti) {
+            // Return comma-separated values for multi-select
+            const values = selected ? selected.map(option => option.value).join(', ') : '';
+            onChangeOptions(values);
+        } else {
+            // Return single value for single select
+            const value = selected ? selected.value : '';
+            onChangeOptions(value);
+        }
+    };
+
+    // Convert the selectedOptions (string of comma-separated values) back into an array of objects
+    const getSelectedValues = () => {
+        if (isMulti) {
+            return selectedOptions
+                ? options.filter(option => selectedOptions.split(', ').includes(option.value))
+                : [];
+        } else {
+            return selectedOptions
+                ? options.find(option => option.value === selectedOptions) || null
+                : null;
+        }
+    };
+
     return (
         <div className="flex flex-col">
             <label className="text-gray-700 font-medium mb-1 text-left pl-2">{label}</label>
             <Select
-                value={selectedOptions}
-                onChange={onChangeOptions}
+                value={getSelectedValues()}
+                onChange={handleChange}
                 options={options}
                 isMulti={isMulti}
                 className="w-full"
                 styles={customStyles}
                 placeholder={placeholder}
             />
-            {/* <p className="mt-2 text-sm text-gray-500">Select multiple options.</p> */}
         </div>
     );
 };

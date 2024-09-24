@@ -153,6 +153,9 @@ const Sidebar = () => {
                             <li>
                                 <Link to="/animalType" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/animalType' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/animalType')}>Animal Type</Link>
                             </li>
+                            <li>
+                                <Link to="/semenCompany" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/semenCompany' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/semenCompany')}>Semen Company</Link>
+                            </li>
 
                         </ul>
                     </li>

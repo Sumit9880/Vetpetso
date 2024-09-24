@@ -24,6 +24,7 @@ import Commitee from './pages/Commitee.jsx'
 import Contact from './pages/Contact.jsx'
 import History from './pages/History.jsx'
 import Gallery from './pages/Gallery.jsx'
+import SemenCompany from './pages/SemenCompany.jsx'
 
 const isAuthenticated = () => {
   return sessionStorage.getItem('token') !== null;
@@ -54,6 +55,7 @@ const router = createBrowserRouter(
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/history" element={<History />} />
         <Route path="/contactUs" element={<Contact />} />
+        <Route path="/semenCompany" element={<SemenCompany />} />
       </Route>
     </Route>
   )

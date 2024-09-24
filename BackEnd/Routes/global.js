@@ -30,6 +30,7 @@ router
   .use('/api/cast', require('./Masters/cast'))
   .use('/api/animalSample', require('./Masters/animalSample'))
   .use('/api/notice', require('./Masters/notice'))
+  .use('/api/semenCompany', require('./Masters/semenCompany'))
 
   // Member Forms
   .use('/api/member', require('./MemberManagement/member'))

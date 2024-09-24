@@ -75,12 +75,12 @@ function Members() {
             let filterConditions = ` AND STATUS = "A"`;
 
             if (filters.districts?.length) {
-                const districtFilter = filters.districts.map(d => `'${d.value}'`).join(',');
-                filterConditions += ` AND DISTRICT IN (${districtFilter})`;
+                // const districtFilter = filters.districts.map(d => `'${d.value}'`).join(',');
+                filterConditions += ` AND DISTRICT IN (${filters.districts})`;
             }
             if (filters.taluka?.length) {
-                const talukaFilter = filters.taluka.map(t => `'${t.value}'`).join(',');
-                filterConditions += ` AND TALUKA IN (${talukaFilter})`;
+                // const talukaFilter = filters.taluka.map(t => `'${t.value}'`).join(',');
+                filterConditions += ` AND TALUKA IN (${filters.taluka})`;
             }
             if (filters.startDate && filters.endDate) {
                 filterConditions += ` AND APPROVED_DATE BETWEEN '${new Date(filters.startDate).toISOString().slice(0, 10)}' AND '${new Date(filters.endDate).toISOString().slice(0, 10)}'`

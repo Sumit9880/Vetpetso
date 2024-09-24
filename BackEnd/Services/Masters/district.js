@@ -17,7 +17,7 @@ function reqData(req) {
 exports.validate = function () {
     return [
         body('NAME', ' parameter missing').exists(),
-        body('SEQ_NO', ' parameter missing').exists(),
+        // body('SEQ_NO', ' parameter missing').exists(),
         body('STATUS', ' parameter missing').exists(),
         body('ID').optional(),
     ]
