@@ -12,7 +12,7 @@ import Loader from '../components/Loader';
 import DatePickerComponent from '../components/DatePickerComponent';
 import MultiSelectComponent from '../components/MultiSelectComponent';
 
-function Members() {
+function Vaccination() {
     const [members, setMembers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [pageSize, setPageSize] = useState(10);
@@ -100,7 +100,7 @@ function Members() {
                 const totalPages = Math.ceil(res.count / pageSize) || 1;
                 setPageIndex(prev => ({ ...prev, pages: totalPages }));
             } else {
-                console.error("Failed to fetch Members:", res.message);
+                console.error("Failed to fetch Vaccination:", res.message);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -152,7 +152,7 @@ function Members() {
                     </div>
                     <input
                         type="text"
-                        placeholder="Search Members..."
+                        placeholder="Search Vaccination..."
                         id="membersSearch"
                         value={searchTerm}
                         onChange={handleSearch}
@@ -283,4 +283,4 @@ function Members() {
     );
 }
 
-export default Members;
+export default Vaccination;

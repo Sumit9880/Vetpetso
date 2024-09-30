@@ -25,6 +25,10 @@ import Contact from './pages/Contact.jsx'
 import History from './pages/History.jsx'
 import Gallery from './pages/Gallery.jsx'
 import SemenCompany from './pages/SemenCompany.jsx'
+import ArtificialInsemination from './pages/ArtificialInsemination.jsx'
+import Vaccination from './pages/Vaccination.jsx'
+import MembersWiseCases from './pages/MembersWiseCases.jsx'
+import CasePapers from './pages/CasePapers.jsx'
 
 const isAuthenticated = () => {
   return sessionStorage.getItem('token') !== null;
@@ -56,6 +60,10 @@ const router = createBrowserRouter(
         <Route path="/history" element={<History />} />
         <Route path="/contactUs" element={<Contact />} />
         <Route path="/semenCompany" element={<SemenCompany />} />
+        <Route path="/aiRepots" element={<ArtificialInsemination />} />
+        <Route path="/vaccinationReports" element={<Vaccination />} />
+        <Route path="/memberWiseSummary" element={<MembersWiseCases />} />
+        <Route path="/casePaperReports" element={<CasePapers />} />
       </Route>
     </Route>
   )

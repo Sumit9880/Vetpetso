@@ -159,7 +159,7 @@ const Sidebar = () => {
 
                         </ul>
                     </li>
-                    {/* <li>
+                    <li>
                         <div className={`px-4 py-2 hover:bg-gray-700 cursor-pointer flex justify-between ${isSmall ? 'text-sm' : ''}`} onClick={() => toggle('report')}>
                             <span>{isSmall ? <VscGraph className='w-6 h-6' /> : <span className='flex items-center'><VscGraph className='w-5 h-5 mr-2' />Reports</span>}</span>
                             {!isSmall && <button className="focus:outline-none">
@@ -168,13 +168,19 @@ const Sidebar = () => {
                         </div>
                         <ul className={`${tabs.report ? 'block' : 'hidden'} ml-4 `}>
                             <li>
-                                <Link to="/banners/homepage" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/homepage' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/homepage')}>Homepage Banners</Link>
+                                <Link to="/memberWiseSummary" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/memberWiseSummary' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/memberWiseSummary')}>Member Summary</Link>
                             </li>
                             <li>
-                                <Link to="/banners/sidebar" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/sidebar' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/sidebar')}>Sidebar Banners</Link>
+                                <Link to="/casePaperReports" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/casePaperReports' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/casePaperReports')}>Case Paper</Link>
+                            </li>
+                            <li>
+                                <Link to="/aiRepots" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/aiRepots' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/aiRepots')}>Artificial Insemination</Link>
+                            </li>
+                            <li>
+                                <Link to="/vaccinationReports" className={`block px-7 text-gray-400 hover:text-white py-1 rounded-lg mx-1 ${isSmall ? 'text-sm' : ''}${activeLink === '/vaccinationReports' ? 'bg-blue-600 text-white' : ''}`} onClick={() => handleSetActiveLink('/vaccinationReports')}>Vaccination</Link>
                             </li>
                         </ul>
-                    </li> */}
+                    </li>
                 </ul>
             </div>
         </div>

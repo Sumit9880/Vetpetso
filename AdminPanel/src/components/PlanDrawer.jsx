@@ -94,16 +94,16 @@ const PlanDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
                                         <div className="mt-6">
-                                            <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
+                                            <label htmlFor="NAME" className="block pl-1 mt-1 font-medium text-gray-700">Name</label>
                                             <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
                                         </div>
                                         <div className="mt-6 flex justify-between">
                                             <div>
-                                                <label htmlFor="AMOUNT" className="block text-sm font-medium text-gray-700">Amount</label>
+                                                <label htmlFor="AMOUNT" className="block pl-1 mt-1 font-medium text-gray-700">Amount</label>
                                                 <input type="number" name="AMOUNT" id="AMOUNT" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.AMOUNT} onChange={handleChange} />
                                             </div>
                                             <div>
-                                                <label htmlFor="TYPE" className="block text-sm font-medium text-gray-700">Subscription Type</label>
+                                                <label htmlFor="TYPE" className="block pl-1 mt-1 font-medium text-gray-700">Subscription Type</label>
                                                 <select id="TYPE" name="TYPE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TYPE} onChange={handleChange}>
                                                     <option value="M" className="bg-blue-200">Monthly</option>
                                                     <option value="Y" className="bg-blue-200">Yearly</option>

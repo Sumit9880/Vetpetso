@@ -9,6 +9,10 @@ function reqData(req) {
         DELIVERY_DATE: req.body.DELIVERY_DATE,
         IS_PREGNANT: req.body.IS_PREGNANT,
         MILK_PRODUCTION: req.body.MILK_PRODUCTION,
+        SEMEN_COMPANY_ID: req.body.SEMEN_COMPANY_ID,
+        SEMEN_TYPE: req.body.SEMEN_TYPE,
+        SEMEN_VOLUME: req.body.SEMEN_VOLUME
+
     }
     return data;
 }

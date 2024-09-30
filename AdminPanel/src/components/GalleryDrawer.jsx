@@ -120,17 +120,17 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
                                         <div className="mt-4">
-                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Title</label>
+                                            <label htmlFor="TITLE" className="block pl-1 mt-1 font-medium text-gray-700">Title</label>
                                             <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                            <label htmlFor="STATUS" className="block pl-1 mt-1 font-medium text-gray-700">Status</label>
                                             <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
                                                 {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
                                             </button>
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="TYPE" className="block text-sm font-medium text-gray-700">District</label>
+                                            <label htmlFor="TYPE" className="block pl-1 mt-1 font-medium text-gray-700">District</label>
                                             <select id="TYPE" name="TYPE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TYPE} onChange={handleChange}>
                                                 <option value="" className="bg-blue-200">Select</option>
                                                 <option key="P" value="P" className="bg-blue-200">Photo</option>
@@ -141,7 +141,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
                                             {
                                                 formData.TYPE === "P" ? (
                                                     <>
-                                                        <label className="block text-sm font-medium text-gray-700">Upload Photo</label>
+                                                        <label className="block pl-1 mt-1 font-medium text-gray-700">Upload Photo</label>
                                                         {
                                                             formData.URL && <div className="flex items-center justify-center">
                                                                 <img src={STATIC_URL + "Gallery/" + formData.URL} alt="Image" className="h-16 rounded-lg" />
@@ -151,7 +151,7 @@ const GalleryDrawer = ({ isOpen, onClose, data }) => {
                                                     </>
                                                 ) : formData.TYPE === "V" ? (
                                                     <>
-                                                        <label htmlFor="URL" className="block text-sm font-medium text-gray-700">Video Url</label>
+                                                        <label htmlFor="URL" className="block pl-1 mt-1 font-medium text-gray-700">Video Url</label>
                                                         {
                                                             formData.URL && <div className="flex items-center justify-center">
                                                                 <iframe

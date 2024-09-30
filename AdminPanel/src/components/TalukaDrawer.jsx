@@ -108,7 +108,7 @@ const TalukaDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
                                         <div className="mt-4">
-                                            <label htmlFor="DISTRICT_ID" className="block text-sm font-medium text-gray-700">District</label>
+                                            <label htmlFor="DISTRICT_ID" className="block pl-1 mt-1 font-medium text-gray-700">District</label>
                                             <select id="DISTRICT_ID" name="DISTRICT_ID" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DISTRICT_ID} onChange={handleChange}>
                                                 <option value="" className="bg-blue-200">Select</option>
                                                 {
@@ -117,11 +117,11 @@ const TalukaDrawer = ({ isOpen, onClose, data }) => {
                                             </select>
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
+                                            <label htmlFor="NAME" className="block pl-1 mt-1 font-medium text-gray-700">Name</label>
                                             <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                            <label htmlFor="STATUS" className="block pl-1 mt-1 font-medium text-gray-700">Status</label>
                                             <button type="button" className="w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
                                                 {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
                                             </button>

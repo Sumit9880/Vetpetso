@@ -87,6 +87,7 @@ router
   .post("/upload/panCard", globalService.panCard)
   .post("/upload/patientImage", globalService.patientImage)
   .post("/upload/profilePhoto", globalService.profilePhoto)
+  .post("/upload/labReports", globalService.labReports)
 
 
 module.exports = router;

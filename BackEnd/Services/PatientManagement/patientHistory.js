@@ -21,7 +21,8 @@ function reqData(req) {
         FIRST_AID: req.body.FIRST_AID,
         PATIENT_SAMPLES: req.body.PATIENT_SAMPLES,
         DIAGNOSTIC_LABORATORY_REMARK: req.body.DIAGNOSTIC_LABORATORY_REMARK,
-        INSTRUCTIONS_TO_OWNER: req.body.INSTRUCTIONS_TO_OWNER
+        INSTRUCTIONS_TO_OWNER: req.body.INSTRUCTIONS_TO_OWNER,
+        LABORATORY_REPORT: req.body.LABORATORY_REPORT,
     }
     return data;
 }

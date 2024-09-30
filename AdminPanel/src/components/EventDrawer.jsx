@@ -121,31 +121,31 @@ const EventDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`} >
                                         <div className="mt-4">
-                                            <label htmlFor="TITLE" className="block text-sm font-medium text-gray-700">Event Title</label>
+                                            <label htmlFor="TITLE" className="pl-1 block font-medium text-gray-700">Event Title</label>
                                             <input type="text" name="TITLE" id="TITLE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.TITLE} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1 flex justify-between ">
                                             <div>
-                                                <label htmlFor="EVENT_DATE" className="block text-sm font-medium text-gray-700">Event Date</label>
+                                                <label htmlFor="EVENT_DATE" className="pl-1 block font-medium text-gray-700">Event Date</label>
                                                 <input type="date" name="EVENT_DATE" id="EVENT_DATE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.EVENT_DATE} onChange={handleChange} />
                                             </div>
                                             <div>
-                                                <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                                <label htmlFor="STATUS" className="pl-1 block font-medium text-gray-700">Status</label>
                                                 <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
                                                     {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
                                                 </button>
                                             </div>
                                         </div>
-                                        <div className="mt-1">
-                                            <label htmlFor="SUMMARY" className="block text-sm font-medium text-gray-700">Summary</label>
+                                        <div className="mt-3">
+                                            <label htmlFor="SUMMARY" className="pl-1 block font-medium text-gray-700">Summary</label>
                                             <textarea name="SUMMARY" id="SUMMARY" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.SUMMARY} onChange={handleChange} />
                                         </div>
-                                        <div className="mt-1">
-                                            <label htmlFor="DESCRIPTION" className="block text-sm font-medium text-gray-700">Description</label>
+                                        <div className="mt-3">
+                                            <label htmlFor="DESCRIPTION" className="pl-1 block font-medium text-gray-700">Description</label>
                                             <textarea name="DESCRIPTION" id="DESCRIPTION" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.DESCRIPTION} onChange={handleChange} />
                                         </div>
-                                        <div className="mt-1">
-                                            <label className="block text-sm font-medium text-gray-700">Upload Photo</label>
+                                        <div className="mt-3">
+                                            <label className="pl-1 block font-medium text-gray-700">Upload Photo</label>
                                             {
                                                 formData.IMAGE ? <img src={STATIC_URL + "Events/" + formData.IMAGE} className="w-20 h-20 m-1" /> : null
                                             }

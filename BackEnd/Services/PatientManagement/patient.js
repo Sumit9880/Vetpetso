@@ -48,7 +48,8 @@ function historyReqData(req) {
         FIRST_AID: req.body.FIRST_AID,
         PATIENT_SAMPLES: req.body.PATIENT_SAMPLES,
         DIAGNOSTIC_LABORATORY_REMARK: req.body.DIAGNOSTIC_LABORATORY_REMARK,
-        INSTRUCTIONS_TO_OWNER: req.body.INSTRUCTIONS_TO_OWNER
+        INSTRUCTIONS_TO_OWNER: req.body.INSTRUCTIONS_TO_OWNER,
+        LABORATORY_REPORT: req.body.LABORATORY_REPORT
     }
     return data;
 }
@@ -227,6 +228,11 @@ exports.addAi = async (req, res) => {
     const errors = validationResult(req);
     data.REGISTRATION_DATE = bm.getSystemDate();
     data.CASE_NO = 'AI' + req.body.MEMBER_ID
+    let {
+        SEMEN_COMPANY_ID,
+        SEMEN_TYPE,
+        SEMEN_VOLUME
+    } = req.body
     if (!errors.isEmpty()) {
         console.error(errors);
         res.send({
@@ -260,7 +266,7 @@ exports.addAi = async (req, res) => {
                                 "message": "Failed to save Patient information..."
                             });
                         } else {
-                            dm.runDMLQuery('INSERT INTO ai_details SET PATIENT_ID = ?', [results.insertId], connection, req, (error, results1) => {
+                            dm.runDMLQuery('INSERT INTO ai_details SET PATIENT_ID = ?, SEMEN_COMPANY_ID = ?, SEMEN_TYPE = ?, SEMEN_VOLUME = ?', [results.insertId, SEMEN_COMPANY_ID, SEMEN_TYPE, SEMEN_VOLUME], connection, req, (error, results1) => {
                                 if (error) {
                                     console.error(error);
                                     dm.rollback(connection);

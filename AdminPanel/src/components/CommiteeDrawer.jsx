@@ -120,27 +120,27 @@ const CommiteeDrawer = ({ isOpen, onClose, data }) => {
                                     }
                                     <form onSubmit={handleSubmit} className={`${loader ? 'hidden' : ''} py-4`}>
                                         <div className="mt-4">
-                                            <label htmlFor="NAME" className="block text-sm font-medium text-gray-700">Name</label>
+                                            <label htmlFor="NAME" className="block pl-1 mt-1 font-medium text-gray-700">Name</label>
                                             <input type="text" name="NAME" id="NAME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.NAME} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1 flex justify-between">
                                             <div>
-                                                <label htmlFor="POSITION" className="block text-sm font-medium text-gray-700">Position</label>
+                                                <label htmlFor="POSITION" className="block pl-1 mt-1 font-medium text-gray-700">Position</label>
                                                 <input type="text" name="POSITION" id="POSITION" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.POSITION} onChange={handleChange} />
                                             </div>
                                             <div>
-                                                <label htmlFor="STATUS" className="block text-sm font-medium text-gray-700">Status</label>
+                                                <label htmlFor="STATUS" className="block pl-1 mt-1 font-medium text-gray-700">Status</label>
                                                 <button type="button" className=" w-full" onClick={() => setFormData({ ...formData, STATUS: !formData.STATUS })}>
                                                     {formData.STATUS ? <LiaToggleOnSolid className="h-10 w-10 text-blue-500" /> : <LiaToggleOffSolid className="text-blue-500 h-10 w-10" />}
                                                 </button>
                                             </div>
                                         </div>
                                         <div className="mt-1">
-                                            <label htmlFor="MESSAGE" className="block text-sm font-medium text-gray-700">Message</label>
+                                            <label htmlFor="MESSAGE" className="block pl-1 mt-1 font-medium text-gray-700">Message</label>
                                             <textarea name="MESSAGE" id="MESSAGE" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={formData.MESSAGE} onChange={handleChange} />
                                         </div>
                                         <div className="mt-1">
-                                            <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+                                            <label className="block pl-1 mt-1 font-medium text-gray-700">Upload Image</label>
                                             {
                                                 formData.URL && <div className="flex items-center justify-center">
                                                     <img src={STATIC_URL + "Commitee/" + formData.URL} alt={formData.NAME} className="h-16 rounded-lg" />

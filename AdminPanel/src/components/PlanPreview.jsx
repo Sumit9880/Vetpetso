@@ -134,7 +134,7 @@ const PlanPreview = ({ isOpen, onClose, id }) => {
                             <div className="p-8 pb-0 bg-gray-50 rounded-lg shadow-inner">
                                 <form onSubmit={handleSubmit} >
                                     <div className="mt-4">
-                                        <label htmlFor="PLAN_ID" className="block text-sm font-medium text-gray-700">Select Plan</label>
+                                        <label htmlFor="PLAN_ID" className="block pl-1 mt-1 font-medium text-gray-700">Select Plan</label>
                                         <select id="PLAN_ID" name="PLAN_ID" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={fetchData?.PLAN_ID} onChange={handleChange}>
                                             <option value="" className="bg-blue-200">Select</option>
                                             {
@@ -143,7 +143,7 @@ const PlanPreview = ({ isOpen, onClose, id }) => {
                                         </select>
                                     </div>
                                     <div className="mt-4">
-                                        <label htmlFor="TAKEN_DATETIME" className="block text-sm font-medium text-gray-700">Taken Date</label>
+                                        <label htmlFor="TAKEN_DATETIME" className="block pl-1 mt-1 font-medium text-gray-700">Taken Date</label>
                                         <input type="date" name="TAKEN_DATETIME" id="TAKEN_DATETIME" className="mt-1 p-1.5 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" value={fetchData?.TAKEN_DATETIME} onChange={handleChange} />
                                     </div>
                                 </form>
