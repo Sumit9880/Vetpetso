@@ -54,7 +54,7 @@ function MembersWiseCases() {
     useEffect(() => {
         getData();
         getDropDownData()
-    }, [searchTerm, pageIndex.current, pageSize,  filters]);
+    }, [searchTerm, pageIndex.current, pageSize, filters]);
 
     const getData = useCallback(async () => {
         setLoader(true);
@@ -126,7 +126,7 @@ function MembersWiseCases() {
                     <input
                         type="text"
                         placeholder="Search"
-                        id="membersSearch"
+                        id="membersWiseCasesSearch"
                         value={searchTerm}
                         onChange={handleSearch}
                         className="w-64 h-9 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 px-2 py-1"
@@ -208,9 +208,9 @@ function MembersWiseCases() {
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.CASES}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.AI}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.VACCINATION}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.CLOSED}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.OPEN}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.TOTAL}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center text-red-500">{item.CLOSED}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center text-green-500">{item.OPEN}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center text-orange-500">{item.TOTAL}</td>
                             </tr>
                         ))}
                     </tbody>
