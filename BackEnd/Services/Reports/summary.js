@@ -107,3 +107,32 @@ exports.getTypeWiseCount = (req, res) => {
         });
     }
 }
+
+exports.getMemberCount = (req, res) => {
+    let filter = req.body.filter ? req.body.filter : '';
+    try {
+        dm.runQuery('SELECT DOCTOR_NAME,COUNT(IF(CASE_TYPE = 1,1,null)) AS CASES,COUNT(IF(CASE_TYPE = 2,1,null)) AS AI,COUNT(IF(CASE_TYPE = 3,1,null)) AS VACCINATION,COUNT(IF(IS_CLOSED = 1,1,null)) AS CLOSED,COUNT(IF(IS_CLOSED = 0,1,null)) AS OPEN ,COUNT(ID) AS TOTAL from view_patient_master WHERE 1 ' + filter + ' GROUP BY MEMBER_ID', req, (error, results) => {
+            if (error) {
+                console.error(error);
+                res.send({
+                    "code": 400,
+                    "message": "Failed to get count.",
+                });
+            }
+            else {
+                res.send({
+                    "code": 200,
+                    "message": "success",
+                    "data": results
+                });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        logError(req.method, req.originalUrl, error, '', '', "CatchError");
+        res.send({
+            "code": 500,
+            "message": "Something went wrong."
+        });
+    }
+}

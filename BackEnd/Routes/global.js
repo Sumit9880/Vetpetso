@@ -4,8 +4,8 @@ var globalService = require("../Services/global");
 
 router
   // Validation
-  .use('*', globalService.checkAuthorization)
-  .use("/api", globalService.checkToken)
+  // .use('*', globalService.checkAuthorization)
+  // .use("/api", globalService.checkToken)
 
   // Admin
   .use("/api/user", require("./Masters/user"))
