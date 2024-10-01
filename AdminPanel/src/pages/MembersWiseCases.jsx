@@ -208,8 +208,8 @@ function MembersWiseCases() {
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.CASES}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.AI}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.VACCINATION}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center text-red-500">{item.CLOSED}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center text-green-500">{item.OPEN}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center text-green-500">{item.CLOSED}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center text-red-500">{item.OPEN}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center text-orange-500">{item.TOTAL}</td>
                             </tr>
                         ))}

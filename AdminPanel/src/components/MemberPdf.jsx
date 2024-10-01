@@ -21,14 +21,17 @@ function MemberPdf({ open, setOpen, data }) {
                                     </View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', fontFamily: 'Marathi' }}>
                                         <View>
-                                            <Text style={{ fontSize: 12, fontWeight: 'black' }}>प्रेषक :</Text>
+                                            <Text style={{ fontSize: 12, fontWeight: 'black' }}>प्रेषक, </Text>
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>नांव : डॉ./श्री. {data.NAME}</Text>
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>पत्ता : {data.ADDRESS}</Text>
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>तालुका : {data.TALUKA_NAME} जिल्हा : {data.DISTRICT_NAME}</Text>
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>दूरध्वनी क्रमांक : {data.MOBILE_NUMBER}</Text>
                                             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>पिन कोड : {data.PIN_CODE}</Text>
                                         </View>
-                                        <Image src={"./profile.png"} style={{ width: 100, height: 100, borderRadius: 50 }} />
+                                        {/* <Image src={`${STATIC_URL}ProfilePhoto/${data.PROFILE_PHOTO}`} style={{ width: 100, height: 100, borderRadius: 50 }} /> */}
+                                        <View style={{ border: '1px solid black', width: 90, height: 105,alignItems: 'center', justifyContent: 'center' }}>
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center' }}>PHOTO</Text>
+                                        </View>
                                     </View>
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20 }}>प्रति, </Text>
                                     <Text style={{ fontSize: 12, fontWeight: 'bold' }}>मा. अध्यक्ष/कार्यवाह</Text>
@@ -53,12 +56,12 @@ function MemberPdf({ open, setOpen, data }) {
                                         फक्त अँप द्वारे पाठवीत आहे.</Text>
                                     <Text style={{ fontSize: 12 }}>&emsp;&emsp;माझी वैयक्तिक माहिती खालीलप्रमाणे सादर करीत आहे.
                                     </Text>
-                                    <Text style={{ fontSize: 12 }}>(१) अर्जदाराचे संपूर्ण नांव :{data.NAME}</Text>
-                                    <Text style={{ fontSize: 12 }}>(अ) संपूर्ण पत्ता : {data.ADDRESS}</Text>
-                                    <Text style={{ fontSize: 12 }}>(ब) दूरध्वनी (एसटीडी कोडसह) : {data.MOBILE_NUMBER}</Text>
-                                    <Text style={{ fontSize: 12 }}>(क) ई-मेल आयडी : {data.EMAIL}</Text>
-                                    <Text style={{ fontSize: 12 }}>(ड) जन्मतारीख : {new Date(data.DATE_OF_BIRTH).toLocaleDateString()}</Text>
-                                    <Text style={{ fontSize: 12 }}>(ई) पीनकोड : {data.PIN_CODE}</Text>
+                                    <Text style={{ fontSize: 12 }}>(१) अर्जदाराचे संपूर्ण नांव : {data.NAME}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 15 }}>अ) संपूर्ण पत्ता : {data.ADDRESS}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 15 }}>ब) दूरध्वनी (एसटीडी कोडसह) : {data.MOBILE_NUMBER}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 15 }}>क) ई-मेल आयडी : {data.EMAIL}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 15 }}>ड) जन्मतारीख : {new Date(data.DATE_OF_BIRTH).toLocaleDateString()}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 15 }}>ई) पीनकोड : {data.PIN_CODE}</Text>
                                     <Text style={{ fontSize: 12 }}>(२) अर्जदाराच्या वडीलांचे संपूर्ण नांव : {data.FATHER_NAME}</Text>
                                     <Text style={{ fontSize: 12 }}>(३) संपूर्ण पत्ता गांव : {data.ADDRESS + ',' + data.VILLAGE}</Text>
                                     <Text style={{ fontSize: 12 }}>(४) आरक्षित वर्गासाठी : जात : {data.CAST_NAME}</Text>
@@ -89,7 +92,7 @@ function MemberPdf({ open, setOpen, data }) {
                                     <Text style={{ fontSize: 12 }}>सभासदत्य प्रवेश अर्ज स्विकारणेस सहमतीचे नाव : {data.CONCENTERS_NAME} </Text>
                                     <Text style={{ fontSize: 12 }}>पत्ता / दूरध्वनी क्रमांक : {data.CONCENTERS_ADDRESS} {data.CONCENTERS_PHONE_NUMBER} </Text>
                                     <View style={{ justifyContent: 'flex-end' }}>
-                                        <Image src={"./sign.jpg"} style={{ width: 80, height: 45, alignSelf: 'flex-end' }} />
+                                        <Image src={`${STATIC_URL}MemberSign/${data.MEMBER_SIGN}`} style={{ width: 80, height: 45, alignSelf: 'flex-end' }} />
                                         <Text style={{ fontSize: 12, textAlign: 'right', marginRight: 20, marginTop: 10 }}>सही</Text>
                                     </View>
                                 </View>
