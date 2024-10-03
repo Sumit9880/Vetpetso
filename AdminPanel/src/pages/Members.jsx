@@ -142,12 +142,12 @@ function Members() {
     };
 
     return (
-        <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
+        <div className="container mx-auto p-3 bg-gray-50 rounded h-full">
             <ToastContainer />
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Member Management</h1>
                 <div className="flex justify-end mb-2">
-                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 p-1 rounded' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
                         <FiFilter size={20} className='text-gray-600 hover:text-gray-800' />
                     </div>
                     <input
@@ -244,7 +244,7 @@ function Members() {
                                 <td className="px-2 border border-gray-200">{member.NAME}</td>
                                 <td className="px-2 border border-gray-200 text-center">{member.MOBILE_NUMBER}</td>
                                 <td className="px-2 border border-gray-200">{member.ADDRESS}</td>
-                                <td className="px-2 border border-gray-200">{member.PLAN_NAME}</td>
+                                <td className="px-2 border border-gray-200 text-center">{member.PLAN_NAME}</td>
                                 <td className={`px-2 border border-gray-200 text-center${member.IS_ACTIVE ? " text-green-500" : " text-red-500"}`}>{member.STATUS ? "On" : "Off"}</td>
                                 <td className="px-2 border border-gray-200 text-center">
                                     <button className="py-2 text-center" onClick={() => handleOpenPreview(member, "plan")}><IoEyeOutline className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>

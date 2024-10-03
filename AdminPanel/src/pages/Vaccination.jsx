@@ -6,6 +6,8 @@ import { FiFilter } from "react-icons/fi";
 import Loader from '../components/Loader';
 import DatePickerComponent from '../components/DatePickerComponent';
 import MultiSelectComponent from '../components/MultiSelectComponent';
+import { BsPrinter } from "react-icons/bs";
+import { TbFileExport } from "react-icons/tb";
 
 function Vaccination() {
     const [data, setData] = useState([]);
@@ -74,7 +76,7 @@ function Vaccination() {
                 filterConditions += ` AND (DOCTOR_NAME LIKE '%${searchTerm}%' OR MOBILE_NUMBER LIKE '%${searchTerm}%')`;
             }
 
-            const res = await apiPost("api/summary/getMemberCount", {
+            const res = await apiPost("api/vaccinationDetails/get", {
                 filter: filterConditions,
                 pageSize,
                 pageIndex: pageIndex.current,
@@ -115,12 +117,15 @@ function Vaccination() {
     };
 
     return (
-        <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
+        <div className="container mx-auto p-3 bg-gray-50 rounded h-full">
             <ToastContainer />
             <div className='flex justify-between my-2 items-center'>
-                <h1 className="text-2xl font-bold mb-2 text-start">Member Wise Summary</h1>
+                <h1 className="text-2xl font-bold mb-2 text-start">Vaccination Report</h1>
                 <div className="flex justify-end mb-2">
-                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 p-1 rounded' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                        <TbFileExport size={20} className='text-gray-600 hover:text-gray-800' />
+                    </div>
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
                         <FiFilter size={20} className='text-gray-600 hover:text-gray-800' />
                     </div>
                     <input
@@ -133,7 +138,7 @@ function Vaccination() {
                     />
                 </div>
             </div>
-            <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)' }}>
+            <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)', width: 'calc(200vh - 100px)' }}>
                 <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} flex p-2`}>
                     <div className="">
                         <h1 className="block pl-1 font-medium text-gray-700 text-left">Registration Date:</h1>
@@ -189,28 +194,38 @@ function Vaccination() {
                     </div>
 
                 </div>
-                <table className="table-auto w-full border-collapse rounded-lg">
+                <table className="table-fixed w-full border-collapse rounded-lg">
                     <thead>
                         <tr className="bg-gray-200 rounded-lg">
-                            <th className="px-2 py-2 border border-gray-300">Doctor Name</th>
-                            <th className="px-2 py-2 border border-gray-300">Patient Cases</th>
-                            <th className="px-2 py-2 border border-gray-300">Artificial Insemination</th>
-                            <th className="px-2 py-2 border border-gray-300">Vaccination</th>
-                            <th className="px-2 py-2 border border-gray-300">Open</th>
-                            <th className="px-2 py-2 border border-gray-300">Closed</th>
-                            <th className="px-2 py-2 border border-gray-300">Total</th>
+                            <th className="px-2 py-2 border border-gray-300 w-20">Print</th>
+                            <th className="px-2 py-2 border border-gray-300 w-48">Registration Date</th>
+                            <th className="px-2 py-2 border border-gray-300 w-64">Doctor Name</th>
+                            <th className="px-2 py-2 border border-gray-300 w-64">Owner Name</th>
+                            <th className="px-2 py-2 border border-gray-300 w-32">Owner Mobile</th>
+                            <th className="px-2 py-2 border border-gray-300 w-40">Animal Identity</th>
+                            <th className="px-2 py-2 border border-gray-300 w-40">Animal Type</th>
+                            <th className="px-2 py-2 border border-gray-300 w-40">Breed</th>
+                            <th className="px-2 py-2 border border-gray-300 w-40">Semen Type</th>
+                            <th className="px-2 py-2 border border-gray-300 w-64">Semen Company</th>
+                            <th className="px-2 py-2 border border-gray-300 w-36">Semen Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data?.map(item => (
                             <tr key={item.ID} className="bg-white">
+                                <td className="px-2 border border-gray-200 text-center">
+                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                </td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{new Date(item.REGISTRATION_DATE).toLocaleString('en-IN')}</td>
                                 <td className="px-2 py-1.5 border border-gray-200">{item.DOCTOR_NAME}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.CASES}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.AI}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.VACCINATION}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center text-green-500">{item.CLOSED}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center text-red-500">{item.OPEN}</td>
-                                <td className="px-2 py-1.5 border border-gray-200 text-center text-orange-500">{item.TOTAL}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.OWNER_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.MOBILE_NUMBER}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.ANIMAL_IDENTITY_NO}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.ANIMAL_TYPE_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.BREED_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.SEMEN_TYPE}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.SEMEN_COMPANY_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.SEMEN_VOLUME}</td>
                             </tr>
                         ))}
                     </tbody>

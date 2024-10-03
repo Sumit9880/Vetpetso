@@ -66,7 +66,7 @@ function History() {
     };
 
     return (
-        <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
+        <div className="container mx-auto p-3 bg-gray-50 rounded h-full">
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">History Master</h1>
                 <div className="flex justify-end mb-2">

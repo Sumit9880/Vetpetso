@@ -2,7 +2,7 @@ import React from "react";
 
 function Dashboard() {
     return (
-        <div className="flex flex-col justify-center items-center bg-gray-100" style={{ height: 'calc(100vh - 130px)' }}>
+        <div className="flex flex-col justify-center items-center bg-gray-50" style={{ height: 'calc(100vh - 130px)' }}>
             <img
                 id="logo"
                 src="./vetpetso.jpg"

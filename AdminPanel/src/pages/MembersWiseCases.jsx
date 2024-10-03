@@ -115,12 +115,12 @@ function MembersWiseCases() {
     };
 
     return (
-        <div className="container mx-auto p-3 bg-gray-100 rounded h-full">
+        <div className="container mx-auto p-3 bg-gray-50 rounded h-full">
             <ToastContainer />
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Member Wise Summary</h1>
                 <div className="flex justify-end mb-2">
-                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 p-1 rounded' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
                         <FiFilter size={20} className='text-gray-600 hover:text-gray-800' />
                     </div>
                     <input

@@ -228,7 +228,7 @@ const MemberDrawer = ({ isOpen, onClose, data }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="relative flex-1 overflow-y-auto px-4 sm:px-6 bg-gray-100">
+                                <div className="relative flex-1 overflow-y-auto px-4 sm:px-6 bg-gray-50">
                                     {
                                         loader && <Loader />
                                     }

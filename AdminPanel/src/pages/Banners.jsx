@@ -49,7 +49,7 @@ const Banners = () => {
     };
 
     return (
-        <div className="container mx-auto p-3 pb-8 bg-gray-100 rounded">
+        <div className="container mx-auto p-3 pb-8 bg-gray-50 rounded">
             <ToastContainer />
             <h1 className="text-2xl font-bold mb-8 text-start">Banners</h1>
             <div className="flex flex-wrap justify-center gap-6">
