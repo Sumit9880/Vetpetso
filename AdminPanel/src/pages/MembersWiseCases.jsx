@@ -187,11 +187,10 @@ function MembersWiseCases() {
                             Clear
                         </button>
                     </div>
-
                 </div>
                 <table className="table-auto w-full border-collapse rounded-lg">
-                    <thead>
-                        <tr className="bg-gray-200 rounded-lg">
+                    <thead className="bg-gray-200 sticky top-0 z-10">
+                        <tr>
                             <th className="px-2 py-2 border border-gray-300">Doctor Name</th>
                             <th className="px-2 py-2 border border-gray-300">Patient Cases</th>
                             <th className="px-2 py-2 border border-gray-300">Artificial Insemination</th>
@@ -215,7 +214,8 @@ function MembersWiseCases() {
                         ))}
                     </tbody>
                 </table>
-                {data.length > 0 || loader ? null :
+
+                {data.length > 0 || loader ? null : (
                     <div className='item-center w-full mt-10'>
                         <img
                             id="noData"
@@ -224,11 +224,11 @@ function MembersWiseCases() {
                             alt="No Data"
                         />
                         <h1 className='text-center text-xl font-semibold text-gray-400'>No Data</h1>
-                    </div>}
-                {
-                    loader && <Loader />
-                }
-                {/* </div> */}
+                    </div>
+                )}
+
+                {loader && <Loader />}
+
                 <Pagination
                     pages={pageIndex.pages}
                     current={pageIndex.current}

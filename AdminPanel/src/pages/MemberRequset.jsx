@@ -83,8 +83,8 @@ function MemberRequsets() {
             <div className="overflow-x-auto" style={{ height: 'calc(100vh - 214px)' }}>
                 {/* <div className="max-h-96 overflow-y-auto"> */}
                 <table className="table-auto w-full border-collapse rounded-lg">
-                    <thead>
-                        <tr className="bg-gray-200 rounded-lg">
+                    <thead className="bg-gray-200 sticky top-0 z-10">
+                        <tr>
                             <th className="px-2 py-2 border border-gray-300">Actions</th>
                             <th className="px-2 py-2 border border-gray-300">Name</th>
                             <th className="px-2 py-2 border border-gray-300">Mobile No</th>

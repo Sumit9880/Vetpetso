@@ -8,6 +8,8 @@ import DatePickerComponent from '../components/DatePickerComponent';
 import MultiSelectComponent from '../components/MultiSelectComponent';
 import { BsPrinter } from "react-icons/bs";
 import { TbFileExport } from "react-icons/tb";
+import CasePdf from '../components/CasePdf';
+import Exel from '../components/Exel';
 
 function CasePapers() {
     const [data, setData] = useState([]);
@@ -31,7 +33,11 @@ function CasePapers() {
         taluka: [],
         districts: [],
     });
-
+    const [pdfPreview, setPdfPreview] = useState({
+        open: false,
+        item: {}
+    });
+    const [exel, setExel] = useState(false);
     const getDropDownData = async () => {
         try {
             const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
@@ -122,7 +128,7 @@ function CasePapers() {
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Case Papers Report</h1>
                 <div className="flex justify-end mb-2">
-                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setExel(true)}>
                         <TbFileExport size={20} className='text-gray-600 hover:text-gray-800' />
                     </div>
                     <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
@@ -138,6 +144,8 @@ function CasePapers() {
                     />
                 </div>
             </div>
+            <Exel open={exel} setOpen={setExel} credentials={{ url: 'api/patientHistory/get', name: 'Case Papers' }} />
+            <CasePdf open={pdfPreview.open} setOpen={setPdfPreview} data={pdfPreview.data} />
             <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)', width: 'calc(200vh - 100px)' }}>
                 <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} flex p-2`}>
                     <div className="">
@@ -195,8 +203,8 @@ function CasePapers() {
 
                 </div>
                 <table className="table-fixed w-full border-collapse rounded-lg">
-                    <thead>
-                        <tr className="bg-gray-200 rounded-lg">
+                    <thead className="bg-gray-200 sticky top-0 z-10">
+                        <tr>
                             <th className="px-2 py-2 border border-gray-300 w-20">Print</th>
                             <th className="px-2 py-2 border border-gray-300 w-48">Registration Date</th>
                             <th className="px-2 py-2 border border-gray-300 w-64">Doctor Name</th>
@@ -214,7 +222,7 @@ function CasePapers() {
                         {data?.map(item => (
                             <tr key={item.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200 text-center">
-                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" onClick={() => { setPdfPreview({ open: true, item: item }) }} /></button>
                                 </td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{new Date(item.REGISTRATION_DATE).toLocaleString('en-IN')}</td>
                                 <td className="px-2 py-1.5 border border-gray-200">{item.DOCTOR_NAME}</td>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { PDFViewer, Document, Page, Text, View, Image, Font } from '@react-pdf/renderer';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { STATIC_URL } from '../utils/api';
