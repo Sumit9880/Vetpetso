@@ -220,7 +220,7 @@ exports.caseExport = (req, res) => {
                 });
             }
             else {
-                dm.runQuery('select * from view_patient_history where 1 ' + criteria, req, (error, results) => {
+                dm.runQuery(`SELECT CASE_NO,REGISTRATION_DATE,DISCHARGE_DATE,DOCTOR_NAME,PROF_EDUCATION_QUALIFICATION,MEMBER_REGISTRATION_NO,IF(IS_CLOSED = 1,'YES','NO') AS IS_CLOSED,DISCHARGE_REMARK,OWNER_NAME,MOBILE_NUMBER,ADHAR_NO,ADDRESS,AT_POST,TALUKA_NAME,DISTRICT_NAME,ANIMAL_IDENTITY_NO,ANIMAL_TYPE_NAME,BREED_NAME,ANIMAL_AGE,TEMPERATURE,ABDOMINAL_MOVEMENT,PULSE,GENITAL_CONDITION,RESPIRATORY_CONDITION,OBSERVATION_OF_EYE_SKIN_NOSTRIL,WATER_INTAKE,DID_TAKE_ANTISEPTIC_DRUGS,DID_MAKE_HOME_REMEDIES,OTHER_INFORMATION,IMMUNIZATION_INFORMATION,FIRST_AID,PATIENT_SAMPLES,DIAGNOSTIC_LABORATORY_REMARK,INSTRUCTIONS_TO_OWNER ,(SELECT JSON_ARRAYAGG( JSON_OBJECT('OBSERVATION_DATE', pdc.OBSERVATION_DATE, 'OBSERVATION_AND_FINDINGS', pdc.OBSERVATION_AND_FINDINGS, 'TREATMENT_AND_SUGGESTION', pdc.TREATMENT_AND_SUGGESTION, 'REMARKS', pdc.REMARKS ,'PRESCRIPTION', pdc.PRESCRIPTION ) ) FROM patient_daily_checkup_details pdc WHERE pdc.PATIENT_ID = vph.PATIENT_ID ) AS CHECKUP_DETAILS FROM view_patient_history vph WHERE 1 ` + criteria, req, (error, results) => {
                     if (error) {
                         console.error(error);
                         res.send({
@@ -282,7 +282,7 @@ exports.aiExport = (req, res) => {
                 });
             }
             else {
-                dm.runQuery('select * from view_ai_details where 1 ' + criteria, req, (error, results) => {
+                dm.runQuery(`SELECT CASE_NO,REGISTRATION_DATE,DISCHARGE_DATE,DOCTOR_NAME,PROF_EDUCATION_QUALIFICATION,MEMBER_REGISTRATION_NO,IF(IS_CLOSED = 1,'YES','NO') AS IS_CLOSED,DISCHARGE_REMARK,OWNER_NAME,MOBILE_NUMBER,ADHAR_NO,ADDRESS,AT_POST,TALUKA_NAME,DISTRICT_NAME,ANIMAL_IDENTITY_NO,ANIMAL_TYPE_NAME,BREED_NAME,ANIMAL_AGE,DELIVERY_DATE,IF(IS_PREGNANT = 1,'YES','NO') AS IS_PREGNANT,MILK_PRODUCTION,SEMEN_TYPE,SEMEN_COMPANY_NAME,SEMEN_VOLUME,(SELECT JSON_ARRAYAGG( JSON_OBJECT('OBSERVATION_DATE', pdc.OBSERVATION_DATE, 'OBSERVATION_AND_FINDINGS', pdc.OBSERVATION_AND_FINDINGS, 'TREATMENT_AND_SUGGESTION', pdc.TREATMENT_AND_SUGGESTION, 'REMARKS', pdc.REMARKS ,'PRESCRIPTION', pdc.PRESCRIPTION ) ) FROM patient_daily_checkup_details pdc WHERE pdc.PATIENT_ID = ad.PATIENT_ID ) AS CHECKUP_DETAILS FROM view_ai_details ad WHERE 1 ` + criteria, req, (error, results) => {
                     if (error) {
                         console.error(error);
                         res.send({
@@ -344,7 +344,7 @@ exports.vaccinationExport = (req, res) => {
                 });
             }
             else {
-                dm.runQuery('select * from view_vaccination_details where 1 ' + criteria, req, (error, results) => {
+                dm.runQuery(`SELECT CASE_NO,REGISTRATION_DATE,DISCHARGE_DATE,DOCTOR_NAME,PROF_EDUCATION_QUALIFICATION,MEMBER_REGISTRATION_NO,IF(IS_CLOSED = 1,'YES','NO') AS IS_CLOSED,DISCHARGE_REMARK,OWNER_NAME,MOBILE_NUMBER,ADHAR_NO,ADDRESS,AT_POST,TALUKA_NAME,DISTRICT_NAME,ANIMAL_IDENTITY_NO,ANIMAL_TYPE_NAME,BREED_NAME,ANIMAL_AGE,TYPE,NAME,DOSE_NUMBER,SIDE_EFFECTS,(SELECT JSON_ARRAYAGG( JSON_OBJECT('OBSERVATION_DATE', pdc.OBSERVATION_DATE, 'OBSERVATION_AND_FINDINGS', pdc.OBSERVATION_AND_FINDINGS, 'TREATMENT_AND_SUGGESTION', pdc.TREATMENT_AND_SUGGESTION, 'REMARKS', pdc.REMARKS ,'PRESCRIPTION', pdc.PRESCRIPTION ) ) FROM patient_daily_checkup_details pdc WHERE pdc.PATIENT_ID = vd.PATIENT_ID ) AS CHECKUP_DETAILS FROM view_vaccination_details vd WHERE 1 ` + criteria, req, (error, results) => {
                     if (error) {
                         console.error(error);
                         res.send({

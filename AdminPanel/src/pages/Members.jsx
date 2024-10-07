@@ -170,63 +170,58 @@ function Members() {
                 </div>
             </div>
             <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)' }}>
-                <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} flex p-2`}>
-                    <div className="">
-                        <h1 className="block pl-1 font-medium text-gray-700 text-left">Joining Date:</h1>
-                        <div className="flex items-center space-x-2">
-                            <DatePickerComponent
-                                label=""
-                                selectedDate={filters.startDate}
-                                onChangeDate={(date) => setFilters({ ...filters, startDate: date })}
-                                placeholder="From Date"
+                <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} p-2`}>
+                    <div className='flex justify-end items-end'>
+                        <button
+                            className="flex items-center justify-center h-9 mr-2 px-2 border text-blue-600 rounded-lg hover:text-blue-700"
+                            onClick={handleClear}
+                        >
+                            Clear Filters
+                        </button>
+                    </div>
+                    <div className='flex items-center'>
+                        <div className="">
+                            <h1 className="block pl-1 font-medium text-gray-700 text-left">Registration Date:</h1>
+                            <div className="flex items-center space-x-2">
+                                <DatePickerComponent
+                                    label=""
+                                    selectedDate={filters.startDate}
+                                    onChangeDate={(date) => setFilters({ ...filters, startDate: date })}
+                                    placeholder="From Date"
+                                />
+                                <h1 className="text-center text-gray-500 font-medium">to</h1>
+                                <DatePickerComponent
+                                    label=""
+                                    selectedDate={filters.endDate}
+                                    onChangeDate={(date) => setFilters({ ...filters, endDate: date })}
+                                    placeholder="To Date"
+                                />
+                            </div>
+                        </div>
+                        <div className='pl-2'>
+                            <MultiSelectComponent
+                                label="District:"
+                                options={filterOptions.districts}
+                                selectedOptions={filters.districts}
+                                onChangeOptions={(selectedOptions) => setFilters({ ...filters, districts: selectedOptions })}
+                                placeholder="Select District"
+                                isMulti={true}
                             />
-                            <h1 className="text-center text-gray-500 font-medium">to</h1>
-                            <DatePickerComponent
-                                label=""
-                                selectedDate={filters.endDate}
-                                onChangeDate={(date) => setFilters({ ...filters, endDate: date })}
-                                placeholder="To Date"
+                        </div>
+                        <div className='pl-2'>
+                            <MultiSelectComponent
+                                label="Taluka:"
+                                options={filterOptions.taluka}
+                                selectedOptions={filters.taluka}
+                                onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
+                                placeholder="Select Taluka"
+                                isMulti={true}
                             />
                         </div>
                     </div>
-                    <div className='pl-2'>
-                        <MultiSelectComponent
-                            label="District:"
-                            options={filterOptions.districts}
-                            selectedOptions={filters.districts}
-                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, districts: selectedOptions })}
-                            placeholder="Select district"
-                            isMulti={true}
-                        />
-                    </div>
-                    <div className='pl-2'>
-                        <MultiSelectComponent
-                            label="Taluka:"
-                            options={filterOptions.taluka}
-                            selectedOptions={filters.taluka}
-                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
-                            placeholder="Select taluka"
-                            isMulti={true}
-                        />
-                    </div>
-                    <div className='flex justify-center items-end pl-4'>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded"
-                            onClick={handleApply}
-                        >
-                            Apply
-                        </button>
-                        <button
-                            className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
-                            onClick={handleClear}
-                        >
-                            Clear
-                        </button>
-                    </div>
-
                 </div>
                 <table className="table-auto w-full border-collapse rounded-lg">
-                    <thead className="bg-gray-200 sticky top-0 z-10">
+                    <thead className={`bg-gray-200 ${filters.isDrawerOpen ? '' : 'sticky top-0 z-10'} `}>
                         <tr>
                             <th className="px-2 py-2 border border-gray-300">Name</th>
                             <th className="px-2 py-2 border border-gray-300">Mobile No</th>

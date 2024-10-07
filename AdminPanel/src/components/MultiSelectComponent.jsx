@@ -4,7 +4,7 @@ import Select from 'react-select';
 const customStyles = {
     control: (provided) => ({
         ...provided,
-        backgroundColor: '#f9fafb',
+        backgroundColor: '#fff',
         borderColor: '#d1d5db',
         boxShadow: 'none',
         '&:hover': {
@@ -47,7 +47,7 @@ const MultiSelectComponent = ({ label, options, selectedOptions, onChangeOptions
 
     const getSelectedValues = () => {
         if (isMulti) {
-            return selectedOptions ? options.filter(option => selectedOptions.split(',').includes(option.value.toString())) : [];
+            return selectedOptions ? options.filter(option => selectedOptions?.split(',').includes(option.value.toString())) : [];
         } else {
             return selectedOptions
                 ? options.find(option => option.value === selectedOptions) || null

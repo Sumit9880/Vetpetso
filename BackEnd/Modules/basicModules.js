@@ -1,5 +1,6 @@
 const { logError } = require('../Modules/logger')
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 exports.getSystemDate = function () {
     let date_ob = new Date();
@@ -30,7 +31,7 @@ exports.getSystemDate = function () {
 exports.generateToken = function (userId, res, resultsUser) {
     try {
         var data = {
-            "USER_ID": userId,  
+            "USER_ID": userId,
         }
         jwt.sign({ data }, process.env.SECRET, (error, token) => {
             if (error) {
@@ -63,3 +64,30 @@ exports.generateToken = function (userId, res, resultsUser) {
         });
     }
 }
+
+exports.sendOtp = async function (msg, to) {
+    try {
+        let url = "https://graph.facebook.com/v20.0/340684785800384/messages?access_token=EAALvZC4xJa80BOZC4q9dZBXufvwS9ZCQ8ECjPiJt1UsvZCiaGG1uxOqES2yi4NkWf4MoptfRLcpZAZA2XZClG0uJygorhDToZBqcUxjvP7Web5Ip4cvBJ1t8mmeoMXBjdFmBx5uOhtFGEZBbK7VnTwB8gbAllutbSVCVM5liWxJfCKZBy98gux7klGeraZCqgwiP8RyrDc5QZBQ50qViVjv1BcgynJqurZBNUZD"
+        let data = {
+            messaging_product: "whatsapp",
+            to: to,
+            text: {
+                body: msg
+            }
+        }
+        let headers = {
+            "Content-Type": "application/json"
+        }
+        const response = await axios.post(url, data, headers);
+
+        console.log(response);
+        
+        // if (response.status === 200) {
+        //     calllback();
+        // }
+
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+}
+

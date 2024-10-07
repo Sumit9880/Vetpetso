@@ -8,6 +8,8 @@ import DatePickerComponent from '../components/DatePickerComponent';
 import MultiSelectComponent from '../components/MultiSelectComponent';
 import { BsPrinter } from "react-icons/bs";
 import { TbFileExport } from "react-icons/tb";
+import CasePdf from '../components/CasePdf';
+import Exel from '../components/Exel';
 
 function ArtificialInsemination() {
     const [data, setData] = useState([]);
@@ -30,23 +32,34 @@ function ArtificialInsemination() {
     const [filterOptions, setFilterOptions] = useState({
         taluka: [],
         districts: [],
+        doctor: [],
+        status: []
     });
+    const [pdfPreview, setPdfPreview] = useState({
+        open: false,
+        item: {}
+    });
+    const [exel, setExel] = useState(false);
 
     const getDropDownData = async () => {
         try {
             const resDistrict = await apiPost("api/district/get", { filter: ` AND STATUS = 1` });
             const resTaluka = await apiPost("api/taluka/get", { filter: ` AND STATUS = 1` });
+            const resDoctor = await apiPost("api/member/get", {});
             setFilterOptions({
+                status: [{ label: 'Yes', value: '1' }, { label: 'No', value: '0' }],
                 taluka: resTaluka?.data?.map(item => ({
                     label: item.NAME,
                     value: item.ID
-                }))
-                ,
+                })),
                 districts: resDistrict?.data?.map(item => ({
                     label: item.NAME,
                     value: item.ID
+                })),
+                doctor: resDoctor?.data?.map(item => ({
+                    label: item.NAME,
+                    value: item.ID
                 }))
-
             });
         } catch (error) {
             console.error(error);
@@ -72,11 +85,17 @@ function ArtificialInsemination() {
             if (filters.startDate && filters.endDate) {
                 filterConditions += ` AND REGISTRATION_DATE BETWEEN '${new Date(filters.startDate).toISOString().slice(0, 10)}' AND '${new Date(filters.endDate).toISOString().slice(0, 10)}'`
             }
+            if (filters.doctor?.length) {
+                filterConditions += ` AND MEMBER_ID IN (${filters.doctor})`;
+            }
+            if (filters.status?.length) {
+                filterConditions += ` AND IS_CLOSED = ${filters.status}`;
+            }
             if (searchTerm) {
-                filterConditions += ` AND (DOCTOR_NAME LIKE '%${searchTerm}%' OR MOBILE_NUMBER LIKE '%${searchTerm}%')`;
+                filterConditions += ` AND (OWNER_NAME LIKE '%${searchTerm}%' OR MOBILE_NUMBER LIKE '%${searchTerm}%')`;
             }
 
-            const res = await apiPost("api/aiDetails/get", {
+            const res = await apiPost("api/detailed/aiReport", {
                 filter: filterConditions,
                 pageSize,
                 pageIndex: pageIndex.current,
@@ -122,7 +141,7 @@ function ArtificialInsemination() {
             <div className='flex justify-between my-2 items-center'>
                 <h1 className="text-2xl font-bold mb-2 text-start">Artificial Insemination Report</h1>
                 <div className="flex justify-end mb-2">
-                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
+                    <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setExel(true)}>
                         <TbFileExport size={20} className='text-gray-600 hover:text-gray-800' />
                     </div>
                     <div className='cursor-pointer flex items-center justify-center w-9 h-9 mr-2 border border-gray-300 bg-white p-1 rounded-lg' onClick={() => setFilters({ ...filters, isDrawerOpen: !filters.isDrawerOpen })}>
@@ -138,73 +157,104 @@ function ArtificialInsemination() {
                     />
                 </div>
             </div>
+            <Exel open={exel} setOpen={setExel} credentials={{ url: 'api/detailed/aiExport', name: 'Artificial Insemination' }} />
+            <CasePdf open={pdfPreview.open} setOpen={setPdfPreview} data={pdfPreview.data} />
             <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)', width: 'calc(200vh - 100px)' }}>
-                <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} flex p-2`}>
-                    <div className="">
-                        <h1 className="block pl-1 font-medium text-gray-700 text-left">Registration Date:</h1>
-                        <div className="flex items-center space-x-2">
-                            <DatePickerComponent
-                                label=""
-                                selectedDate={filters.startDate}
-                                onChangeDate={(date) => setFilters({ ...filters, startDate: date })}
-                                placeholder="From Date"
+                <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} p-2`}>
+                    <div className='flex justify-end items-end'>
+                        <button
+                            className="flex items-center justify-center h-9 mr-2 px-2 border text-blue-600 rounded-lg hover:text-blue-700"
+                            onClick={handleClear}
+                        >
+                            Clear Filters
+                        </button>
+                    </div>
+                    <div className='flex items-center'>
+                        <div className="">
+                            <h1 className="block pl-1 font-medium text-gray-700 text-left">Registration Date:</h1>
+                            <div className="flex items-center space-x-2">
+                                <DatePickerComponent
+                                    label=""
+                                    selectedDate={filters.startDate}
+                                    onChangeDate={(date) => setFilters({ ...filters, startDate: date })}
+                                    placeholder="From Date"
+                                />
+                                <h1 className="text-center text-gray-500 font-medium">to</h1>
+                                <DatePickerComponent
+                                    label=""
+                                    selectedDate={filters.endDate}
+                                    onChangeDate={(date) => setFilters({ ...filters, endDate: date })}
+                                    placeholder="To Date"
+                                />
+                            </div>
+                        </div>
+                        <div className='pl-2'>
+                            <MultiSelectComponent
+                                label="District:"
+                                options={filterOptions.districts}
+                                selectedOptions={filters.districts}
+                                onChangeOptions={(selectedOptions) => setFilters({ ...filters, districts: selectedOptions })}
+                                placeholder="Select District"
+                                isMulti={true}
                             />
-                            <h1 className="text-center text-gray-500 font-medium">to</h1>
-                            <DatePickerComponent
-                                label=""
-                                selectedDate={filters.endDate}
-                                onChangeDate={(date) => setFilters({ ...filters, endDate: date })}
-                                placeholder="To Date"
+                        </div>
+                        <div className='pl-2'>
+                            <MultiSelectComponent
+                                label="Taluka:"
+                                options={filterOptions.taluka}
+                                selectedOptions={filters.taluka}
+                                onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
+                                placeholder="Select Taluka"
+                                isMulti={true}
                             />
                         </div>
                     </div>
-                    <div className='pl-2'>
-                        <MultiSelectComponent
-                            label="District:"
-                            options={filterOptions.districts}
-                            selectedOptions={filters.districts}
-                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, districts: selectedOptions })}
-                            placeholder="Select district"
-                            isMulti={true}
-                        />
+                    <div className='flex items-center'>
+                        <div >
+                            <MultiSelectComponent
+                                label="Doctor Name:"
+                                options={filterOptions.doctor}
+                                selectedOptions={filters.doctor}
+                                onChangeOptions={(selectedOptions) => setFilters({ ...filters, doctor: selectedOptions })}
+                                placeholder="Select Doctor Name"
+                                isMulti={true}
+                            />
+                        </div>
+                        <div className='pl-2'>
+                            <MultiSelectComponent
+                                label="Status:"
+                                options={filterOptions.status}
+                                selectedOptions={filters.status}
+                                onChangeOptions={(selectedOptions) => setFilters({ ...filters, status: selectedOptions })}
+                                placeholder="Select Status"
+                                isMulti={false}
+                            />
+                        </div>
                     </div>
-                    <div className='pl-2'>
-                        <MultiSelectComponent
-                            label="Taluka:"
-                            options={filterOptions.taluka}
-                            selectedOptions={filters.taluka}
-                            onChangeOptions={(selectedOptions) => setFilters({ ...filters, taluka: selectedOptions })}
-                            placeholder="Select taluka"
-                            isMulti={true}
-                        />
-                    </div>
-                    <div className='flex justify-center items-end pl-4'>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold px-4 h-9 rounded"
-                            onClick={handleApply}
-                        >
-                            Apply
-                        </button>
-                        <button
-                            className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold px-4 h-9 rounded mx-4"
-                            onClick={handleClear}
-                        >
-                            Clear
-                        </button>
-                    </div>
-
                 </div>
                 <table className="table-fixed w-full border-collapse rounded-lg">
-                    <thead className="bg-gray-200 sticky top-0 z-10">
+                    <thead className={`bg-gray-200 ${filters.isDrawerOpen ? '' : 'sticky top-0 z-10'} `}>
                         <tr>
                             <th className="px-2 py-2 border border-gray-300 w-20">Print</th>
+                            <th className="px-2 py-2 border border-gray-300 w-28">Case No.</th>
                             <th className="px-2 py-2 border border-gray-300 w-48">Registration Date</th>
+                            <th className="px-2 py-2 border border-gray-300 w-48">Discharge Date</th>
                             <th className="px-2 py-2 border border-gray-300 w-64">Doctor Name</th>
+                            <th className="px-2 py-2 border border-gray-300 w-64">Doctor Qualification</th>
+                            <th className="px-2 py-2 border border-gray-300 w-36">Member Reg.No</th>
+                            <th className="px-2 py-2 border border-gray-300 w-28">Is Closed</th>
+                            <th className="px-2 py-2 border border-gray-300 w-64">Discharge Remark</th>
                             <th className="px-2 py-2 border border-gray-300 w-64">Owner Name</th>
                             <th className="px-2 py-2 border border-gray-300 w-32">Owner Mobile</th>
+                            <th className="px-2 py-2 border border-gray-300 w-36">Owner Adhar No</th>
+                            <th className="px-2 py-2 border border-gray-300 w-64">Owner Address</th>
+                            <th className="px-2 py-2 border border-gray-300 w-32">At Post</th>
+                            <th className="px-2 py-2 border border-gray-300 w-32">Taluka</th>
+                            <th className="px-2 py-2 border border-gray-300 w-32">District</th>
                             <th className="px-2 py-2 border border-gray-300 w-40">Animal Identity</th>
                             <th className="px-2 py-2 border border-gray-300 w-40">Animal Type</th>
                             <th className="px-2 py-2 border border-gray-300 w-40">Breed</th>
+                            <th className="px-2 py-2 border border-gray-300 w-28">Animal Age</th>
                             <th className="px-2 py-2 border border-gray-300 w-40">Semen Type</th>
                             <th className="px-2 py-2 border border-gray-300 w-64">Semen Company</th>
                             <th className="px-2 py-2 border border-gray-300 w-36">Semen Quantity</th>
@@ -214,15 +264,27 @@ function ArtificialInsemination() {
                         {data?.map(item => (
                             <tr key={item.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200 text-center">
-                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" /></button>
+                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" onClick={() => { setPdfPreview({ open: true, item: item }) }} /></button>
                                 </td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.CASE_NO}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{new Date(item.REGISTRATION_DATE).toLocaleString('en-IN')}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{new Date(item.DISCHARGE_DATE).toLocaleString('en-IN')}</td>
                                 <td className="px-2 py-1.5 border border-gray-200">{item.DOCTOR_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.PROF_EDUCATION_QUALIFICATION}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.MEMBER_REGISTRATION_NO}</td>
+                                <td className={`px-2 py-1.5 border border-gray-200 text-center ${item.IS_CLOSED == 1 ? 'text-green-500' : 'text-red-500'}`}>{item.IS_CLOSED == 1 ? 'YES' : 'NO'}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.DISCHARGE_REMARK}</td>
                                 <td className="px-2 py-1.5 border border-gray-200">{item.OWNER_NAME}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.MOBILE_NUMBER}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.ADHAR_NO}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.ADDRESS}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.AT_POST}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.TALUKA_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200">{item.DISTRICT_NAME}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.ANIMAL_IDENTITY_NO}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.ANIMAL_TYPE_NAME}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.BREED_NAME}</td>
+                                <td className="px-2 py-1.5 border border-gray-200 text-center">{item.ANIMAL_AGE}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.SEMEN_TYPE}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.SEMEN_COMPANY_NAME}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.SEMEN_VOLUME}</td>

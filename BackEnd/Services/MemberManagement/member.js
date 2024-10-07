@@ -399,6 +399,7 @@ exports.sendRegistrationOtp = (req, res) => {
                                 "code": 200,
                                 "message": "OTP sent successfully.",
                             });
+                            bm.sendOtp(123456, MOBILE_NUMBER);
                         }
                     });
                 }
