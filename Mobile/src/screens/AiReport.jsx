@@ -235,6 +235,7 @@ const AiReport = () => {
         animationType="slide"
         transparent={true}
         visible={filter.isOn}
+        onRequestClose={() => setFilter({ ...filter, isOn: false })}
       >
         <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <View style={{ height: '75%', backgroundColor: 'white', padding: 10, borderRadius: 10, paddingVertical: 15 }}>

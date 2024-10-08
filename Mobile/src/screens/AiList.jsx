@@ -168,8 +168,10 @@ const AiList = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
       >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+        <Text onPress={() => setModalVisible(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '94%' }}>
             <View style={{ margin: 15, alignItems: 'center' }}>
               <View style={{ marginBottom: 15, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>

@@ -233,8 +233,10 @@ const Subscription = () => {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                <Text onPress={() => setModalVisible(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '94%' }}>
                         <View style={{ alignItems: 'left', padding: 10 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>

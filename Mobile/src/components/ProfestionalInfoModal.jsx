@@ -241,7 +241,8 @@ const ProfestionalInfoModal = () => {
                 transparent={true}
                 visible={preview.isVisible}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                <Text onPress={() => setPdfPreview(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'left' }}>
                             <Text style={[styles.heading, { textAlign: 'center', fontWeight: 'semibold', fontSize: 28, fontFamily: "Poppins-Regular", }]}>Image Preview</Text>

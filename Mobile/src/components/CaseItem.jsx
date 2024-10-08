@@ -83,9 +83,11 @@ const CaseItem = ({ item }) => {
                 animationType="slide"
                 transparent={true}
                 visible={visible}
+                onRequestClose={() => setVisible(false)}
             >
                 {/* <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => setVisible(false)}> */}
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                <Text onPress={() => setVisible(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '94%' }}>
                         <View style={{ alignItems: 'left', paddingVertical: 10 }}>
                             <Text style={{ fontSize: 20, color: '#4B1AFF', fontWeight: '500' }}>Do you want to close this case ?</Text>

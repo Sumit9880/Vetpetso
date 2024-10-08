@@ -422,8 +422,10 @@ const VaccinationFormModal = () => {
                 animationType="slide"
                 transparent={true}
                 visible={signPad}
+                onRequestClose={() => setSignPad(false)}
             >
-                {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}> */}
+                {/* <Text onPress={() => setSignPad(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}> */}
                 <View style={{ flex: 1, backgroundColor: 'white', padding: 8, borderRadius: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingRight: 10 }}>
                         <VectorIcon

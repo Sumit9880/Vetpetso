@@ -1,27 +1,29 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
-import React, { useEffect } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, PermissionsAndroid, ToastAndroid, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import ImagePicker from 'react-native-image-crop-picker';
 import { setLogin, setUser, setStatusBar } from '../reduxStore/userSlice';
 import VectorIcon from '../utils/VectorIcon';
 import Header from '../components/Header';
-import { STATIC_URL } from '../utils/api';
+import { STATIC_URL, apiPut, apiUpload } from '../utils/api';
 import LinearGradient from 'react-native-linear-gradient';
+import Loader from '../components/Loader';
 
 const ProfileScreen = () => {
   const user = useSelector(state => state.user.userInfo)
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(setStatusBar({ backgroundColor: "#4B1AFF", barStyle: "light-content" }))
   }, [])
 
   const LogOut = () => {
-    // route.params.login("NO")
     AsyncStorage.removeItem("LOGININFO")
-    // AsyncStorage.removeItem("USER")
     dispatch(setLogin(false))
     dispatch(setUser({}))
     setTimeout(() => {
@@ -39,22 +41,109 @@ const ProfileScreen = () => {
     dispatch(setStatusBar({ backgroundColor: "#E6F4FE", barStyle: "dark-content" }))
   }
 
+  const handleImageSelection = async (source) => {
+    try {
+      let image;
+
+      if (source === 'camera') {
+        const cameraPermission = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: "Camera Permission",
+            message: "App needs access to your camera to take pictures.",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK"
+          }
+        );
+
+        if (cameraPermission !== PermissionsAndroid.RESULTS.GRANTED) {
+          ToastAndroid.show("Camera permission denied", ToastAndroid.SHORT);
+          return;
+        }
+
+        image = await ImagePicker.openCamera({
+          cropping: true,
+          includeBase64: false,
+          compressImageQuality: 0.5,
+          mediaType: 'photo',
+        });
+      } else if (source === 'gallery') {
+        image = await ImagePicker.openPicker({
+          cropping: true,
+          includeBase64: false,
+          compressImageQuality: 0.5,
+          mediaType: 'photo',
+        });
+      }
+
+      if (!image) {
+        ToastAndroid.show('Image selection was canceled', ToastAndroid.SHORT);
+        return;
+      }
+
+      setIsLoading(true);
+
+      const imageFile = {
+        uri: image.path,
+        type: image.mime,
+        name: `PROFILE_PHOTO-${Date.now()}.${image.mime.split('/')[1]}`,
+      };
+
+      const response = await apiUpload('upload/profilePhoto', imageFile, user.ID);
+      if (response.code === 200) {
+        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+        const updatedUserData = { ...user, PROFILE_PHOTO: response.name };
+        const updateRes = await apiPut('api/member/update', updatedUserData);
+        if (updateRes.code === 200) {
+          ToastAndroid.show(updateRes.message, ToastAndroid.SHORT);
+          dispatch(setUser({ ...user, PROFILE_PHOTO: response.name }));
+        } else {
+          ToastAndroid.show(updateRes.message, ToastAndroid.SHORT);
+        }
+      } else {
+        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.error('Error handling image selection:', error);
+      ToastAndroid.show('Error uploading image', ToastAndroid.SHORT);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const pickFile = () => {
+    Alert.alert(
+      'Select Image Source',
+      'Please select an image source',
+      [
+        { text: 'Camera', onPress: () => handleImageSelection('camera') },
+        { text: 'Gallery', onPress: () => handleImageSelection('gallery') },
+        { text: 'Cancel', style: 'cancel' },
+      ],
+      { cancelable: true }
+    );
+  };
+
   return (
 
     <View style={styles.container}>
       <Header name="Profile" />
       <View style={styles.profileImageMain}>
         <View style={styles.profileImageContainer}>
-          <Image
-            source={{ uri: STATIC_URL + 'ProfilePhoto/' + user.PROFILE_PHOTO }}
-            style={styles.profileImage}
-          />
+          <TouchableOpacity activeOpacity={0.7} onPress={() => setShowModal(true)}>
+            <Image
+              source={{ uri: STATIC_URL + 'ProfilePhoto/' + user.PROFILE_PHOTO }}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.profileHeader}>
         <Text style={styles.profileName}>{user.NAME}</Text>
         <Text style={styles.profileBio}>Veterinary Person</Text>
       </View>
+      <Loader isLoading={isLoading} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.mainContainer}>
           <View style={styles.subscriptionContainer}>
@@ -218,11 +307,43 @@ const ProfileScreen = () => {
           <Text style={{ fontWeight: 'bold', color: '#4B1AFF', paddingTop: 1 }}>Eternal Tech Services</Text>
         </View >
       </ScrollView >
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => setShowModal(false)}
+      >
+        <Text onPress={() => setShowModal(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'left', margin: 10, paddingRight: 10 }}>
+              <Text style={{ textAlign: 'center', color: '#4B1AFF', fontWeight: 'semibold', fontSize: 20, fontFamily: "Poppins-Regular", }}>Profile Photo</Text>
+              <VectorIcon
+                type="Feather"
+                name="edit"
+                color={'#4B1AFF'}
+                size={24}
+                onPress={pickFile}
+              />
+            </View>
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: STATIC_URL + 'ProfilePhoto/' + user.PROFILE_PHOTO }} style={{ width: '100%', flex: 1, height: undefined, marginVertical: 10, borderRadius: 10 }} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View >
   );
 };
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    width: '100%',
+    aspectRatio: 0.9,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
   subscription: {
     flexDirection: "row",
     alignItems: "center",

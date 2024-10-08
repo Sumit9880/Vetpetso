@@ -40,8 +40,10 @@ const NoticeCard = ({ data }) => {
                 animationType="slide"
                 transparent={true}
                 visible={visible}
+                onRequestClose={() => setVisible(false)}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                <Text onPress={() => setVisible(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', borderRadius: 10, width: '95%', padding: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: '#4B1AFF' }}>{data.TITLE}</Text>

@@ -1,10 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid, PermissionsAndroid, FlatList, Alert } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Modal, ToastAndroid, PermissionsAndroid, FlatList, Alert, BackHandler } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import VectorIcon from '../utils/VectorIcon';
 import Header from './Header';
 import { STATIC_URL, apiUpload, apiPut, apiPost } from '../utils/api';
 import ImagePicker from 'react-native-image-crop-picker';
+import DocumentPicker from 'react-native-document-picker';
 import Signature from "react-native-signature-canvas";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import InputBox from './InputBox';
@@ -14,6 +15,7 @@ import DailyCheckupDetails from './DailyCheckupDetails';
 import * as Yup from 'yup';
 import Prescription from './Prescription';
 import Loader from './Loader';
+import Pdf from 'react-native-pdf';
 
 const CaseFormModal = () => {
     const route = useRoute();
@@ -25,6 +27,7 @@ const CaseFormModal = () => {
     const [validation, setValidation] = useState({});
     const [stepNo, setStepNo] = useState(1)
     const [checkupDetails, setCheckupDetails] = useState([])
+    const [pdfPreview, setPdfPreview] = useState(false)
     const [showModal, setShowModal] = useState({
         isVisible: false,
         data: {}
@@ -221,6 +224,45 @@ const CaseFormModal = () => {
         }
     };
 
+    const handleFileUpload = async () => {
+        try {
+            const file = await DocumentPicker.pick({
+                type: [DocumentPicker.types.allFiles],
+            });
+
+            if (!file) {
+                ToastAndroid.show('File selection was canceled', ToastAndroid.SHORT);
+                return;
+            }
+
+            setIsLoading(true);
+            const fileToUpload = {
+                uri: file[0].uri,
+                type: file[0].type,
+                name: file[0].name,
+            };
+
+            const apiResponse = await apiUpload('upload/labReports', fileToUpload);
+
+            if (apiResponse.code === 200) {
+                ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+                const updatedUserData = { ...caseData, LABORATORY_REPORT: apiResponse.name };
+                setCaseData(updatedUserData);
+            } else {
+                ToastAndroid.show(apiResponse.message, ToastAndroid.SHORT);
+            }
+        } catch (error) {
+            if (DocumentPicker.isCancel(error)) {
+                ToastAndroid.show('File selection was canceled', ToastAndroid.SHORT);
+            } else {
+                console.error('Error uploading file:', error);
+                ToastAndroid.show('Error uploading file', ToastAndroid.SHORT);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const chooseImageSource = () => {
         Alert.alert(
             'Select Image Source',
@@ -309,7 +351,6 @@ const CaseFormModal = () => {
             </TouchableOpacity>
         );
     };
-
     return (
         <>
             <Header name="Case Paper" />
@@ -537,6 +578,30 @@ const CaseFormModal = () => {
                                     options={{}}
                                     data={samples}
                                 />
+                                <View style={styles.upload}>
+                                    <Text style={styles.uploadText}>Laboratory Report : </Text>
+                                    <View style={{ paddingRight: 20 }}>
+                                        {
+                                            caseData.LABORATORY_REPORT ? (
+                                                <VectorIcon
+                                                    name="eye"
+                                                    type="Feather"
+                                                    size={24}
+                                                    color={'#1E90FF'}
+                                                    onPress={() => setPdfPreview(true)}
+                                                />
+                                            ) : (
+                                                <VectorIcon
+                                                    name="upload"
+                                                    type="Feather"
+                                                    size={24}
+                                                    color={'#1E90FF'}
+                                                    onPress={handleFileUpload}
+                                                />
+                                            )
+                                        }
+                                    </View>
+                                </View>
                                 <InputBox
                                     label={{ visible: caseData.DIAGNOSTIC_LABORATORY_REMARK ? true : false, text: 'Diagnostic Laboratory Remark' }}
                                     value={caseData.DIAGNOSTIC_LABORATORY_REMARK}
@@ -626,8 +691,10 @@ const CaseFormModal = () => {
                 animationType="slide"
                 transparent={true}
                 visible={signPad}
+                onRequestClose={() => setSignPad(false)}
             >
-                {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}> */}
+                {/* <Text onPress={() => setSignPad(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}> */}
                 <View style={{ flex: 1, backgroundColor: 'white', padding: 8, borderRadius: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingRight: 10 }}>
                         <VectorIcon
@@ -692,12 +759,45 @@ const CaseFormModal = () => {
                 </View>
                 {/* </View> */}
             </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={pdfPreview}
+                onRequestClose={() => setPdfPreview(false)}
+            >
+                <Text onPress={() => setPdfPreview(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10, width: '95%', padding: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: '#4B1AFF' }}>Laboratory Report</Text>
+                            <VectorIcon
+                                name="closecircleo"
+                                type="AntDesign"
+                                size={26}
+                                color="black"
+                                onPress={() => setPdfPreview(false)}
+                                style={{ alignSelf: 'flex-end' }}
+                            />
+                        </View>
+                        {
+                            caseData.LABORATORY_REPORT && <Pdf
+                                source={{ uri: `${STATIC_URL}LabReports/${caseData.LABORATORY_REPORT}`, cache: true }}
+                                trustAllCerts={false}
+                                style={styles.pdf} />
+                        }
+                    </View>
+                </View>
+            </Modal>
             <Loader isLoading={isLoading} />
         </>
     );
 };
 
 const styles = StyleSheet.create({
+    pdf: {
+        width: '100%',
+        height: 500,
+    },
     image: {
         backgroundColor: 'white',
         height: 50,
@@ -838,6 +938,35 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingTop: 12,
         fontFamily: 'Poppins-Medium',
+    },
+    upload: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontSize: 16,
+        marginTop: 15,
+        width: '99%',
+        // backgroundColor: '#E6F4FE',
+        backgroundColor: '#fbfbfb',
+        fontFamily: "Poppins-Regular",
+        maxHeight: 100,
+        minHeight: 50,
+        color: "#000",
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        shadowColor: "#4B1AFF",
+        shadowOffset: {
+            width: 0,
+            height: 1
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 6,
+        elevation: 4,
+    },
+    uploadText: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#5a5a5a",
     },
 });
 

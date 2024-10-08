@@ -764,8 +764,10 @@ const RegistrationScreen = () => {
                 animationType="slide"
                 transparent={true}
                 visible={showModal.isVisible}
+                onRequestClose={() => setShowModal({ ...showModal, isVisible: false })}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                <Text onPress={() => setShowModal(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'left' }}>
                             <Text style={[styles.heading, { textAlign: 'center', fontWeight: 'semibold', fontSize: 28, fontFamily: "Poppins-Regular", }]}>Image Preview</Text>
@@ -792,40 +794,41 @@ const RegistrationScreen = () => {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
             >
                 {/* <View style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}> */}
-                    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
-                        <Text style={[styles.heading, { fontWeight: 'bold', fontSize: 24, fontFamily: "Poppins-Regular", color: '#4B1AFF' }]}>Terms and Conditions</Text>
-                        <View style={{ margin: 10, marginVertical: 5 }}>
-                            <Text style={{ color: "#003", fontSize: 13, fontWeight: '600' }}>    महाराष्ट्र राज्यातील खाजगी क्षेत्रात कार्यरत असलेल्या पशु वैद्यकीय पशु संवर्धन व दुग्ध व्यवस्थापन पदवि -
-                                पदविका प्रमाणपत्रधारक च्या आर्थिक, शैक्षणिक, व्यावसायिक आणि सामाजिक प्रश्यांच्या सोडवणूकीसाठी त्यांच्या
-                                विविध हक्कांचे हिताचे संवर्धन व संरक्षण करण्याच्या प्रधान ने पशु वैद्यकीय पशु संवर्धन दुग्ध व्यवस्थापन सेवा संघ
-                                सोसायटी नोंदणी कायदा १८६० व मुंबई सावर्जनिक न्यास स्थापन कायदा १९५० मधील तरतुदीनुसार नोंदणी क्रमांक
-                                अनुक्रमे महा/८४७ पुणे २०११ ता. ७.५.२०११ व एफ ३११९९ ता. १८.९.२०११ अन्वये नोंदला गेला आहे असे
-                                समजल्यावरुन मी सदर अर्ज सादर करीत आहे.
-                            </Text>
-                            <Text style={{ color: "#003", marginTop: 10, fontSize: 13, fontWeight: '600' }}>    प्रथमतःच मी प्रतिज्ञापूर्वक नमुद करीत आहे. की संघाच्या नियम अटी धोरणे माझ्यावर बंधनकारक राहतील व
-                                स्वखुषीने माझ्या व आमच्या संवर्गाच्या शैक्षणिक विकासार्थ, सर्वागीण कल्याणार्थ, आर्थिक विकासार्थ आणि व्यवसायिक
-                                हक्काच्या संरक्षणार्थ संघाची वर्गणी वेळोवेळी निश्चित केलेला संघटीत - सर्वंकष - सक्षम कायदेशीर प्रयत्नासाठी
-                                इतर निधी मी वेळोवेळी न चुकता संघास देत राहीन
-                            </Text>
-                        </View>
-                        <View style={{ alignItems: 'center', flex: 1, marginTop: 10 }}>
-                            <Text style={{ paddingLeft: 10, paddingBottom: 10, alignSelf: 'flex-start', color: "#003", fontSize: 16, fontWeight: '600' }}>Signature :</Text>
-                            {
-                                userData.MEMBER_SIGN ?
-                                    <Image
-                                        source={{ uri: STATIC_URL + '/MemberSign/' + userData.MEMBER_SIGN }}
-                                        style={{ height: 100, width: 100 }}
-                                    />
-                                    : <Signature
-                                        ref={signatureRef}
-                                        onOK={handleSignatureSaved}
-                                        descriptionText=""
-                                        clearText="Clear"
-                                        confirmText="Save"
-                                        color="#4B1AFF"
-                                        webStyle={`
+                <View style={{ flex: 1, backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
+                    <Text style={[styles.heading, { fontWeight: 'bold', fontSize: 24, fontFamily: "Poppins-Regular", color: '#4B1AFF' }]}>Terms and Conditions</Text>
+                    <View style={{ margin: 10, marginVertical: 5 }}>
+                        <Text style={{ color: "#003", fontSize: 13, fontWeight: '600' }}>    महाराष्ट्र राज्यातील खाजगी क्षेत्रात कार्यरत असलेल्या पशु वैद्यकीय पशु संवर्धन व दुग्ध व्यवस्थापन पदवि -
+                            पदविका प्रमाणपत्रधारक च्या आर्थिक, शैक्षणिक, व्यावसायिक आणि सामाजिक प्रश्यांच्या सोडवणूकीसाठी त्यांच्या
+                            विविध हक्कांचे हिताचे संवर्धन व संरक्षण करण्याच्या प्रधान ने पशु वैद्यकीय पशु संवर्धन दुग्ध व्यवस्थापन सेवा संघ
+                            सोसायटी नोंदणी कायदा १८६० व मुंबई सावर्जनिक न्यास स्थापन कायदा १९५० मधील तरतुदीनुसार नोंदणी क्रमांक
+                            अनुक्रमे महा/८४७ पुणे २०११ ता. ७.५.२०११ व एफ ३११९९ ता. १८.९.२०११ अन्वये नोंदला गेला आहे असे
+                            समजल्यावरुन मी सदर अर्ज सादर करीत आहे.
+                        </Text>
+                        <Text style={{ color: "#003", marginTop: 10, fontSize: 13, fontWeight: '600' }}>    प्रथमतःच मी प्रतिज्ञापूर्वक नमुद करीत आहे. की संघाच्या नियम अटी धोरणे माझ्यावर बंधनकारक राहतील व
+                            स्वखुषीने माझ्या व आमच्या संवर्गाच्या शैक्षणिक विकासार्थ, सर्वागीण कल्याणार्थ, आर्थिक विकासार्थ आणि व्यवसायिक
+                            हक्काच्या संरक्षणार्थ संघाची वर्गणी वेळोवेळी निश्चित केलेला संघटीत - सर्वंकष - सक्षम कायदेशीर प्रयत्नासाठी
+                            इतर निधी मी वेळोवेळी न चुकता संघास देत राहीन
+                        </Text>
+                    </View>
+                    <View style={{ alignItems: 'center', flex: 1, marginTop: 10 }}>
+                        <Text style={{ paddingLeft: 10, paddingBottom: 10, alignSelf: 'flex-start', color: "#003", fontSize: 16, fontWeight: '600' }}>Signature :</Text>
+                        {
+                            userData.MEMBER_SIGN ?
+                                <Image
+                                    source={{ uri: STATIC_URL + '/MemberSign/' + userData.MEMBER_SIGN }}
+                                    style={{ height: 100, width: 100 }}
+                                />
+                                : <Signature
+                                    ref={signatureRef}
+                                    onOK={handleSignatureSaved}
+                                    descriptionText=""
+                                    clearText="Clear"
+                                    confirmText="Save"
+                                    color="#4B1AFF"
+                                    webStyle={`
                                                     .m-signature-pad {
                                                     height: 80vh;
                                                     width: 100%;
@@ -857,45 +860,45 @@ const RegistrationScreen = () => {
                                                     align-items: center;
                                                     }
                                                 `}
-                                    />
-                            }
-                        </View>
-                        <View style={{ justifyContent: 'center', gap: 10, alignItems: 'center', flexDirection: 'row', margin: 10 }}>
-                            {
-                                agreed ?
-                                    <VectorIcon
-                                        name="check-square"
-                                        type="Feather"
-                                        onPress={() => setAgreed(!agreed)}
-                                        size={22}
-                                        color={'#4B1AFF'}
-                                    /> :
-                                    <VectorIcon
-                                        name="square"
-                                        type="Feather"
-                                        size={22}
-                                        onPress={() => setAgreed(!agreed)}
-                                        color={'#4B1AFF'}
-                                    />
-                            }
-                            <Text style={{ fontSize: 14, color: "#000", fontFamily: "Poppins-Regular" }}>I agree with the terms and conditions</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'left', gap: 50, marginBottom: 10 }}>
-                            <TouchableOpacity
-                                style={{ height: 40, backgroundColor: "#fff", borderRadius: 20, alignItems: "center", justifyContent: "center", borderColor: "#4B1AFF", borderWidth: 1, width: 120 }}
-                                onPress={() => setModalVisible(false)}
-                            >
-                                <Text style={{ fontSize: 16, color: "#000", fontFamily: "Poppins-Medium", }}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{ height: 40, backgroundColor: "#4B1AFF", borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: agreed ? "#4B1AFF" : "#8f8f8f", width: 120 }}
-                                disabled={!agreed}
-                                onPress={handleSubmit}
-                            >
-                                <Text style={{ fontSize: 16, color: "#fff", fontFamily: "Poppins-Medium", }}>Submit</Text>
-                            </TouchableOpacity>
-                        </View>
+                                />
+                        }
                     </View>
+                    <View style={{ justifyContent: 'center', gap: 10, alignItems: 'center', flexDirection: 'row', margin: 10 }}>
+                        {
+                            agreed ?
+                                <VectorIcon
+                                    name="check-square"
+                                    type="Feather"
+                                    onPress={() => setAgreed(!agreed)}
+                                    size={22}
+                                    color={'#4B1AFF'}
+                                /> :
+                                <VectorIcon
+                                    name="square"
+                                    type="Feather"
+                                    size={22}
+                                    onPress={() => setAgreed(!agreed)}
+                                    color={'#4B1AFF'}
+                                />
+                        }
+                        <Text style={{ fontSize: 14, color: "#000", fontFamily: "Poppins-Regular" }}>I agree with the terms and conditions</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'left', gap: 50, marginBottom: 10 }}>
+                        <TouchableOpacity
+                            style={{ height: 40, backgroundColor: "#fff", borderRadius: 20, alignItems: "center", justifyContent: "center", borderColor: "#4B1AFF", borderWidth: 1, width: 120 }}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Text style={{ fontSize: 16, color: "#000", fontFamily: "Poppins-Medium", }}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ height: 40, backgroundColor: "#4B1AFF", borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: agreed ? "#4B1AFF" : "#8f8f8f", width: 120 }}
+                            disabled={!agreed}
+                            onPress={handleSubmit}
+                        >
+                            <Text style={{ fontSize: 16, color: "#fff", fontFamily: "Poppins-Medium", }}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 {/* </View> */}
             </Modal >
             <Loader isLoading={isLoading} />

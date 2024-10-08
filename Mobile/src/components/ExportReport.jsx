@@ -83,8 +83,10 @@ const ExportReport = ({ item, showModal, setModal }) => {
             animationType="slide"
             transparent={true}
             visible={showModal}
+            onRequestClose={() => { setModal(false) }}
         >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <Text onPress={() => setModal(false)} style={{ backgroundColor: 'rgba(0,0,0,.7)', zIndex: -1, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}></Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ backgroundColor: 'white', borderRadius: 10, width: '95%', padding: 10 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, borderBottomWidth: 0.5 }}>
                         <Text style={{ color: "#000", fontSize: 22, fontWeight: '600' }}>Export Excel Sheet</Text>
