@@ -386,7 +386,11 @@ exports.sendRegistrationOtp = (req, res) => {
                     });
                 }
                 else {
-                    dm.runDataQuery('INSERT INTO registration_otp_details (MOBILE_NUMBER,OTP,OTP_MESSAGE,REQUESTED_DATETIME,LASTUPDATED,STATUS,PURPOSE)  VALUES (?,?,?,?,?,?,?)', [MOBILE_NUMBER, 123456, 'OTP', systemDate, systemDate, "P", "RG"], req, (error, results1) => {
+
+                    // let otp = 123456
+                    let otp = Math.floor(100000 + Math.random() * 900000);
+
+                    dm.runDataQuery('INSERT INTO registration_otp_details (MOBILE_NUMBER,OTP,OTP_MESSAGE,REQUESTED_DATETIME,LASTUPDATED,STATUS,PURPOSE)  VALUES (?,?,?,?,?,?,?)', [MOBILE_NUMBER, otp, 'OTP', systemDate, systemDate, "P", "RG"], req, (error, results1) => {
                         if (error) {
                             console.error(error);
                             res.send({
@@ -395,11 +399,24 @@ exports.sendRegistrationOtp = (req, res) => {
                             });
                         }
                         else {
-                            res.send({
-                                "code": 200,
-                                "message": "OTP sent successfully.",
+
+                            let message = otp + '  is your OTP for register in to VetPetSo. vetpetso.com'
+
+                            bm.sendOtp(message, MOBILE_NUMBER, (error, results) => {
+                                if (error) {
+                                    console.error(error);
+                                    res.send({
+                                        "code": 400,
+                                        "message": "Failed to send OTP.",
+                                    });
+                                }
+                                else {
+                                    res.send({
+                                        "code": 200,
+                                        "message": "OTP sent successfully.",
+                                    });
+                                }
                             });
-                            bm.sendOtp(123456, MOBILE_NUMBER);
                         }
                     });
                 }
@@ -478,7 +495,11 @@ exports.sendForgotOtp = (req, res) => {
             }
             else {
                 if (results[0]?.ID != null && results[0]?.ID != '') {
-                    dm.runDataQuery('INSERT INTO registration_otp_details (MOBILE_NUMBER,OTP,OTP_MESSAGE,REQUESTED_DATETIME,LASTUPDATED,STATUS,PURPOSE)  VALUES (?,?,?,?,?,?,?)', [MOBILE_NUMBER, 123456, 'OTP', systemDate, systemDate, "P", "PC"], req, (error, results1) => {
+
+                    // let otp = 123456
+                    let otp = Math.floor(100000 + Math.random() * 900000);
+
+                    dm.runDataQuery('INSERT INTO registration_otp_details (MOBILE_NUMBER,OTP,OTP_MESSAGE,REQUESTED_DATETIME,LASTUPDATED,STATUS,PURPOSE)  VALUES (?,?,?,?,?,?,?)', [MOBILE_NUMBER, otp, 'OTP', systemDate, systemDate, "P", "PC"], req, (error, results1) => {
                         if (error) {
                             console.error(error);
                             res.send({
@@ -487,10 +508,23 @@ exports.sendForgotOtp = (req, res) => {
                             });
                         }
                         else {
-                            res.send({
-                                "code": 200,
-                                "message": "OTP sent successfully.",
-                                "ID": results[0].ID
+                            let message = otp + '  is your Forgot Password OTP for VetPetSo. vetpetso.com'
+
+                            bm.sendOtp(message, MOBILE_NUMBER, (error, results1) => {
+                                if (error) {
+                                    console.error(error);
+                                    res.send({
+                                        "code": 400,
+                                        "message": "Failed to send OTP.",
+                                    });
+                                }
+                                else {
+                                    res.send({
+                                        "code": 200,
+                                        "message": "OTP sent successfully.",
+                                        "ID": results[0].ID
+                                    });
+                                }
                             });
                         }
                     });

@@ -65,29 +65,37 @@ exports.generateToken = function (userId, res, resultsUser) {
     }
 }
 
-exports.sendOtp = async function (msg, to) {
+exports.sendOtp = async function (msg, to, callback) {
     try {
-        let url = "https://graph.facebook.com/v20.0/340684785800384/messages?access_token=EAALvZC4xJa80BOZC4q9dZBXufvwS9ZCQ8ECjPiJt1UsvZCiaGG1uxOqES2yi4NkWf4MoptfRLcpZAZA2XZClG0uJygorhDToZBqcUxjvP7Web5Ip4cvBJ1t8mmeoMXBjdFmBx5uOhtFGEZBbK7VnTwB8gbAllutbSVCVM5liWxJfCKZBy98gux7klGeraZCqgwiP8RyrDc5QZBQ50qViVjv1BcgynJqurZBNUZD"
-        let data = {
+        const url = `https://graph.facebook.com/v21.0/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages?access_token=${process.env.WHATSAPP_ACCESS_TOKEN}`;
+
+        const data = {
             messaging_product: "whatsapp",
-            to: to,
+            to: "91" + to,
             text: {
                 body: msg
             }
-        }
-        let headers = {
-            "Content-Type": "application/json"
-        }
-        const response = await axios.post(url, data, headers);
+        };
 
-        console.log(response);
-        
-        // if (response.status === 200) {
-        //     calllback();
-        // }
+        const headers = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+
+        const response = await axios.post(url, data, headers);
+        console.log(url, data, headers);
+
+        if (response.status === 200) {
+            callback(null, response.data);
+        } else {
+            callback(new Error('Failed to send message'), null);
+        }
 
     } catch (error) {
         console.error("Error sending message:", error);
+        callback(error, null);
     }
-}
+};
+
 

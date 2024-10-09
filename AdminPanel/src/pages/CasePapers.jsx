@@ -37,7 +37,7 @@ function CasePapers() {
     });
     const [pdfPreview, setPdfPreview] = useState({
         open: false,
-        item: {}
+        data: {}
     });
     const [exel, setExel] = useState(false);
 
@@ -158,7 +158,7 @@ function CasePapers() {
                 </div>
             </div>
             <Exel open={exel} setOpen={setExel} credentials={{ url: 'api/detailed/caseExport', name: 'Case Papers' }} />
-            <CasePdf open={pdfPreview.open} setOpen={setPdfPreview} data={pdfPreview.data} />
+            <CasePdf open={pdfPreview.open} setOpen={setPdfPreview} item={pdfPreview.data} />
             <div className="overflow-x-auto overflow-y-auto" style={{ height: 'calc(100vh - 214px)', width: 'calc(200vh - 100px)' }}>
                 <div className={`text-center bg-gray-200 rounded-lg mb-2 ${filters.isDrawerOpen ? '' : 'hidden'} p-2`}>
                     <div className='flex justify-end items-end'>
@@ -272,7 +272,7 @@ function CasePapers() {
                         {data?.map(item => (
                             <tr key={item.ID} className="bg-white">
                                 <td className="px-2 border border-gray-200 text-center">
-                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" onClick={() => { setPdfPreview({ open: true, item: item }) }} /></button>
+                                    <button className="py-2 text-center" ><BsPrinter className="text-blue-500 hover:text-blue-700 h-5 w-5" onClick={() => { setPdfPreview({ open: true, data: item }) }} /></button>
                                 </td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{item.CASE_NO}</td>
                                 <td className="px-2 py-1.5 border border-gray-200 text-center">{new Date(item.REGISTRATION_DATE).toLocaleString('en-IN')}</td>
