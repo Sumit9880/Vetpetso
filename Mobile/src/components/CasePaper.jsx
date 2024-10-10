@@ -6,7 +6,7 @@ import Pdf from 'react-native-pdf';
 import Share from 'react-native-share';
 import { STATIC_URL } from '../utils/api';
 import Loader from './Loader';
-
+ 
 const CasePaper = ({ visible, setVisible, item }) => {
 
     const [isGenerated, setIsGenerated] = useState(false)

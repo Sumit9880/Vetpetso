@@ -65,7 +65,7 @@ function Home() {
                     </div>
                 ))}
             </Slider> */}
-                    <div className="relative rounded-lg overflow-hidden">
+                    <div className="relative overflow-hidden">
                         <img
                             className="w-full max-w-[1600px] h-auto max-h-[900px] object-contain transition-transform duration-300 transform hover:scale-105"
                             src='./banner.jpg'
