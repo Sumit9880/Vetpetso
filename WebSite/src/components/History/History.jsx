@@ -63,9 +63,9 @@ function History() {
 
     return (
         <div>
-            <div>
+            {/* <div>
                 <img src='./hist.jpg' alt="history" />
-            </div>
+            </div> */}
             <div className="mt-10">
                 <div className="mb-6 flex justify-center items-center">
                     <h3 className="text-3xl text-center text-primary font-poppins font-semibold relative heading_section inline-block max-w-full" data-aos="zoom-in-right" data-aos-duration="1000">
