@@ -47,7 +47,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header name="Home" />
+      <Header name='VetPetSo' />
       {isLoading ?
         <ActivityIndicator size="large" color="#4B1AFF" style={{ flex: 1 }} /> :
         <View style={{ flex: 1 }}>

@@ -10,7 +10,7 @@ const Header = ({ name }) => {
     return (
         <View style={[styles.container, { backgroundColor: '#4B1AFF' }]}>
             <View style={styles.innerContainer}>
-                {name == 'Home' ? (
+                {name == 'VetPetSo' ? (
                     null
                 ) : (
                     <VectorIcon
@@ -24,7 +24,7 @@ const Header = ({ name }) => {
                 }
                 <Text style={styles.username}>{name}</Text>
             </View>
-            {name == 'Home' ? (
+            {name == 'VetPetSo' ? (
                 <VectorIcon
                     name="notifications"
                     type="Ionicons"

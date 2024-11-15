@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, PermissionsAndroid, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, PermissionsAndroid, ToastAndroid, Platform } from 'react-native';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNFS from 'react-native-fs';
 import Pdf from 'react-native-pdf';
@@ -12,171 +12,174 @@ const Prescription = ({ item, showModal, setModal }) => {
     const [isGenerated, setIsGenerated] = useState(false)
     const [pdf, setPDF] = useState(null)
     const [loader, setLoader] = useState(false)
+
     const generatePDF = async () => {
         setLoader(true);
+
         const options = {
             html: `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Maharashtra Model Prescription</title>
-                    <style>
-                            body {
-                                    font-family: sans-serif;
-                                    margin: 0;
-                                    padding: 0;
-                            }
-            
-                            h2 {
-                                    text-align: center;
-                                    color: #4B1AFF;
-                            }
-            
-                            h3 {
-                                    text-align: center;
-                                    color: green;
-                            }
-            
-                            .prescription-details {
-                                    margin: 1rem;
-                                    /* width: 90%; */
-                                    height:100%;
-                                    padding: 1rem;
-                                    border: 1px solid #000;
-                                    border-radius: 4px;
-                            }
-            
-                            .details-row {
-                                    margin-bottom: 1rem;
-                                    display: flex;
-                            }
-            
-                            .details-label {
-                                    display: inline-block;
-                                    text-align: left;
-                                    width: 170px;
-                                    font-weight:500;
-                            }
-            
-                            .details-content {
-                                    display: inline-block;
-                            }
-            
-                            .lable {
-                                    align-items: center;
-                                    display: flex;
-                            }
-                    </style>
-            </head>
-            <body>
-                    <div class="prescription-details">
-                    <div style="display: flex; align-items: center; padding: 10px 40px">
-                    <img src="${STATIC_URL}/Others/vetpetso.png" style="width: 100px; height: 100px;" alt="Logo"/>
-                    <div style="align-items: center; width : 100%;">
-                    <h2>MAHARASHTRA MODEL</h2>
-                    <h3>PRESCRIPTION</h3>
-                    </div>
-                    <img src="${STATIC_URL}Others/rx.png" style="width: 80px; height: 80px;" alt="Logo"/>
-                    </div>
-                            <p style=" font-weight: 500;">&emsp;&emsp;&emsp;[Prescribed by the veterinary, Animal husbandry and Dairy farm management
-                                    services organisation on
-                                    the line of format issued by the Food and Drugs Administration Maharashtra state survey no. 341,
-                                    Bandra- Kurla Complex, Bandra (East), Mumbai-400 051.]
-                            </p>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>1)&nbsp;</span>
-                                            <span class="details-label">Prescriber Full Name</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : ${item.caseData?.DOCTOR_NAME}</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>2)&nbsp;</span>
-                                            <span class="details-label">Qualification</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : ${item.caseData?.PROF_EDUCATION_QUALIFICATION}</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>3)&nbsp;</span>
-                                            <span class="details-label">Authority</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : - Govt. Notification Agriculture, Animal Husbandry Dairy Development &
-                                                    Fisheries
-                                                    Department
-                                                    No. I. V. C. 1006
-                                                    C. R. 532/ADF.4 DI. 27.8.2000 issued under section 30(b) 57 of the Indian
-                                                    Veterinary
-                                                    Council Act. 1984 by the Govt. of Maharashtra. The supreme court judgement in
-                                                    civil
-                                                    appeal no. 52 of 1994 decided on 14.2.2003.</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>4)&nbsp;</span>
-                                            <span class="details-label">Prescription Serial No.</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : ${item.caseData?.CASE_NO}</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>5)&nbsp;</span>
-                                            <span class="details-label">Patient's Owner Name and Address with Telephone/Mobile No.</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : ${item.caseData?.OWNER_NAME}, ${item.caseData?.MOBILE_NUMBER}, ${item.caseData?.ADDRESS}</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>6)&nbsp;</span>
-                                            <span class="details-label">Case paper No.</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : ${item.caseData?.CASE_NO}</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <div class="lable">
-                                            <span>7)&nbsp;</span>
-                                            <span class="details-label">Patient's particulars</span>
-                                    </div>
-                                    <div class="lable">
-                                            <span> : ${item.caseData?.ANIMAL_TYPE_NAME}</span>
-                                    </div>
-                            </div>
-                            <div class="details-row">
-                                    <span style="font-weight: 500;margin-left: 20px;">Name of Medicine for minor veterinary Services : </span>
-                            </div>
-                            <div >
-                                    <p style="width: 70%;margin-left: 100px;">${item.PRESCRIPTION}</p>
-                            </div>
-                            <div style="display: flex; justify-content: center;margin-top: 80px; padding: 20px 0;">
-                                    <div class="lable" style="width: 50%; justify-content: center;">
-                                        <span class="details-label" style="text-align: center;">Veterinary Person under I. V. C. Act 1984</span>
-                                    </div>
-                                    <div class="label" style="width: 50%; display: flex; flex-direction: column; align-items: center;">
-                                        <img src="${STATIC_URL}MemberSign/${item.MEMBER_SIGN}" style="width: 130px; height: 80px;" alt="Sign"/>
-                                        <span style="margin-top: 5px;">Sign of Prescriber</span>
-                                    </div>
-                            </div>
-                    </div>
-            </body>
-            </html>`,
+        <html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Maharashtra Model Prescription</title>
+                <style>
+                        body {
+                                font-family: sans-serif;
+                                margin: 0;
+                                padding: 0;
+                        }
+        
+                        h2 {
+                                text-align: center;
+                                color: #4B1AFF;
+                        }
+        
+                        h3 {
+                                text-align: center;
+                                color: green;
+                        }
+        
+                        .prescription-details {
+                                margin: 1rem;
+                                /* width: 90%; */
+                                height:100%;
+                                padding: 1rem;
+                                border: 1px solid #000;
+                                border-radius: 4px;
+                        }
+        
+                        .details-row {
+                                margin-bottom: 1rem;
+                                display: flex;
+                        }
+        
+                        .details-label {
+                                display: inline-block;
+                                text-align: left;
+                                width: 170px;
+                                font-weight:500;
+                        }
+        
+                        .details-content {
+                                display: inline-block;
+                        }
+        
+                        .lable {
+                                align-items: center;
+                                display: flex;
+                        }
+                </style>
+        </head>
+        <body>
+                <div class="prescription-details">
+                <div style="display: flex; align-items: center; padding: 10px 40px">
+                <img src="${STATIC_URL}/Others/vetpetso.png" style="width: 100px; height: 100px;" alt="Logo"/>
+                <div style="align-items: center; width : 100%;">
+                <h2>MAHARASHTRA MODEL</h2>
+                <h3>PRESCRIPTION</h3>
+                </div>
+                <img src="${STATIC_URL}Others/rx.png" style="width: 80px; height: 80px;" alt="Logo"/>
+                </div>
+                        <p style=" font-weight: 500;">&emsp;&emsp;&emsp;[Prescribed by the veterinary, Animal husbandry and Dairy farm management
+                                services organisation on
+                                the line of format issued by the Food and Drugs Administration Maharashtra state survey no. 341,
+                                Bandra- Kurla Complex, Bandra (East), Mumbai-400 051.]
+                        </p>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>1)&nbsp;</span>
+                                        <span class="details-label">Prescriber Full Name</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : ${item.caseData?.DOCTOR_NAME}</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>2)&nbsp;</span>
+                                        <span class="details-label">Qualification</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : ${item.caseData?.PROF_EDUCATION_QUALIFICATION}</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>3)&nbsp;</span>
+                                        <span class="details-label">Authority</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : - Govt. Notification Agriculture, Animal Husbandry Dairy Development &
+                                                Fisheries
+                                                Department
+                                                No. I. V. C. 1006
+                                                C. R. 532/ADF.4 DI. 27.8.2000 issued under section 30(b) 57 of the Indian
+                                                Veterinary
+                                                Council Act. 1984 by the Govt. of Maharashtra. The supreme court judgement in
+                                                civil
+                                                appeal no. 52 of 1994 decided on 14.2.2003.</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>4)&nbsp;</span>
+                                        <span class="details-label">Prescription Serial No.</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : ${item.caseData?.CASE_NO}</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>5)&nbsp;</span>
+                                        <span class="details-label">Patient's Owner Name and Address with Telephone/Mobile No.</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : ${item.caseData?.OWNER_NAME}, ${item.caseData?.MOBILE_NUMBER}, ${item.caseData?.ADDRESS}</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>6)&nbsp;</span>
+                                        <span class="details-label">Case paper No.</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : ${item.caseData?.CASE_NO}</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <div class="lable">
+                                        <span>7)&nbsp;</span>
+                                        <span class="details-label">Patient's particulars</span>
+                                </div>
+                                <div class="lable">
+                                        <span> : ${item.caseData?.ANIMAL_TYPE_NAME}</span>
+                                </div>
+                        </div>
+                        <div class="details-row">
+                                <span style="font-weight: 500;margin-left: 20px;">Name of Medicine for minor veterinary Services : </span>
+                        </div>
+                        <div >
+                                <p style="width: 70%;margin-left: 100px;">${item.PRESCRIPTION}</p>
+                        </div>
+                        <div style="display: flex; justify-content: center;margin-top: 80px; padding: 20px 0;">
+                                <div class="lable" style="width: 50%; justify-content: center;">
+                                    <span class="details-label" style="text-align: center;">Veterinary Person under I. V. C. Act 1984</span>
+                                </div>
+                                <div class="label" style="width: 50%; display: flex; flex-direction: column; align-items: center;">
+                                    <img src="${STATIC_URL}MemberSign/${item.MEMBER_SIGN}" style="width: 130px; height: 80px;" alt="Sign"/>
+                                    <span style="margin-top: 5px;">Sign of Prescriber</span>
+                                </div>
+                        </div>
+                </div>
+        </body>
+        </html>`, // Your HTML content here
             fileName: "prescription",
-            directory: 'Documents'
+            directory: 'Documents'  // Default directory for Android 11+
         }
         try {
+            // Check for permission on Android 11 or below
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 {
@@ -184,18 +187,42 @@ const Prescription = ({ item, showModal, setModal }) => {
                     message: 'App needs access to your storage to share PDF files.',
                 }
             );
+
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                // Generate the PDF
                 const pdf = await RNHTMLtoPDF.convert(options);
-                const downloadDirectory = RNFS.DownloadDirectoryPath;
-                await RNFS.moveFile(pdf.filePath, `${downloadDirectory}/${item.caseData.CASE_NO}.pdf`);
-                setPDF(`${downloadDirectory}/${item.caseData.CASE_NO}.pdf`);
+
+                // Check if the Android version is 11 or higher (Scoped Storage)
+                const isAndroid11OrAbove = Platform.Version >= 30;
+
+                // For Android 11+ use app-specific directory
+                const targetDirectory = isAndroid11OrAbove
+                    ? RNFS.DocumentDirectoryPath  // App-specific directory for Android 11+
+                    : RNFS.DownloadDirectoryPath; // Legacy download directory for older versions
+
+                // Ensure the directory exists
+                const directoryExists = await RNFS.exists(targetDirectory);
+                if (!directoryExists) {
+                    await RNFS.mkdir(targetDirectory);  // Create the directory if it doesn't exist
+                }
+
+                // Define the file path
+                const filePath = `${targetDirectory}/${item.caseData.CASE_NO}.pdf`;
+
+                // Move the PDF file to the target directory
+                await RNFS.moveFile(pdf.filePath, filePath);
+
+                // Update state with the new PDF path
+                setPDF(filePath);
                 setIsGenerated(true);
+
+                // Show success message
                 ToastAndroid.show('PDF created successfully', ToastAndroid.SHORT);
             } else {
                 ToastAndroid.show("Permission Denied", ToastAndroid.SHORT);
             }
         } catch (error) {
-            console.error('Error moving file:', error);
+            console.error('Error generating or moving file:', error);
             ToastAndroid.show('Error creating PDF', ToastAndroid.SHORT);
         } finally {
             setLoader(false);
