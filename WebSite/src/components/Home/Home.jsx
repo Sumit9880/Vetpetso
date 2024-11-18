@@ -68,7 +68,7 @@ function Home() {
                     <div className="relative overflow-hidden">
                         <img
                             className="w-full max-w-[1600px] h-auto max-h-[900px] object-contain transition-transform duration-300 transform hover:scale-105"
-                            src='./b3.jpg'
+                            src='./18036795_5935804.svg'
                             alt="Banner"
                         />
                     </div>

@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 // export const BASE_URL = 'http://localhost:2003/';
-export const BASE_URL = 'http://192.168.29.219:2003/';
-// export const BASE_URL = 'http://192.168.206.30:2003/';
+export const BASE_URL = 'http://192.168.29.209:2001/';
+// export const BASE_URL = 'http://192.168.206.30:2001/';
 export const API_KEY = 'PiuRcts9gYsh8CMwAIwApvNL4PayKIaR';
 
-// export const STATIC_URL = 'http://localhost:2003/static/';
-export const STATIC_URL = 'http://192.168.29.219:2003/static/';
-// export const STATIC_URL = 'http://192.168.206.30:2003/static/';
+// export const STATIC_URL = 'http://localhost:2001/static/';
+export const STATIC_URL = 'http://192.168.29.209:2001/static/';
+// export const STATIC_URL = 'http://192.168.206.30:2001/static/';
 
 const getHeaders = async () => {
   const token = sessionStorage.getItem('token');

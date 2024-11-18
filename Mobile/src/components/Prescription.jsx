@@ -189,34 +189,22 @@ const Prescription = ({ item, showModal, setModal }) => {
             );
 
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                // Generate the PDF
                 const pdf = await RNHTMLtoPDF.convert(options);
-
-                // Check if the Android version is 11 or higher (Scoped Storage)
                 const isAndroid11OrAbove = Platform.Version >= 30;
-
-                // For Android 11+ use app-specific directory
                 const targetDirectory = isAndroid11OrAbove
-                    ? RNFS.DocumentDirectoryPath  // App-specific directory for Android 11+
-                    : RNFS.DownloadDirectoryPath; // Legacy download directory for older versions
-
-                // Ensure the directory exists
+                    ? RNFS.DocumentDirectoryPath  
+                    : RNFS.DownloadDirectoryPath; 
                 const directoryExists = await RNFS.exists(targetDirectory);
                 if (!directoryExists) {
-                    await RNFS.mkdir(targetDirectory);  // Create the directory if it doesn't exist
+                    await RNFS.mkdir(targetDirectory);  
                 }
-
-                // Define the file path
                 const filePath = `${targetDirectory}/${item.caseData.CASE_NO}.pdf`;
 
-                // Move the PDF file to the target directory
                 await RNFS.moveFile(pdf.filePath, filePath);
 
-                // Update state with the new PDF path
                 setPDF(filePath);
                 setIsGenerated(true);
 
-                // Show success message
                 ToastAndroid.show('PDF created successfully', ToastAndroid.SHORT);
             } else {
                 ToastAndroid.show("Permission Denied", ToastAndroid.SHORT);
